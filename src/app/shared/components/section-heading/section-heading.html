@@ -1,0 +1,20 @@
+<div class="heading" [class.heading--center]="align() === 'center'">
+  <div class="heading__main">
+    @if (icon(); as iconName) {
+      <span class="heading__icon"><app-icon [name]="iconName" [size]="20" /></span>
+    }
+    <div class="heading__text">
+      @if (eyebrow(); as label) {
+        <p class="eyebrow">{{ label }}</p>
+      }
+      <h2>{{ title() }}</h2>
+    </div>
+  </div>
+
+  @if (link(); as path) {
+    <a class="heading__link" [routerLink]="path">
+      {{ linkLabel() }}
+      <app-icon name="arrow-right" [size]="15" />
+    </a>
+  }
+</div>

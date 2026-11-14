@@ -1,0 +1,13 @@
+<section class="highlights" aria-label="School highlights">
+  <div class="container">
+    <ul class="highlights__grid">
+      @for (item of content().highlights; track item.title) {
+        <li class="highlight">
+          <span class="highlight__icon"><app-icon [name]="item.icon" [size]="24" /></span>
+          <h2>{{ item.title }}</h2>
+          <p>{{ item.description }}</p>
+        </li>
+      }
+    </ul>
+  </div>
+</section>

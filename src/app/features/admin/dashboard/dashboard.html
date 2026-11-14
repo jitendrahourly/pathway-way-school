@@ -1,0 +1,26 @@
+<section class="admin-dashboard">
+  <header class="admin-dashboard__header">
+    <div class="admin-dashboard__brand">
+      <app-brand-logo />
+      <div>
+        <p class="admin-dashboard__eyebrow">Administration</p>
+        <h1>Dashboard</h1>
+      </div>
+    </div>
+    <button type="button" class="btn btn--outline" (click)="logout()" [disabled]="loading()">
+      Sign out
+    </button>
+  </header>
+
+  <main class="admin-dashboard__main">
+    <div class="admin-dashboard__card">
+      <h2>Welcome, {{ profile()?.full_name ?? 'Administrator' }}</h2>
+      <p class="admin-dashboard__role">
+        Role: <strong>{{ profile()?.role }}</strong>
+      </p>
+      <p class="admin-dashboard__note">
+        Content management tools will be available here in a future update.
+      </p>
+    </div>
+  </main>
+</section>

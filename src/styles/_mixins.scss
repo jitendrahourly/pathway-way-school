@@ -1,0 +1,28 @@
+@mixin down($width) {
+  @media (max-width: $width) {
+    @content;
+  }
+}
+
+@mixin up($width) {
+  @media (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin section($block: clamp(48px, 6vw, 82px)) {
+  padding-block: $block;
+}
+
+@mixin card {
+  background: var(--bw-white);
+  border-radius: var(--bw-radius);
+  box-shadow: var(--bw-shadow-sm);
+}
+
+@mixin clamp-lines($lines) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

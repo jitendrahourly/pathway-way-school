@@ -1,0 +1,53 @@
+@let page = content();
+@let item = notice();
+
+<app-page-banner
+  [title]="bannerTitle()"
+  [subtitle]="bannerSubtitle()"
+  [crumb]="'Announcements'"
+  [crumbLink]="'/announcements'"
+  [imageUrl]="item?.imageUrl ?? ''"
+  [imageAlt]="item?.imageAlt ?? ''"
+/>
+
+<section class="notice-detail">
+  <div class="container">
+    <a class="back" routerLink="/announcements">
+      <app-icon name="chevron-right" [size]="16" />
+      {{ page.detail.backLabel }}
+    </a>
+
+    @if (item) {
+      <article class="notice-sheet">
+        <p class="notice-sheet__meta">
+          <span class="notice-sheet__category">{{ categoryLabel() }}</span>
+          @if (date(); as published) {
+            <span class="notice-sheet__date">{{ published }}</span>
+          }
+        </p>
+
+        <h2>{{ item.title }}</h2>
+
+        @if (item.imageUrl; as image) {
+          <app-media-frame
+            class="notice-sheet__media"
+            [src]="image"
+            [alt]="item.imageAlt ?? ''"
+            ratio="16/9"
+          />
+        }
+
+        <p class="notice-sheet__body">{{ body() }}</p>
+      </article>
+    } @else {
+      <div class="unavailable">
+        <span class="unavailable__icon"><app-icon name="megaphone" [size]="26" /></span>
+        <h2>{{ page.detail.unavailableTitle }}</h2>
+        <p>{{ page.detail.unavailableMessage }}</p>
+        <a class="btn btn--primary" routerLink="/announcements">
+          {{ page.detail.unavailableLinkLabel }}
+        </a>
+      </div>
+    }
+  </div>
+</section>

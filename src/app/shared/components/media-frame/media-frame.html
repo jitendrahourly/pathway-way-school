@@ -1,0 +1,23 @@
+<div class="media" [style.aspect-ratio]="ratio()">
+  @if (!failed()) {
+    <img
+      [src]="src()"
+      [alt]="alt()"
+      [style.object-position]="position()"
+      [attr.loading]="eager() ? 'eager' : 'lazy'"
+      [attr.fetchpriority]="eager() ? 'high' : null"
+      decoding="async"
+      (error)="failed.set(true)"
+    />
+  } @else {
+    <div class="media__fallback" aria-hidden="true">
+      <span class="media__glyph">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M22 9 12 4 2 9l10 5 10-5z" />
+          <path d="M6 11.5V16c0 2 2.7 3.5 6 3.5s6-1.5 6-3.5v-4.5" />
+        </svg>
+      </span>
+      <span class="media__label">School photograph</span>
+    </div>
+  }
+</div>

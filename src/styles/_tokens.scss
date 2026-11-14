@@ -1,0 +1,38 @@
+:root {
+  /* Brand */
+  --bw-orange: #e87927;
+  --bw-orange-dark: #cf661a;
+  --bw-orange-soft: #fdf1e6;
+  --bw-purple: #30205d;
+  --bw-purple-dark: #251747;
+  --bw-purple-soft: #f2eff9;
+  --bw-white: #ffffff;
+
+  /* Neutrals */
+  --bw-bg: #f4f5f9;
+  --bw-ink: #1f1a2e;
+  --bw-body: #55506c;
+  --bw-muted: #8b859f;
+  --bw-line: #e7e3f0;
+
+  /* Elevation */
+  --bw-shadow-sm: 0 2px 10px rgba(36, 24, 70, 0.06);
+  --bw-shadow-md: 0 16px 40px rgba(36, 24, 70, 0.1);
+  --bw-shadow-lg: 0 24px 60px rgba(36, 24, 70, 0.16);
+
+  /* Shape */
+  --bw-radius-sm: 8px;
+  --bw-radius: 14px;
+  --bw-radius-lg: 22px;
+
+  /* Layout */
+  --bw-container: 1200px;
+  --bw-gutter: 24px;
+
+  /* Type */
+  --bw-font-body: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --bw-font-display: 'Poppins', 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Motion */
+  --bw-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}

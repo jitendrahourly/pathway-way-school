@@ -1,0 +1,67 @@
+@let page = content();
+
+<app-page-banner
+  [title]="page.banner.title"
+  [subtitle]="page.banner.subtitle"
+  [imageUrl]="page.banner.imageUrl"
+  [imageAlt]="page.banner.imageAlt"
+/>
+
+<section class="about-page">
+  <div class="container about-page__grid">
+    <aside class="toc">
+      <p class="toc__title">On this page</p>
+      <nav aria-label="About page sections">
+        @for (link of links(); track link.id) {
+          <a
+            [href]="'#' + link.id"
+            [class.is-active]="activeId() === link.id"
+            [attr.aria-current]="activeId() === link.id ? 'location' : null"
+            (click)="setActive(link.id)"
+          >
+            {{ link.label }}
+          </a>
+        }
+      </nav>
+    </aside>
+
+    <article class="about-page__body">
+      <section id="story" data-about-section class="block">
+        <p class="eyebrow">{{ page.story.eyebrow }}</p>
+        <h2>{{ page.story.title }}</h2>
+        @for (paragraph of page.story.paragraphs; track $index) {
+          <p class="block__text">{{ paragraph }}</p>
+        }
+      </section>
+
+      <div id="vision-mission" data-about-section class="pillars">
+        @for (pillar of page.pillars; track pillar.title) {
+          <div class="pillar">
+            <span class="pillar__icon"><app-icon [name]="pillar.icon" [size]="22" /></span>
+            <div>
+              <h3>{{ pillar.title }}</h3>
+              <p>{{ pillar.text }}</p>
+            </div>
+          </div>
+        }
+      </div>
+
+      <app-media-frame
+        class="about-page__photo"
+        [src]="page.photo.url"
+        [alt]="page.photo.alt"
+        ratio="16/9"
+        position="center 45%"
+      />
+
+      @for (section of page.sections; track section.id) {
+        <section [id]="section.id" data-about-section class="block">
+          <h2>{{ section.title }}</h2>
+          @for (paragraph of section.paragraphs; track $index) {
+            <p class="block__text">{{ paragraph }}</p>
+          }
+        </section>
+      }
+    </article>
+  </div>
+</section>

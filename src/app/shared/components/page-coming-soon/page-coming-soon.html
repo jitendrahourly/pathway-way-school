@@ -1,0 +1,15 @@
+<app-page-banner [title]="title()" />
+
+<section class="coming">
+  <div class="container">
+    <div class="coming__card">
+      <span class="coming__icon"><app-icon [name]="icon()" [size]="26" /></span>
+      <h2>Coming soon</h2>
+      <p>{{ message() }}</p>
+      <a class="btn btn--primary" routerLink="/">
+        Back to Home
+        <app-icon name="arrow-right" [size]="16" />
+      </a>
+    </div>
+  </div>
+</section>

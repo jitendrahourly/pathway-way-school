@@ -1,0 +1,27 @@
+<section class="banner">
+  @if (imageUrl(); as image) {
+    <div class="banner__media" aria-hidden="true">
+      <img [src]="image" [alt]="imageAlt()" />
+    </div>
+  }
+
+  <div class="container banner__inner">
+    <nav class="banner__crumb" aria-label="Breadcrumb">
+      <a routerLink="/">Home</a>
+      @if (crumb(); as parent) {
+        <span aria-hidden="true">/</span>
+        @if (crumbLink(); as link) {
+          <a [routerLink]="link">{{ parent }}</a>
+        } @else {
+          <span>{{ parent }}</span>
+        }
+      }
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{{ title() }}</span>
+    </nav>
+    <h1>{{ title() }}</h1>
+    @if (subtitle(); as text) {
+      <p class="banner__sub">{{ text }}</p>
+    }
+  </div>
+</section>

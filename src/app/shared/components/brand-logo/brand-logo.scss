@@ -1,0 +1,101 @@
+@use 'mixins' as mx;
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  text-decoration: none;
+  color: var(--bw-purple);
+}
+
+.brand__crest {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  flex: none;
+}
+
+.brand__crest img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+/* The crest artwork has a white surround, so give it a white disc on purple. */
+.brand--light .brand__crest {
+  border-radius: 50%;
+  background: var(--bw-white);
+  padding: 2px;
+}
+
+.brand__monogram {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid var(--bw-orange);
+  background:
+    radial-gradient(circle at 50% 38%, #ffffff 0 46%, transparent 47%),
+    var(--bw-purple);
+  color: var(--bw-purple);
+  font-family: var(--bw-font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: inset 0 0 0 4px var(--bw-purple);
+}
+
+.brand__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.brand__name {
+  font-family: var(--bw-font-display);
+  font-size: 1.22rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--bw-purple);
+}
+
+.brand__meta {
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--bw-body);
+}
+
+.brand__estd {
+  margin-top: 0.1rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--bw-orange);
+}
+
+.brand--light .brand__name {
+  color: var(--bw-white);
+}
+
+.brand--light .brand__meta {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+@include mx.down(600px) {
+  .brand__crest {
+    width: 56px;
+    height: 56px;
+  }
+
+  .brand__name {
+    font-size: 1.05rem;
+  }
+
+  .brand__meta {
+    font-size: 0.68rem;
+  }
+}

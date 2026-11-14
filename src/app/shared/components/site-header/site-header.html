@@ -1,0 +1,122 @@
+<header class="header">
+  <div class="topbar">
+    <div class="container topbar__inner">
+      <div class="topbar__info">
+        <a [href]="'tel:' + settings().phone">
+          <app-icon name="phone" [size]="14" />
+          <span>{{ settings().phone }}</span>
+        </a>
+        <a class="topbar__email" [href]="'mailto:' + settings().email">
+          <app-icon name="mail" [size]="14" />
+          <span>{{ settings().email }}</span>
+        </a>
+        <span class="topbar__address">
+          <app-icon name="map-pin" [size]="14" />
+          <span>{{ settings().address }}</span>
+        </span>
+      </div>
+
+      <a
+        class="topbar__social"
+        [href]="settings().instagramUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Bright Way School on Instagram"
+      >
+        <app-icon name="instagram" [size]="15" />
+      </a>
+    </div>
+  </div>
+
+  <div class="mainbar">
+    <div class="container mainbar__inner">
+      <app-brand-logo />
+
+      <div class="mainbar__aside">
+        <div class="recognition">
+          <svg class="recognition__laurel" viewBox="0 0 24 40" aria-hidden="true">
+            <path d="M20 38c-7-5-10-12-10-20S14 4 19 1" />
+            <path d="M13.5 10.5c-3 0-4.5-2-4.5-5M12.5 19.5c-3 0-4.5-2-4.5-5M13.5 28c-3 0-4.5-2-4.5-5" />
+          </svg>
+          <p>
+            <span>Recognised by</span>
+            <strong>Govt. of Karnataka</strong>
+          </p>
+          <svg
+            class="recognition__laurel recognition__laurel--right"
+            viewBox="0 0 24 40"
+            aria-hidden="true"
+          >
+            <path d="M20 38c-7-5-10-12-10-20S14 4 19 1" />
+            <path d="M13.5 10.5c-3 0-4.5-2-4.5-5M12.5 19.5c-3 0-4.5-2-4.5-5M13.5 28c-3 0-4.5-2-4.5-5" />
+          </svg>
+        </div>
+
+        <button
+          type="button"
+          class="hamburger"
+          [attr.aria-expanded]="menuOpen()"
+          aria-controls="mobile-menu"
+          aria-label="Open main menu"
+          (click)="toggleMenu()"
+        >
+          <app-icon name="menu" [size]="24" />
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="nav" aria-label="Primary">
+    <div class="container nav__inner">
+      @for (item of nav; track item.path) {
+        <a
+          class="nav__link"
+          [routerLink]="item.path"
+          routerLinkActive="is-active"
+          [routerLinkActiveOptions]="{ exact: item.path === '/' }"
+        >
+          {{ item.label }}
+        </a>
+      }
+    </div>
+  </nav>
+</header>
+
+@if (menuOpen()) {
+  <div class="drawer" id="mobile-menu">
+    <div class="drawer__backdrop" (click)="closeMenu()"></div>
+    <aside class="drawer__panel" role="dialog" aria-modal="true" aria-label="Main menu">
+      <div class="drawer__head">
+        <app-brand-logo />
+        <button type="button" class="drawer__close" aria-label="Close menu" (click)="closeMenu()">
+          <app-icon name="close" [size]="22" />
+        </button>
+      </div>
+
+      <nav class="drawer__nav" aria-label="Mobile">
+        @for (item of nav; track item.path) {
+          <a
+            [routerLink]="item.path"
+            routerLinkActive="is-active"
+            [routerLinkActiveOptions]="{ exact: item.path === '/' }"
+            (click)="closeMenu()"
+          >
+            {{ item.label }}
+            <app-icon name="chevron-right" [size]="16" />
+          </a>
+        }
+      </nav>
+
+      <div class="drawer__contact">
+        <a [href]="'tel:' + settings().phone">
+          <app-icon name="phone" [size]="16" />
+          {{ settings().phone }}
+        </a>
+        <a [href]="'mailto:' + settings().email">
+          <app-icon name="mail" [size]="16" />
+          {{ settings().email }}
+        </a>
+      </div>
+    </aside>
+  </div>
+}

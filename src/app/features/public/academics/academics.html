@@ -1,0 +1,99 @@
+@let page = content();
+
+<app-page-banner
+  [title]="page.banner.title"
+  [subtitle]="page.banner.subtitle"
+  [imageUrl]="page.banner.imageUrl"
+  [imageAlt]="page.banner.imageAlt"
+/>
+
+<section class="academics">
+  <div class="container">
+    <div class="academics__intro">
+      <div class="academics__intro-text">
+        <p class="eyebrow">{{ page.intro.eyebrow }}</p>
+        <h2>{{ page.intro.title }}</h2>
+        @for (paragraph of page.intro.paragraphs; track $index) {
+          <p class="academics__text">{{ paragraph }}</p>
+        }
+      </div>
+
+      <app-media-frame
+        class="academics__intro-photo"
+        [src]="page.intro.imageUrl"
+        [alt]="page.intro.imageAlt"
+        ratio="4/3"
+      />
+    </div>
+
+    <div class="academics__glance">
+      <app-section-heading
+        eyebrow="Overview"
+        title="Academic Programme at a Glance"
+        align="center"
+      />
+
+      <ul class="glance">
+        @for (card of page.cards; track card.label) {
+          <li class="glance__card">
+            <span class="glance__icon"><app-icon [name]="card.icon" [size]="22" /></span>
+            <p class="glance__label">{{ card.label }}</p>
+            <p class="glance__value" [class.is-pending]="card.status === 'pending'">
+              {{ card.value }}
+            </p>
+            <p class="glance__note">{{ card.note }}</p>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div class="academics__sections">
+      @for (section of sections(); track section.id) {
+        <section
+          class="row"
+          [id]="section.id"
+          [class.row--media-left]="section.mediaLeft"
+          [class.row--text-only]="!section.imageUrl"
+        >
+          <div class="row__text">
+            @if (section.status === 'pending') {
+              <p class="row__status">Awaiting confirmation</p>
+            }
+            <h2>{{ section.title }}</h2>
+
+            @for (paragraph of section.paragraphs; track $index) {
+              <p class="academics__text">{{ paragraph }}</p>
+            }
+
+            @if (section.bullets?.length) {
+              <ul class="ticks">
+                @for (bullet of section.bullets; track bullet) {
+                  <li>
+                    <app-icon name="check" [size]="16" />
+                    <span>{{ bullet }}</span>
+                  </li>
+                }
+              </ul>
+            }
+
+            @if (section.note; as note) {
+              <div class="pending" role="note">
+                <span class="pending__icon"><app-icon name="clock" [size]="18" /></span>
+                <p>{{ note }}</p>
+              </div>
+            }
+          </div>
+
+          @if (section.imageUrl; as image) {
+            <app-media-frame
+              class="row__media"
+              [src]="image"
+              [alt]="section.imageAlt ?? ''"
+              ratio="4/3"
+            />
+          }
+        </section>
+      }
+    </div>
+  </div>
+</section>

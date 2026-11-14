@@ -1,0 +1,115 @@
+:host {
+  display: block;
+}
+
+.notice-detail {
+  padding-block: clamp(2rem, 4vw, 3rem) clamp(3rem, 6vw, 5rem);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--bw-purple);
+  text-decoration: none;
+  transition: color 0.2s var(--bw-ease);
+}
+
+.back app-icon {
+  transform: scaleX(-1);
+}
+
+.back:hover {
+  color: var(--bw-orange);
+}
+
+.notice-sheet {
+  max-width: 820px;
+  margin-top: 1.6rem;
+  padding: clamp(1.5rem, 3.5vw, 2.6rem);
+  border-radius: var(--bw-radius-lg);
+  background: var(--bw-white);
+  box-shadow: var(--bw-shadow-sm);
+}
+
+.notice-sheet__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 0.75rem;
+}
+
+.notice-sheet__category {
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: var(--bw-purple-soft);
+  color: var(--bw-purple);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.notice-sheet__date {
+  font-size: 0.82rem;
+  color: var(--bw-muted);
+}
+
+.notice-sheet h2 {
+  margin: 0 0 1.1rem;
+  color: var(--bw-purple);
+  font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+}
+
+.notice-sheet__media {
+  display: block;
+  margin-bottom: 1.4rem;
+  border-radius: var(--bw-radius);
+  overflow: hidden;
+}
+
+.notice-sheet__body {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.85;
+  color: var(--bw-body);
+  white-space: pre-line;
+}
+
+.unavailable {
+  max-width: 620px;
+  margin: clamp(1.5rem, 3vw, 2.2rem) auto 0;
+  padding: clamp(1.8rem, 4vw, 2.8rem);
+  border: 1px dashed var(--bw-line);
+  border-radius: var(--bw-radius-lg);
+  background: var(--bw-bg);
+  text-align: center;
+}
+
+.unavailable__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  color: var(--bw-orange);
+  background: var(--bw-white);
+  box-shadow: var(--bw-shadow-sm);
+}
+
+.unavailable h2 {
+  margin: 1rem 0 0.5rem;
+  color: var(--bw-purple);
+  font-size: 1.25rem;
+}
+
+.unavailable p {
+  margin: 0 auto 1.4rem;
+  max-width: 460px;
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: var(--bw-body);
+}

@@ -1,0 +1,54 @@
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <app-brand-logo variant="light" />
+      <p>{{ settings().footerDescription }}</p>
+    </div>
+
+    <nav class="footer__col" aria-label="Quick links">
+      <h2>Quick Links</h2>
+      <ul>
+        @for (link of links; track link.path) {
+          <li><a [routerLink]="link.path">{{ link.label }}</a></li>
+        }
+      </ul>
+    </nav>
+
+    <div class="footer__col">
+      <h2>Contact Us</h2>
+      <ul class="footer__contact">
+        <li>
+          <app-icon name="phone" [size]="15" />
+          <a [href]="'tel:' + settings().phone">{{ settings().phone }}</a>
+        </li>
+        <li>
+          <app-icon name="mail" [size]="15" />
+          <a [href]="'mailto:' + settings().email">{{ settings().email }}</a>
+        </li>
+        <li>
+          <app-icon name="map-pin" [size]="15" />
+          <span>{{ settings().address }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h2>Follow Us</h2>
+      <a
+        class="footer__social"
+        [href]="settings().instagramUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Bright Way School on Instagram"
+      >
+        <app-icon name="instagram" [size]="18" />
+      </a>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <div class="container">
+      <p>&copy; {{ year }} Bright Way School. All Rights Reserved.</p>
+    </div>
+  </div>
+</footer>

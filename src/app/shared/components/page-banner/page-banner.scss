@@ -1,0 +1,88 @@
+@use 'mixins' as mx;
+
+:host {
+  display: block;
+}
+
+.banner {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(100deg, rgba(48, 32, 93, 0.98) 0%, rgba(48, 32, 93, 0.9) 62%, rgba(48, 32, 93, 0.72) 100%),
+    var(--bw-purple);
+}
+
+.banner__media {
+  position: absolute;
+  inset: 0 0 0 46%;
+  clip-path: polygon(12% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.banner__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 22% 58%;
+  transform: scale(1.6);
+  transform-origin: 18% 55%;
+}
+
+.banner__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(48, 32, 93, 0.92) 0%, rgba(48, 32, 93, 0.25) 55%, rgba(48, 32, 93, 0.1) 100%);
+}
+
+.banner__inner {
+  position: relative;
+  z-index: 2;
+  padding-block: 3.4rem 3.1rem;
+}
+
+.banner__crumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.banner__crumb a {
+  color: var(--bw-white);
+  text-decoration: none;
+}
+
+.banner__crumb a:hover {
+  text-decoration: underline;
+}
+
+.banner h1 {
+  margin: 0;
+  color: var(--bw-white);
+  font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+}
+
+.banner__sub {
+  max-width: 46ch;
+  margin: 0.6rem 0 0;
+  font-size: 0.98rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+@include mx.down(860px) {
+  .banner__media {
+    inset: 0;
+    opacity: 0.35;
+    clip-path: none;
+  }
+
+  .banner__media img {
+    transform: none;
+  }
+
+  .banner__inner {
+    padding-block: 2.6rem 2.4rem;
+  }
+}

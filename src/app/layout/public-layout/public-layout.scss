@@ -1,0 +1,16 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  /* Keep scroll position stable when the sticky header's height changes,
+     preventing the header toggle from feeding back into scroll events. */
+  overflow-anchor: none;
+}
+
+main:focus-visible {
+  outline: none;
+}

@@ -1,0 +1,21 @@
+<section class="facilities">
+  <div class="container">
+    <header class="facilities__head">
+      <h2>Our Facilities</h2>
+      <p>{{ content().facilitiesIntro }}</p>
+    </header>
+
+    <div class="facilities__grid">
+      @for (facility of facilities(); track facility.id) {
+        <app-facility-card [facility]="facility" />
+      }
+    </div>
+
+    <div class="facilities__cta">
+      <a class="btn btn--purple" routerLink="/facilities">
+        View All Facilities
+        <app-icon name="arrow-right" [size]="16" />
+      </a>
+    </div>
+  </div>
+</section>

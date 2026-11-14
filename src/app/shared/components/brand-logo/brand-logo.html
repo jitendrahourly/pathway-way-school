@@ -1,0 +1,25 @@
+<a
+  class="brand"
+  [class.brand--light]="variant() === 'light'"
+  routerLink="/"
+  aria-label="Bright Way School, home"
+>
+  <span class="brand__crest">
+    @if (!logoFailed()) {
+      <img
+        src="/images/brand/logo.png"
+        alt=""
+        width="120"
+        height="110"
+        (error)="logoFailed.set(true)"
+      />
+    } @else {
+      <span class="brand__monogram" aria-hidden="true">BW</span>
+    }
+  </span>
+  <span class="brand__text">
+    <span class="brand__name">Bright Way School</span>
+    <span class="brand__meta">Banashankari Vidya Samsthe</span>
+    <span class="brand__estd">Estd : 1981</span>
+  </span>
+</a>

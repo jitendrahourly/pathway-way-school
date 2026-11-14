@@ -1,0 +1,228 @@
+@use 'mixins' as mx;
+
+:host {
+  display: block;
+}
+
+.academics {
+  padding-block: clamp(2.5rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem);
+}
+
+/* Introduction */
+.academics__intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(2rem, 4vw, 3.25rem);
+}
+
+.academics__intro-text h2 {
+  margin: 0 0 1rem;
+  color: var(--bw-purple);
+  font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+}
+
+.academics__text {
+  margin: 0 0 0.85rem;
+  font-size: 0.98rem;
+  line-height: 1.8;
+}
+
+.academics__text:last-child {
+  margin-bottom: 0;
+}
+
+.academics__intro-photo {
+  border-radius: var(--bw-radius);
+  overflow: hidden;
+  box-shadow: var(--bw-shadow-sm);
+}
+
+/* Overview cards */
+.academics__glance {
+  margin-top: clamp(2.5rem, 4vw, 3.5rem);
+  padding-top: clamp(2rem, 3vw, 2.6rem);
+  border-top: 1px solid var(--bw-line);
+}
+
+.glance {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+
+.glance__card {
+  padding: 1.35rem;
+  border: 1px solid var(--bw-line);
+  border-radius: var(--bw-radius);
+  background: var(--bw-white);
+  box-shadow: var(--bw-shadow-sm);
+  transition:
+    transform 0.25s var(--bw-ease),
+    box-shadow 0.25s var(--bw-ease);
+}
+
+.glance__card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--bw-shadow-md);
+}
+
+.glance__icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 0.85rem;
+  border-radius: 12px;
+  color: var(--bw-purple);
+  background: var(--bw-purple-soft);
+}
+
+.glance__label {
+  margin: 0 0 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--bw-muted);
+}
+
+.glance__value {
+  margin: 0 0 0.35rem;
+  font-family: var(--bw-font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--bw-purple);
+}
+
+.glance__value.is-pending {
+  font-family: var(--bw-font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--bw-muted);
+}
+
+.glance__note {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--bw-body);
+}
+
+/* Content rows */
+.academics__sections {
+  margin-top: clamp(2.5rem, 4vw, 3.5rem);
+  border-top: 1px solid var(--bw-line);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1.8rem, 4vw, 3rem);
+  padding-block: clamp(2rem, 3.5vw, 2.9rem);
+  border-bottom: 1px solid var(--bw-line);
+  scroll-margin-top: 160px;
+}
+
+.row--text-only {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.row__text {
+  max-width: 620px;
+}
+
+.row--text-only .row__text {
+  max-width: 760px;
+}
+
+.row__media {
+  order: 2;
+  border-radius: var(--bw-radius);
+  overflow: hidden;
+  box-shadow: var(--bw-shadow-sm);
+}
+
+.row--media-left .row__media {
+  order: -1;
+}
+
+.row__status {
+  margin: 0 0 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--bw-orange);
+}
+
+.row h2 {
+  margin: 0 0 0.8rem;
+  color: var(--bw-purple);
+  font-size: clamp(1.3rem, 2.1vw, 1.6rem);
+}
+
+.ticks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem 0 0;
+}
+
+.ticks li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.93rem;
+  line-height: 1.55;
+}
+
+.ticks app-icon {
+  margin-top: 0.15rem;
+  color: var(--bw-orange);
+}
+
+.pending {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  margin-top: 1.2rem;
+  padding: 0.85rem 1rem;
+  border-left: 3px solid var(--bw-orange);
+  border-radius: 0 10px 10px 0;
+  background: var(--bw-bg);
+}
+
+.pending__icon {
+  color: var(--bw-orange);
+}
+
+.pending p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--bw-body);
+}
+
+@include mx.down(900px) {
+  .academics__intro,
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .row--media-left .row__media {
+    order: 2;
+  }
+
+  .academics__intro-photo,
+  .row__media {
+    max-width: 560px;
+  }
+}
+
+@include mx.down(860px) {
+  .glance {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

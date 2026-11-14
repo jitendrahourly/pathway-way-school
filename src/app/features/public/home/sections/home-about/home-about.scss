@@ -1,0 +1,68 @@
+@use 'mixins' as mx;
+
+:host {
+  display: block;
+}
+
+.about {
+  padding-block: clamp(3.5rem, 6vw, 5rem) clamp(2.5rem, 5vw, 4rem);
+}
+
+.about__grid {
+  display: grid;
+  grid-template-columns: 1.02fr 1fr;
+  align-items: center;
+  gap: clamp(2rem, 4.5vw, 3.5rem);
+}
+
+.about__media {
+  position: relative;
+  border-radius: var(--bw-radius-lg);
+}
+
+.about__photo {
+  border-radius: var(--bw-radius-lg);
+  box-shadow: var(--bw-shadow-md);
+}
+
+.about__badge {
+  position: absolute;
+  right: -14px;
+  bottom: -18px;
+  padding: 0.85rem 1.15rem;
+  border-radius: 12px;
+  background: var(--bw-orange);
+  color: var(--bw-white);
+  font-family: var(--bw-font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  box-shadow: 0 14px 30px rgba(232, 121, 39, 0.32);
+}
+
+.about__body h2 {
+  margin: 0 0 1rem;
+  color: var(--bw-purple);
+}
+
+.about__text {
+  margin: 0 0 1.7rem;
+  font-size: 0.98rem;
+  line-height: 1.8;
+  color: var(--bw-body);
+}
+
+@include mx.down(880px) {
+  .about__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about__media {
+    max-width: 560px;
+  }
+
+  .about__badge {
+    right: 16px;
+    bottom: -16px;
+  }
+}

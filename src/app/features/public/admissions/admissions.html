@@ -1,0 +1,76 @@
+@let page = content();
+
+<app-page-banner
+  [title]="page.banner.title"
+  [subtitle]="page.banner.subtitle"
+  [imageUrl]="page.banner.imageUrl"
+  [imageAlt]="page.banner.imageAlt"
+/>
+
+<section class="admissions-page">
+  <div class="container">
+    <div class="intro">
+      <p class="eyebrow">{{ page.intro.eyebrow }}</p>
+      <h2>{{ page.intro.title }}</h2>
+      @for (paragraph of page.intro.paragraphs; track $index) {
+        <p class="admissions-page__text">{{ paragraph }}</p>
+      }
+      <p class="intro__note">
+        <app-icon name="clock" [size]="16" />
+        <span>{{ page.intro.note }}</span>
+      </p>
+    </div>
+
+    <div class="pending-grid">
+      @for (section of page.sections; track section.id) {
+        <article class="pending-card">
+          <p class="pending-card__eyebrow">Awaiting confirmation</p>
+          <h3>{{ section.title }}</h3>
+          <p>{{ section.message }}</p>
+        </article>
+      }
+    </div>
+
+    <section class="contact-block">
+      <h2>{{ page.contact.title }}</h2>
+      <p class="contact-block__intro">{{ page.contact.intro }}</p>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <span class="contact-card__icon"><app-icon name="phone" [size]="18" /></span>
+          <div>
+            <p class="contact-card__label">Phone</p>
+            <a class="contact-card__value" [href]="phoneHref()">{{ phone }}</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <span class="contact-card__icon"><app-icon name="mail" [size]="18" /></span>
+          <div>
+            <p class="contact-card__label">Email</p>
+            <a class="contact-card__value" [href]="emailHref()">{{ email }}</a>
+          </div>
+        </div>
+        <div class="contact-card contact-card--address">
+          <span class="contact-card__icon"><app-icon name="map-pin" [size]="18" /></span>
+          <div>
+            <p class="contact-card__label">Address</p>
+            <p class="contact-card__value">{{ address }}</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="contact-block__note">{{ page.contact.note }}</p>
+
+      <div class="contact-block__actions">
+        <a class="btn btn--primary" [href]="phoneHref()">
+          <app-icon name="phone" [size]="16" />
+          Call Now
+        </a>
+        <a class="btn btn--purple" [href]="emailHref()">
+          <app-icon name="mail" [size]="16" />
+          Email the Office
+        </a>
+      </div>
+    </section>
+  </div>
+</section>

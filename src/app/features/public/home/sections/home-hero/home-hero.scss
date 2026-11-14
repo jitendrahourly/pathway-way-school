@@ -1,0 +1,136 @@
+@use 'mixins' as mx;
+
+:host {
+  display: block;
+}
+
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 470px;
+  overflow: hidden;
+  background: var(--bw-purple);
+}
+
+.hero__media {
+  position: absolute;
+  inset: 0 0 0 36%;
+  clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Crop the frame of the temporary photograph so the building fills the panel. */
+  transform: scale(1.62);
+  transform-origin: 16% 56%;
+}
+
+.hero__media::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  background: var(--bw-orange);
+  clip-path: polygon(0 0, 0 100%, 100% 100%);
+}
+
+.hero__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(48, 32, 93, 0.55) 0%, rgba(48, 32, 93, 0) 42%);
+}
+
+.hero__container {
+  position: relative;
+  z-index: 2;
+}
+
+.hero__content {
+  max-width: 520px;
+  padding-block: 72px 84px;
+}
+
+.hero__eyebrow {
+  margin: 0 0 0.9rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.hero h1 {
+  margin: 0 0 0.85rem;
+  font-size: clamp(2.1rem, 3.6vw, 3rem);
+  line-height: 1.14;
+  color: var(--bw-white);
+}
+
+.hero h1 span {
+  display: block;
+  color: var(--bw-orange);
+}
+
+.hero__sub {
+  max-width: 34ch;
+  margin: 0 0 1.9rem;
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+@include mx.down(980px) {
+  .hero {
+    min-height: 0;
+  }
+
+  .hero__media {
+    inset: 0;
+    clip-path: none;
+    opacity: 0.45;
+  }
+
+  .hero__media::before {
+    display: none;
+  }
+
+  .hero__media::after {
+    background: linear-gradient(
+      100deg,
+      rgba(48, 32, 93, 0.97) 0%,
+      rgba(48, 32, 93, 0.9) 48%,
+      rgba(48, 32, 93, 0.62) 100%
+    );
+  }
+
+  .hero__content {
+    padding-block: 56px 72px;
+  }
+}
+
+@include mx.down(600px) {
+  .hero__content {
+    padding-block: 44px 60px;
+  }
+
+  .hero h1 {
+    font-size: 1.95rem;
+  }
+
+  .hero__actions .btn {
+    flex: 1 1 150px;
+  }
+}

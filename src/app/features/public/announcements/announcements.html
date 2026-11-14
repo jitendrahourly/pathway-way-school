@@ -1,0 +1,71 @@
+@let page = content();
+
+<app-page-banner
+  [title]="page.banner.title"
+  [subtitle]="page.banner.subtitle"
+  [imageUrl]="page.banner.imageUrl"
+  [imageAlt]="page.banner.imageAlt"
+/>
+
+<section class="announcements-page">
+  <div class="container">
+    <div class="intro">
+      <p class="eyebrow">{{ page.intro.eyebrow }}</p>
+      <h2>{{ page.intro.title }}</h2>
+      @for (paragraph of page.intro.paragraphs; track $index) {
+        <p class="announcements-page__text">{{ paragraph }}</p>
+      }
+    </div>
+
+    @if (published().length) {
+      <section class="block">
+        <app-section-heading [title]="page.listHeading" />
+
+        <div class="filters" role="group" [attr.aria-label]="page.filterLabel">
+          @for (category of filters(); track category.id) {
+            <button
+              type="button"
+              class="chip"
+              [class.chip--active]="filter() === category.id"
+              [attr.aria-pressed]="filter() === category.id"
+              (click)="setFilter(category.id)"
+            >
+              {{ category.label }}
+              <span class="chip__count">{{ category.count }}</span>
+            </button>
+          }
+        </div>
+
+        <div class="notice-panel">
+          @for (item of items(); track item.id) {
+            <app-announcement-card [announcement]="item" />
+          }
+        </div>
+      </section>
+    } @else {
+      <section class="block">
+        <div class="empty">
+          <span class="empty__icon"><app-icon name="megaphone" [size]="26" /></span>
+          <h3>{{ page.empty.title }}</h3>
+          <p class="empty__message">{{ page.empty.message }}</p>
+
+          <div class="empty__categories">
+            @for (category of categories; track category.id) {
+              <div class="empty__category">
+                <h4>{{ category.label }}</h4>
+                <p>{{ category.description }}</p>
+              </div>
+            }
+          </div>
+
+          <p class="empty__contact">
+            {{ page.empty.contactNote }}
+            <a [href]="phoneHref()">{{ settings().phone }}</a>
+            <span aria-hidden="true">·</span>
+            <a [href]="emailHref()">{{ settings().email }}</a>
+          </p>
+        </div>
+      </section>
+    }
+  </div>
+</section>

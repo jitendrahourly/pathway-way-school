@@ -1,0 +1,38 @@
+@use 'mixins' as mx;
+
+.coming {
+  padding-block: clamp(48px, 6vw, 84px);
+}
+
+.coming__card {
+  max-width: 620px;
+  margin-inline: auto;
+  padding: clamp(2rem, 4vw, 3rem);
+  text-align: center;
+  border: 1px solid var(--bw-line);
+  border-radius: var(--bw-radius-lg);
+  background: var(--bw-white);
+  box-shadow: var(--bw-shadow-sm);
+}
+
+.coming__icon {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 1.1rem;
+  border-radius: 16px;
+  color: var(--bw-orange);
+  background: var(--bw-orange-soft);
+}
+
+.coming__card h2 {
+  margin: 0 0 0.6rem;
+}
+
+.coming__card p {
+  margin: 0 auto 1.6rem;
+  max-width: 44ch;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}

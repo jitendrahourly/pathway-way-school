@@ -1,0 +1,52 @@
+<section class="updates">
+  <div class="container updates__grid">
+    <div class="updates__col">
+      <div class="updates__head">
+        <span class="updates__icon"><app-icon name="megaphone" [size]="20" /></span>
+        <h2>Latest Announcements</h2>
+      </div>
+
+      @if (announcements().length) {
+        <div class="updates__list">
+          @for (item of announcements(); track item.id) {
+            <app-announcement-card [announcement]="item" />
+          }
+        </div>
+      } @else {
+        <div class="updates__empty">
+          <span class="updates__empty-icon"><app-icon name="megaphone" [size]="26" /></span>
+          <h3>No announcements published yet</h3>
+          <p>
+            Notices from the school office will appear here once they are confirmed and published.
+          </p>
+        </div>
+      }
+
+      <a class="updates__link" routerLink="/announcements">
+        View All
+        <app-icon name="arrow-right" [size]="15" />
+      </a>
+    </div>
+
+    <div class="updates__col updates__col--gallery">
+      <div class="updates__head">
+        <span class="updates__icon"><app-icon name="image" [size]="20" /></span>
+        <h2>Gallery Highlights</h2>
+      </div>
+
+      <div class="updates__gallery">
+        @for (image of gallery(); track image.id) {
+          <a class="shot" routerLink="/gallery" [attr.aria-label]="'View gallery: ' + image.title">
+            <app-media-frame [src]="image.imageUrl" [alt]="image.imageAlt" ratio="1/1" />
+            <span class="shot__label">{{ image.title }}</span>
+          </a>
+        }
+      </div>
+
+      <a class="updates__link" routerLink="/gallery">
+        View Gallery
+        <app-icon name="arrow-right" [size]="15" />
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,67 @@
+@use 'mixins' as mx;
+
+:host {
+  display: block;
+}
+
+.facilities {
+  padding-block: clamp(2rem, 4vw, 3rem);
+}
+
+.facilities__head {
+  max-width: 640px;
+  margin: 0 auto 2.2rem;
+  text-align: center;
+}
+
+.facilities__head h2 {
+  position: relative;
+  margin: 0 0 0.9rem;
+  padding-bottom: 0.75rem;
+  color: var(--bw-purple);
+  font-size: clamp(1.6rem, 2.6vw, 2.05rem);
+}
+
+.facilities__head h2::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 54px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--bw-orange);
+  transform: translateX(-50%);
+}
+
+.facilities__head p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--bw-body);
+}
+
+.facilities__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.35rem;
+}
+
+.facilities__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.1rem;
+}
+
+@include mx.down(1024px) {
+  .facilities__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+}
+
+@include mx.down(560px) {
+  .facilities__grid {
+    grid-template-columns: 1fr;
+  }
+}

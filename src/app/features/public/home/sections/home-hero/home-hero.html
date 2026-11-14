@@ -1,0 +1,35 @@
+@let hero = content().hero;
+
+<section class="hero">
+  <div class="hero__media">
+    @if (!imageFailed()) {
+      <img
+        [src]="hero.imageUrl"
+        [alt]="hero.imageAlt"
+        [style.object-position]="hero.imagePosition"
+        fetchpriority="high"
+        decoding="async"
+        (error)="imageFailed.set(true)"
+      />
+    }
+  </div>
+
+  <div class="container hero__container">
+    <div class="hero__content">
+      <p class="hero__eyebrow">{{ hero.eyebrow }}</p>
+      <h1>
+        {{ hero.titleLead }}
+        <span>{{ hero.titleAccent }}</span>
+      </h1>
+      <p class="hero__sub">{{ hero.subtitle }}</p>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary" routerLink="/about">
+          Know More
+          <app-icon name="arrow-right" [size]="16" />
+        </a>
+        <a class="btn btn--outline" routerLink="/admissions">Admissions</a>
+      </div>
+    </div>
+  </div>
+</section>

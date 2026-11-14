@@ -1,0 +1,71 @@
+@let page = content();
+
+<app-page-banner
+  [title]="page.banner.title"
+  [subtitle]="page.banner.subtitle"
+  [imageUrl]="page.banner.imageUrl"
+  [imageAlt]="page.banner.imageAlt"
+/>
+
+<section class="facilities-page">
+  <div class="container">
+    <div class="intro">
+      <p class="eyebrow">{{ page.intro.eyebrow }}</p>
+      <h2>{{ page.intro.title }}</h2>
+      @for (paragraph of page.intro.paragraphs; track $index) {
+        <p class="facilities-page__text">{{ paragraph }}</p>
+      }
+      <p class="intro__note">
+        <app-icon name="image" [size]="16" />
+        <span>{{ page.intro.note }}</span>
+      </p>
+    </div>
+
+    <section class="block">
+      <app-section-heading [eyebrow]="page.gridEyebrow" [title]="page.gridHeading" />
+      <div class="facilities-grid">
+        @for (facility of facilities(); track facility.id) {
+          <app-facility-card [facility]="facility" [compact]="true" />
+        }
+      </div>
+    </section>
+
+    <section class="block">
+      <app-section-heading [title]="page.detailsHeading" />
+
+      <div class="details">
+        @for (facility of facilities(); track facility.id) {
+          <article
+            class="detail"
+            [id]="facility.id"
+            [class.detail--reverse]="facility.reversed"
+          >
+            <app-media-frame
+              class="detail__media"
+              [src]="facility.imageUrl"
+              [alt]="facility.imageAlt"
+              ratio="4/3"
+            />
+
+            <div class="detail__body">
+              <p class="detail__index">{{ facility.label }}</p>
+              <h3>{{ facility.title }}</h3>
+              <p class="detail__text">{{ facility.description }}</p>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+
+    @if (additional().length) {
+      <section class="block">
+        <app-section-heading [title]="page.additionalHeading" />
+        <div class="facilities-grid">
+          @for (facility of additional(); track facility.id) {
+            <app-facility-card [facility]="facility" />
+          }
+        </div>
+      </section>
+    }
+  </div>
+</section>

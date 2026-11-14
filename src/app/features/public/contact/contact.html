@@ -1,0 +1,103 @@
+@let page = content();
+@let site = settings();
+
+<app-page-banner
+  [title]="page.banner.title"
+  [subtitle]="page.banner.subtitle"
+  [imageUrl]="page.banner.imageUrl"
+  [imageAlt]="page.banner.imageAlt"
+/>
+
+<section class="contact-page">
+  <div class="container">
+    <div class="intro">
+      <p class="eyebrow">{{ page.intro.eyebrow }}</p>
+      <h2>{{ page.intro.title }}</h2>
+      @for (paragraph of page.intro.paragraphs; track $index) {
+        <p class="contact-page__text">{{ paragraph }}</p>
+      }
+    </div>
+
+    <div class="contact-grid">
+      <article class="contact-card">
+        <span class="contact-card__icon"><app-icon name="phone" [size]="22" /></span>
+        <h3>Phone</h3>
+        <a class="contact-card__value" [href]="phoneHref()">{{ site.phone }}</a>
+        <a class="contact-card__action" [href]="phoneHref()">Call Now</a>
+      </article>
+      <article class="contact-card">
+        <span class="contact-card__icon"><app-icon name="mail" [size]="22" /></span>
+        <h3>Email</h3>
+        <a class="contact-card__value" [href]="emailHref()">{{ site.email }}</a>
+        <a class="contact-card__action" [href]="emailHref()">Send Email</a>
+      </article>
+      <article class="contact-card">
+        <span class="contact-card__icon"><app-icon name="map-pin" [size]="22" /></span>
+        <h3>Address</h3>
+        <p class="contact-card__value">{{ site.address }}</p>
+        <a
+          class="contact-card__action"
+          [href]="site.mapsUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+        >View on Map</a>
+      </article>
+    </div>
+
+    <section class="map-block">
+      <h2>Our Location</h2>
+      <p class="map-block__intro">Find us on the map below.</p>
+      @if (site.mapsUrl) {
+        <div class="map-frame">
+          <iframe
+            [src]="safeMapsUrl()"
+            title="Bright Way School location on Google Maps"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+          ></iframe>
+        </div>
+      } @else {
+        <p class="map-block__empty">Map link is not configured yet.</p>
+      }
+    </section>
+
+    <section class="directions">
+      <h2>{{ page.directions.title }}</h2>
+      <p class="directions__intro">{{ page.directions.intro }}</p>
+      <ul class="directions__list">
+        @for (step of page.directions.steps; track $index) {
+          <li>{{ step }}</li>
+        }
+      </ul>
+    </section>
+
+    <section class="instagram-block">
+      <div class="instagram-block__body">
+        <span class="instagram-block__icon"><app-icon name="instagram" [size]="26" /></span>
+        <p class="instagram-block__eyebrow">Stay connected</p>
+        <h2>{{ page.instagram.title }}</h2>
+        <p class="instagram-block__handle">{{ site.instagramHandle }}</p>
+        <p class="instagram-block__text">{{ page.instagram.text }}</p>
+        <a
+          class="btn btn--primary"
+          [href]="site.instagramUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Follow Now
+          <app-icon name="arrow-up-right" [size]="16" />
+        </a>
+      </div>
+    </section>
+
+    <section class="school-details">
+      <h2>{{ page.schoolDetails.title }}</h2>
+      <ul class="school-details__list">
+        @for (line of page.schoolDetails.lines; track $index) {
+          <li>{{ line }}</li>
+        }
+      </ul>
+    </section>
+  </div>
+</section>
