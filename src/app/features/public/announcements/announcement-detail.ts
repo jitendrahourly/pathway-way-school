@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
@@ -16,7 +22,7 @@ import { UiIcon } from '../../../shared/components/ui-icon/ui-icon';
   styleUrl: './announcement-detail.scss',
   templateUrl: './announcement-detail.html',
 })
-export class AnnouncementDetail {
+export class AnnouncementDetail implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly announcements = inject(AnnouncementsService);
   private readonly contentService = inject(AnnouncementsContentService);
@@ -26,6 +32,10 @@ export class AnnouncementDetail {
     this.route.paramMap.pipe(map((params) => params.get('id'))),
     { initialValue: this.route.snapshot.paramMap.get('id') },
   );
+
+  ngOnInit(): void {
+    void this.announcements.load();
+  }
 
   protected readonly notice = computed(
     () => this.announcements.published().find((item) => item.id === this.id()) ?? null,

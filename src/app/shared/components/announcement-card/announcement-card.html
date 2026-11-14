@@ -1,17 +1,20 @@
-<a class="notice" [routerLink]="['/announcements', announcement().id]">
-  @if (date(); as value) {
-    <div class="notice__date" aria-hidden="true">
-      <strong>{{ value.day }}</strong>
-      <span>{{ value.month }}</span>
-      <small>{{ value.year }}</small>
+<a class="notice-card" [routerLink]="['/announcements', announcement().id]">
+  @if (announcement().imageUrl) {
+    <div class="notice-card__media">
+      <img [src]="announcement().imageUrl" [alt]="announcement().imageAlt ?? announcement().title" />
+    </div>
+  } @else {
+    <div class="notice-card__media notice-card__media--empty" aria-hidden="true">
+      <app-icon name="megaphone" [size]="30" />
     </div>
   }
 
-  <div class="notice__body">
-    <p class="notice__category">{{ categoryLabel() }}</p>
+  <div class="notice-card__body">
+    <p class="notice-card__category">{{ categoryLabel() }}</p>
     <h3>{{ announcement().title }}</h3>
-    <p class="notice__summary">{{ announcement().summary }}</p>
+    @if (date(); as value) {
+      <p class="notice-card__date">{{ value.day }} {{ value.month }} {{ value.year }}</p>
+    }
+    <p class="notice-card__summary">{{ announcement().summary }}</p>
   </div>
-
-  <app-icon class="notice__arrow" name="chevron-right" [size]="18" />
 </a>

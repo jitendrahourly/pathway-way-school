@@ -9,7 +9,7 @@
       @if (announcements().length) {
         <div class="updates__list">
           @for (item of announcements(); track item.id) {
-            <app-announcement-card [announcement]="item" />
+            <app-announcement-card [announcement]="item" [compact]="true" />
           }
         </div>
       } @else {

@@ -1,0 +1,27 @@
+:host { display: block; }
+
+.admin-placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 60vh;
+}
+
+.admin-placeholder__card {
+  max-width: 520px;
+  padding: 2.4rem;
+  text-align: center;
+  background: var(--bw-white);
+  border: 1px solid var(--bw-line);
+  border-radius: var(--bw-radius-lg);
+  box-shadow: var(--bw-shadow-sm);
+}
+
+.admin-placeholder__card h1 {
+  color: var(--bw-purple);
+  margin: 1rem 0 0.5rem;
+}
+
+.admin-placeholder__card p {
+  color: var(--bw-body);
+  margin: 0;
+}

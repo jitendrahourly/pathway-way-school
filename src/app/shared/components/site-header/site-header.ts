@@ -19,14 +19,12 @@ import { UiIcon } from '../ui-icon/ui-icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './site-header.scss',
   templateUrl: './site-header.html',
-  host: { '[class.is-scrolled]': 'scrolled()' },
 })
 export class SiteHeader {
   private readonly router = inject(Router);
   protected readonly settings = inject(SiteSettingsService).settings;
   protected readonly nav = PUBLIC_NAV;
   protected readonly menuOpen = signal(false);
-  protected readonly scrolled = signal(false);
 
   constructor() {
     this.router.events
@@ -36,14 +34,6 @@ export class SiteHeader {
     effect(() => {
       document.body.classList.toggle('menu-open', this.menuOpen());
     });
-
-    // Initialise scroll state for loads that start mid-page.
-    this.onScroll();
-  }
-
-  @HostListener('window:scroll')
-  protected onScroll(): void {
-    this.scrolled.set(window.scrollY > 30);
   }
 
   @HostListener('document:keydown.escape')

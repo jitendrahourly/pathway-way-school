@@ -7,7 +7,6 @@ export const routes: Routes = [
   {
     path: 'admin',
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
       {
         path: 'login',
         title: 'Admin Login | Bright Way School',
@@ -16,11 +15,75 @@ export const routes: Routes = [
           import('./features/admin/login/login').then((m) => m.Login),
       },
       {
-        path: 'dashboard',
-        title: 'Admin Dashboard | Bright Way School',
+        path: '',
         canActivate: [adminAuthGuard],
         loadComponent: () =>
-          import('./features/admin/dashboard/dashboard').then((m) => m.Dashboard),
+          import('./layout/admin-layout/admin-layout').then((m) => m.AdminLayout),
+        children: [
+          { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+          {
+            path: 'dashboard',
+            title: 'Dashboard | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/dashboard/dashboard').then((m) => m.Dashboard),
+          },
+          {
+            path: 'page-content',
+            title: 'Page Content | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/placeholder/admin-placeholder').then(
+                (m) => m.AdminPlaceholder,
+              ),
+          },
+          {
+            path: 'announcements',
+            title: 'Announcements | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/announcements/announcements-list').then(
+                (m) => m.AnnouncementsList,
+              ),
+          },
+          {
+            path: 'announcements/new',
+            title: 'Add Announcement | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/announcements/announcement-form').then(
+                (m) => m.AnnouncementForm,
+              ),
+          },
+          {
+            path: 'announcements/:id/edit',
+            title: 'Edit Announcement | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/announcements/announcement-form').then(
+                (m) => m.AnnouncementForm,
+              ),
+          },
+          {
+            path: 'gallery',
+            title: 'Gallery | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/placeholder/admin-placeholder').then(
+                (m) => m.AdminPlaceholder,
+              ),
+          },
+          {
+            path: 'facilities',
+            title: 'Facilities | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/placeholder/admin-placeholder').then(
+                (m) => m.AdminPlaceholder,
+              ),
+          },
+          {
+            path: 'settings',
+            title: 'Site Settings | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/placeholder/admin-placeholder').then(
+                (m) => m.AdminPlaceholder,
+              ),
+          },
+        ],
       },
     ],
   },
@@ -59,7 +122,9 @@ export const routes: Routes = [
         path: 'announcements',
         title: 'Announcements | Bright Way School',
         loadComponent: () =>
-          import('./features/public/announcements/announcements').then((m) => m.Announcements),
+          import('./features/public/announcements/announcements').then(
+            (m) => m.Announcements,
+          ),
       },
       {
         path: 'announcements/:id',

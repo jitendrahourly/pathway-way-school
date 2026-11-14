@@ -1,26 +1,89 @@
 <section class="admin-dashboard">
-  <header class="admin-dashboard__header">
-    <div class="admin-dashboard__brand">
-      <app-brand-logo />
-      <div>
-        <p class="admin-dashboard__eyebrow">Administration</p>
-        <h1>Dashboard</h1>
-      </div>
-    </div>
-    <button type="button" class="btn btn--outline" (click)="logout()" [disabled]="loading()">
-      Sign out
-    </button>
-  </header>
+  <div class="admin-dashboard__welcome">
+    <h2>Welcome, {{ profile()?.full_name ?? 'Administrator' }}</h2>
+    <p class="admin-dashboard__role">Role: <strong>{{ profile()?.role }}</strong></p>
+  </div>
 
-  <main class="admin-dashboard__main">
-    <div class="admin-dashboard__card">
-      <h2>Welcome, {{ profile()?.full_name ?? 'Administrator' }}</h2>
-      <p class="admin-dashboard__role">
-        Role: <strong>{{ profile()?.role }}</strong>
-      </p>
-      <p class="admin-dashboard__note">
-        Content management tools will be available here in a future update.
-      </p>
+  @if (error()) {
+    <div class="admin-dashboard__state admin-dashboard__state--error">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="admin-dashboard__state">Loading dashboard data…</div>
+  } @else {
+    <div class="admin-dashboard__stats">
+      <article class="admin-dashboard__stat">
+        <span class="admin-dashboard__stat-label">Total Announcements</span>
+        <span class="admin-dashboard__stat-value">{{ totalAnnouncements() }}</span>
+      </article>
+      <article class="admin-dashboard__stat">
+        <span class="admin-dashboard__stat-label">Published Announcements</span>
+        <span class="admin-dashboard__stat-value">{{ publishedAnnouncements() }}</span>
+      </article>
+      <article class="admin-dashboard__stat">
+        <span class="admin-dashboard__stat-label">Gallery Images</span>
+        <span class="admin-dashboard__stat-value">{{ totalGalleryImages() }}</span>
+      </article>
+      <article class="admin-dashboard__stat">
+        <span class="admin-dashboard__stat-label">Facilities</span>
+        <span class="admin-dashboard__stat-value">{{ totalFacilities() }}</span>
+      </article>
     </div>
-  </main>
+
+    <div class="admin-dashboard__recent">
+      <section class="admin-dashboard__panel">
+        <h3>Recent Announcements</h3>
+        @if (recentAnnouncements().length === 0) {
+          <p class="admin-dashboard__empty">No announcements yet.</p>
+        } @else {
+          <ul class="admin-dashboard__list">
+            @for (item of recentAnnouncements(); track item.id) {
+              <li class="admin-dashboard__list-item">
+                <span>{{ item.title }}</span>
+                <span class="admin-dashboard__badge" [class.admin-dashboard__badge--published]="item.is_published">
+                  {{ item.is_published ? 'Published' : 'Draft' }}
+                </span>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+
+      <section class="admin-dashboard__panel">
+        <h3>Recent Gallery Images</h3>
+        @if (recentGalleryImages().length === 0) {
+          <p class="admin-dashboard__empty">No gallery images yet.</p>
+        } @else {
+          <ul class="admin-dashboard__list">
+            @for (item of recentGalleryImages(); track item.id) {
+              <li class="admin-dashboard__list-item">
+                <span>{{ item.title ?? 'Untitled image' }}</span>
+                <span class="admin-dashboard__badge" [class.admin-dashboard__badge--published]="item.is_published">
+                  {{ item.is_published ? 'Published' : 'Draft' }}
+                </span>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+
+      <section class="admin-dashboard__panel">
+        <h3>Recent Facilities</h3>
+        @if (recentFacilities().length === 0) {
+          <p class="admin-dashboard__empty">No facilities yet.</p>
+        } @else {
+          <ul class="admin-dashboard__list">
+            @for (item of recentFacilities(); track item.id) {
+              <li class="admin-dashboard__list-item">
+                <span>{{ item.title }}</span>
+                <span class="admin-dashboard__badge" [class.admin-dashboard__badge--published]="item.is_published">
+                  {{ item.is_published ? 'Published' : 'Draft' }}
+                </span>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+    </div>
+  }
 </section>

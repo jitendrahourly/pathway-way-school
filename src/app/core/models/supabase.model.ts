@@ -41,7 +41,50 @@ export interface ContentRow {
 export interface AdminProfile {
   readonly id: string;
   readonly full_name: string;
-  readonly role: 'admin' | 'editor' | string;
+  readonly role: 'admin' | string;
   readonly created_at?: string;
   readonly updated_at?: string;
+}
+
+/**
+ * Row shape for the announcements table.
+ */
+export interface AnnouncementRecord {
+  readonly id: string | number;
+  title: string;
+  description: string | null;
+  category: string;
+  image_url: string | null;
+  published_at: string | null;
+  is_published: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
+/**
+ * Row shape for the gallery_images table.
+ */
+export interface GalleryImageRecord {
+  readonly id: string | number;
+  title: string | null;
+  description: string | null;
+  image_url: string;
+  category: string;
+  display_order: number;
+  is_published: boolean;
+  created_at?: string;
+}
+
+/**
+ * Row shape for the facilities table.
+ */
+export interface FacilityRecord {
+  readonly id: string | number;
+  title: string;
+  description: string | null;
+  image_url: string | null;
+  display_order: number;
+  is_published: boolean;
+  created_at?: string;
+  updated_at?: string;
 }

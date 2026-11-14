@@ -1,32 +1,20 @@
 @use 'mixins' as mx;
 
 :host {
-  display: block;
+  display: contents;
+}
+
+.header {
   position: sticky;
   top: 0;
   z-index: 60;
   background: var(--bw-white);
   box-shadow: 0 1px 0 var(--bw-line);
-  /* Prevent scroll anchoring from adjusting scroll position when the
-     topbar collapses/expands, which previously fed back into the
-     scroll listener and toggled .is-scrolled repeatedly. */
-  overflow-anchor: none;
-}
-
-.header {
-  background: var(--bw-white);
 }
 
 .topbar {
-  max-height: 44px;
-  overflow: hidden;
   background: var(--bw-purple);
   color: rgba(255, 255, 255, 0.82);
-  transition: max-height 0.28s var(--bw-ease);
-}
-
-:host(.is-scrolled) .topbar {
-  max-height: 0;
 }
 
 .topbar__inner {

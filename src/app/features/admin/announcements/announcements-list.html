@@ -1,0 +1,121 @@
+<section class="ann-list">
+  <header class="ann-list__header">
+    <div>
+      <p class="ann-list__eyebrow">Content</p>
+      <h1>Announcements</h1>
+      <p class="ann-list__sub">Manage school notices, events and updates.</p>
+    </div>
+    <a class="btn btn--primary" routerLink="/admin/announcements/new">+ Add Announcement</a>
+  </header>
+
+  <div class="ann-list__toolbar">
+    <input
+      type="search"
+      class="ann-list__search"
+      placeholder="Search by title or description"
+      [value]="search()"
+      (input)="onSearch($any($event.target).value)"
+    />
+    <select class="ann-list__select" [value]="categoryFilter()" (change)="onCategory($any($event.target).value)">
+      <option value="all">All categories</option>
+      @for (c of categories; track c) {
+        <option [value]="c">{{ c }}</option>
+      }
+    </select>
+    <select class="ann-list__select" [value]="statusFilter()" (change)="onStatus($any($event.target).value)">
+      <option value="all">All statuses</option>
+      <option value="published">Published</option>
+      <option value="draft">Draft</option>
+    </select>
+  </div>
+
+  @if (loading()) {
+    <div class="ann-list__state">Loading announcements…</div>
+  } @else if (error()) {
+    <div class="ann-list__state ann-list__state--error">{{ error() }}</div>
+  } @else if (filtered().length === 0) {
+    <div class="ann-list__state">No announcements found.</div>
+  } @else {
+    <div class="ann-list__table-wrap">
+      <table class="ann-list__table">
+        <colgroup>
+          <col style="width: 8%" />
+          <col style="width: 17%" />
+          <col style="width: 24%" />
+          <col style="width: 11%" />
+          <col style="width: 11%" />
+          <col style="width: 9%" />
+          <col style="width: 20%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Published Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of paged(); track item.id) {
+            <tr>
+              <td>
+                @if (item.image_url) {
+                  <img class="ann-list__thumb" [src]="item.image_url" [alt]="item.title" />
+                } @else {
+                  <span class="ann-list__noimg">—</span>
+                }
+              </td>
+              <td class="ann-list__title">{{ item.title }}</td>
+              <td class="ann-list__description" [attr.title]="item.description || ''">
+                @if (item.description) {
+                  <span class="ann-list__description-text">{{ item.description }}</span>
+                } @else {
+                  <span class="ann-list__muted">—</span>
+                }
+              </td>
+              <td>{{ item.category }}</td>
+              <td>{{ formatDate(item.published_at) }}</td>
+              <td>
+                <span class="status-badge" [class.status-badge--published]="item.is_published">
+                  {{ item.is_published ? 'Published' : 'Unpublished' }}
+                </span>
+              </td>
+              <td>
+                <div class="ann-list__actions">
+                  <a class="ann-list__action" [routerLink]="['/admin/announcements', item.id, 'edit']">Edit</a>
+                  <button type="button" class="ann-list__action" (click)="togglePublish(item)">
+                    {{ item.is_published ? 'Unpublish' : 'Publish' }}
+                  </button>
+                  <button type="button" class="ann-list__action ann-list__action--danger" (click)="askDelete(item)">Delete</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ann-list__pagination">
+      <button type="button" class="btn btn--purple" (click)="prevPage()" [disabled]="page() === 1">Prev</button>
+      <span>Page {{ page() }} of {{ totalPages() }}</span>
+      <button type="button" class="btn btn--purple" (click)="nextPage()" [disabled]="page() === totalPages()">Next</button>
+    </div>
+  }
+
+  @if (deleteTarget()) {
+    <div class="ann-list__modal-backdrop" (click)="cancelDelete()"></div>
+    <div class="ann-list__modal" role="dialog" aria-modal="true">
+      <h2>Delete announcement?</h2>
+      <p>This will permanently delete <strong>{{ deleteTarget()?.title }}</strong>.</p>
+      <div class="ann-list__modal-actions">
+        <button type="button" class="btn" (click)="cancelDelete()">Cancel</button>
+        <button type="button" class="btn btn--primary" (click)="confirmDelete()" [disabled]="deleting()">
+          {{ deleting() ? 'Deleting…' : 'Delete' }}
+        </button>
+      </div>
+    </div>
+  }
+</section>

@@ -1,0 +1,57 @@
+<div class="admin-layout" [class.admin-layout--sidebar-open]="sidebarOpen()">
+  <aside class="admin-layout__sidebar" [class.admin-layout__sidebar--open]="sidebarOpen()">
+    <div class="admin-layout__brand">
+      <app-brand-logo variant="light" />
+    </div>
+
+    <nav class="admin-layout__nav" aria-label="Admin navigation">
+      @for (item of navItems; track item.path) {
+        <a
+          class="admin-layout__nav-item"
+          [routerLink]="item.path"
+          routerLinkActive="admin-layout__nav-item--active"
+          (click)="closeSidebar()"
+        >
+          <svg class="admin-layout__nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path [attr.d]="iconPath(item.icon)" />
+          </svg>
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="admin-layout__sidebar-footer">
+      <button type="button" class="admin-layout__logout" (click)="logout()" [disabled]="loading()">
+        <svg class="admin-layout__nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path [attr.d]="iconPath('logout')" />
+        </svg>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="admin-layout__backdrop" (click)="closeSidebar()" aria-hidden="true"></div>
+
+  <div class="admin-layout__main">
+    <header class="admin-layout__header">
+      <button type="button" class="admin-layout__toggle" (click)="toggleSidebar()" aria-label="Toggle sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M3 6h18M3 12h18M3 18h18" />
+        </svg>
+      </button>
+      <div class="admin-layout__header-title">
+        <p class="admin-layout__breadcrumb">Admin / {{ pageTitle() }}</p>
+        <h1>{{ pageTitle() }}</h1>
+      </div>
+      <div class="admin-layout__header-user">
+        <span class="admin-layout__user-name">{{ profile()?.full_name ?? 'Administrator' }}</span>
+        <span class="admin-layout__user-role">{{ profile()?.role }}</span>
+        <button type="button" class="admin-layout__logout-btn" (click)="logout()" [disabled]="loading()">Sign out</button>
+      </div>
+    </header>
+
+    <main class="admin-layout__content">
+      <router-outlet />
+    </main>
+  </div>
+</div>
