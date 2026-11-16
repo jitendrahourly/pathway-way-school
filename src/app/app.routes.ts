@@ -39,10 +39,6 @@ export const routes: Routes = [
             path: 'announcements',
             title: 'Announcements | Bright Way School',
             loadComponent: () =>
-<<<<<<< HEAD
-              import('./features/admin/placeholder/admin-placeholder').then(
-                (m) => m.AdminPlaceholder,
-=======
               import('./features/admin/announcements/announcements-list').then(
                 (m) => m.AnnouncementsList,
               ),
@@ -61,7 +57,6 @@ export const routes: Routes = [
             loadComponent: () =>
               import('./features/admin/announcements/announcement-form').then(
                 (m) => m.AnnouncementForm,
->>>>>>> dropdown
               ),
           },
           {

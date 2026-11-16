@@ -1,108 +1,5 @@
 :host {
   display: block;
-<<<<<<< HEAD
-}
-
-.admin-dashboard {
-  display: grid;
-  gap: 1.4rem;
-}
-
-.admin-dashboard__welcome {
-  padding: 1.4rem 1.6rem;
-  background: var(--bw-white);
-  border: 1px solid var(--bw-line);
-  border-radius: var(--bw-radius-lg);
-  box-shadow: var(--bw-shadow-sm);
-}
-
-.admin-dashboard__eyebrow {
-  margin: 0 0 0.25rem;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--bw-orange);
-}
-
-.admin-dashboard__welcome h2 {
-  margin: 0 0 0.35rem;
-  color: var(--bw-purple);
-}
-
-.admin-dashboard__sub {
-  margin: 0;
-  color: var(--bw-body);
-  font-size: 0.92rem;
-}
-
-.admin-dashboard__cards {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-}
-
-.admin-dashboard__card {
-  padding: 1.3rem 1.4rem;
-  background: var(--bw-white);
-  border: 1px solid var(--bw-line);
-  border-radius: var(--bw-radius);
-  box-shadow: var(--bw-shadow-sm);
-  display: grid;
-  gap: 0.4rem;
-}
-
-.admin-dashboard__card-label {
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--bw-muted);
-}
-
-.admin-dashboard__card-value {
-  font-family: var(--bw-font-display);
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--bw-purple);
-}
-
-.admin-dashboard__state {
-  padding: 1.6rem;
-  text-align: center;
-  background: var(--bw-white);
-  border: 1px solid var(--bw-line);
-  border-radius: var(--bw-radius);
-  color: var(--bw-body);
-}
-
-.admin-dashboard__state--error {
-  color: #b03a2e;
-  border-color: rgba(176, 58, 46, 0.2);
-  background: rgba(176, 58, 46, 0.06);
-}
-
-.admin-dashboard__sections {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-}
-
-.admin-dashboard__section {
-  padding: 1.3rem 1.4rem;
-  background: var(--bw-white);
-  border: 1px solid var(--bw-line);
-  border-radius: var(--bw-radius);
-  box-shadow: var(--bw-shadow-sm);
-}
-
-.admin-dashboard__section h3 {
-  margin: 0 0 0.8rem;
-  font-size: 1rem;
-  color: var(--bw-purple);
-}
-
-=======
   width: 100%;
   min-width: 0;
 }
@@ -243,66 +140,23 @@
   color: var(--bw-orange-dark);
 }
 
->>>>>>> dropdown
 .admin-dashboard__empty {
   margin: 0;
   font-size: 0.88rem;
   color: var(--bw-muted);
 }
 
-<<<<<<< HEAD
-.admin-dashboard__list {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.admin-dashboard__list-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--bw-line);
-  font-size: 0.88rem;
-}
-
-.admin-dashboard__list-item:last-child {
-  border-bottom: 0;
-}
-
-.admin-dashboard__list-title {
-  color: var(--bw-ink);
-  font-weight: 500;
-}
-
-.admin-dashboard__list-meta {
-  font-size: 0.75rem;
-  color: var(--bw-muted);
-  text-transform: capitalize;
-}
-
-@media (max-width: 1024px) {
-  .admin-dashboard__cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .admin-dashboard__sections {
-=======
 @media (max-width: 1024px) {
   .admin-dashboard__stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .admin-dashboard__recent {
->>>>>>> dropdown
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 560px) {
-<<<<<<< HEAD
-  .admin-dashboard__cards {
-=======
   .admin-dashboard__stats {
->>>>>>> dropdown
     grid-template-columns: 1fr;
   }
 }

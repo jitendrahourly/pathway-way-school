@@ -6,30 +6,15 @@
 
 .admin-layout {
   display: grid;
-<<<<<<< HEAD
-  grid-template-columns: 260px 1fr;
-  min-height: 100vh;
-=======
   grid-template-columns: 260px minmax(0, 1fr);
   min-height: 100vh;
   overflow-x: hidden;
->>>>>>> dropdown
 }
 
 .admin-layout__sidebar {
   position: sticky;
   top: 0;
   height: 100vh;
-<<<<<<< HEAD
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1.2rem 1rem;
-  background: var(--bw-purple);
-  color: var(--bw-white);
-  overflow-y: auto;
-  z-index: 40;
-=======
   width: 260px;
   max-width: 260px;
   display: flex;
@@ -42,34 +27,11 @@
   overflow-x: hidden;
   z-index: 40;
   min-width: 0;
->>>>>>> dropdown
 }
 
 .admin-layout__brand {
   display: flex;
   align-items: center;
-<<<<<<< HEAD
-  gap: 0.75rem;
-  padding: 0.4rem 0.5rem 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.admin-layout__brand-text {
-  display: flex;
-  flex-direction: column;
-}
-
-.admin-layout__brand-name {
-  font-family: var(--bw-font-display);
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: var(--bw-white);
-}
-
-.admin-layout__brand-sub {
-  font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.7);
-=======
   gap: 0.6rem;
   padding: 0.3rem 0.4rem 0.9rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
@@ -105,19 +67,14 @@
   font-size: 0.62rem;
   white-space: normal;
   overflow-wrap: anywhere;
->>>>>>> dropdown
 }
 
 .admin-layout__nav {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-<<<<<<< HEAD
-  flex: 1;
-=======
   flex: 1 1 auto;
   min-width: 0;
->>>>>>> dropdown
 }
 
 .admin-layout__nav-item {
@@ -131,8 +88,6 @@
   font-size: 0.9rem;
   font-weight: 500;
   transition: background 0.2s var(--bw-ease), color 0.2s var(--bw-ease);
-<<<<<<< HEAD
-=======
   min-width: 0;
 }
 
@@ -141,7 +96,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
->>>>>>> dropdown
 }
 
 .admin-layout__nav-item:hover {
@@ -164,10 +118,7 @@
 .admin-layout__sidebar-footer {
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   padding-top: 0.8rem;
-<<<<<<< HEAD
-=======
   margin-top: auto;
->>>>>>> dropdown
 }
 
 .admin-layout__logout {
@@ -184,10 +135,7 @@
   font-size: 0.9rem;
   font-weight: 500;
   text-align: left;
-<<<<<<< HEAD
-=======
   min-width: 0;
->>>>>>> dropdown
 }
 
 .admin-layout__logout:hover {
@@ -203,10 +151,7 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-<<<<<<< HEAD
-=======
   overflow-x: hidden;
->>>>>>> dropdown
 }
 
 .admin-layout__header {
@@ -220,10 +165,7 @@
   background: var(--bw-white);
   border-bottom: 1px solid var(--bw-line);
   box-shadow: var(--bw-shadow-sm);
-<<<<<<< HEAD
-=======
   min-width: 0;
->>>>>>> dropdown
 }
 
 .admin-layout__toggle {
@@ -234,10 +176,7 @@
   padding: 0.4rem;
   cursor: pointer;
   color: var(--bw-purple);
-<<<<<<< HEAD
-=======
   flex-shrink: 0;
->>>>>>> dropdown
 }
 
 .admin-layout__toggle svg {
@@ -246,11 +185,7 @@
 }
 
 .admin-layout__header-title {
-<<<<<<< HEAD
-  flex: 1;
-=======
   flex: 1 1 auto;
->>>>>>> dropdown
   min-width: 0;
 }
 
@@ -259,58 +194,43 @@
   font-size: 0.75rem;
   color: var(--bw-muted);
   letter-spacing: 0.04em;
-<<<<<<< HEAD
-=======
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
->>>>>>> dropdown
 }
 
 .admin-layout__header-title h1 {
   margin: 0;
   font-size: 1.35rem;
   color: var(--bw-purple);
-<<<<<<< HEAD
-=======
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
->>>>>>> dropdown
 }
 
 .admin-layout__header-user {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-<<<<<<< HEAD
-=======
   flex-shrink: 0;
   min-width: 0;
->>>>>>> dropdown
 }
 
 .admin-layout__user-name {
   font-weight: 600;
   color: var(--bw-ink);
   font-size: 0.9rem;
-<<<<<<< HEAD
-=======
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 160px;
->>>>>>> dropdown
 }
 
 .admin-layout__user-role {
   font-size: 0.75rem;
   color: var(--bw-muted);
   text-transform: capitalize;
-<<<<<<< HEAD
-=======
   white-space: nowrap;
->>>>>>> dropdown
 }
 
 .admin-layout__logout-btn {
@@ -322,10 +242,7 @@
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-<<<<<<< HEAD
-=======
   flex-shrink: 0;
->>>>>>> dropdown
 }
 
 .admin-layout__logout-btn:hover {
@@ -334,14 +251,10 @@
 
 .admin-layout__content {
   padding: 1.5rem;
-<<<<<<< HEAD
-  flex: 1;
-=======
   flex: 1 1 auto;
   width: 100%;
   min-width: 0;
   max-width: none;
->>>>>>> dropdown
 }
 
 @media (max-width: 900px) {
@@ -356,10 +269,7 @@
     transform: translateX(-100%);
     transition: transform 0.25s var(--bw-ease);
     width: 260px;
-<<<<<<< HEAD
-=======
     max-width: 260px;
->>>>>>> dropdown
     box-shadow: var(--bw-shadow-lg);
   }
 
@@ -367,13 +277,6 @@
     transform: translateX(0);
   }
 
-<<<<<<< HEAD
-  .admin-layout__backdrop {
-    display: none;
-  }
-
-=======
->>>>>>> dropdown
   .admin-layout--sidebar-open .admin-layout__backdrop {
     display: block;
     position: fixed;
@@ -396,10 +299,7 @@
   .admin-layout__user-role {
     display: none;
   }
-<<<<<<< HEAD
-=======
   .admin-layout__content {
     padding: 1rem;
   }
->>>>>>> dropdown
 }

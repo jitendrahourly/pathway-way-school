@@ -1,45 +1,5 @@
 <section class="admin-dashboard">
   <div class="admin-dashboard__welcome">
-<<<<<<< HEAD
-    <div>
-      <p class="admin-dashboard__eyebrow">Welcome back</p>
-      <h2>{{ profile()?.full_name ?? 'Administrator' }}</h2>
-      <p class="admin-dashboard__sub">
-        Here is an overview of your school website content.
-      </p>
-    </div>
-  </div>
-
-  @if (loading()) {
-    <div class="admin-dashboard__state">Loading dashboard data…</div>
-  } @else if (error()) {
-    <div class="admin-dashboard__state admin-dashboard__state--error">{{ error() }}</div>
-  } @else {
-    <div class="admin-dashboard__cards">
-      <article class="admin-dashboard__card">
-        <span class="admin-dashboard__card-label">Total Announcements</span>
-        <strong class="admin-dashboard__card-value">{{ totalAnnouncements() }}</strong>
-      </article>
-      <article class="admin-dashboard__card">
-        <span class="admin-dashboard__card-label">Published Announcements</span>
-        <strong class="admin-dashboard__card-value">{{ publishedAnnouncements() }}</strong>
-      </article>
-      <article class="admin-dashboard__card">
-        <span class="admin-dashboard__card-label">Gallery Images</span>
-        <strong class="admin-dashboard__card-value">{{ galleryCount() }}</strong>
-      </article>
-      <article class="admin-dashboard__card">
-        <span class="admin-dashboard__card-label">Facilities</span>
-        <strong class="admin-dashboard__card-value">{{ facilitiesCount() }}</strong>
-      </article>
-    </div>
-
-    <div class="admin-dashboard__sections">
-      <section class="admin-dashboard__section">
-        <h3>Recently added announcements</h3>
-        @if (recentAnnouncements().length === 0) {
-          <p class="admin-dashboard__empty">No announcements found.</p>
-=======
     <h2>Welcome, {{ profile()?.full_name ?? 'Administrator' }}</h2>
     <p class="admin-dashboard__role">Role: <strong>{{ profile()?.role }}</strong></p>
   </div>
@@ -75,18 +35,12 @@
         <h3>Recent Announcements</h3>
         @if (recentAnnouncements().length === 0) {
           <p class="admin-dashboard__empty">No announcements yet.</p>
->>>>>>> dropdown
         } @else {
           <ul class="admin-dashboard__list">
             @for (item of recentAnnouncements(); track item.id) {
               <li class="admin-dashboard__list-item">
-<<<<<<< HEAD
-                <span class="admin-dashboard__list-title">{{ item.title ?? 'Untitled' }}</span>
-                <span class="admin-dashboard__list-meta">
-=======
                 <span>{{ item.title }}</span>
                 <span class="admin-dashboard__badge" [class.admin-dashboard__badge--published]="item.is_published">
->>>>>>> dropdown
                   {{ item.is_published ? 'Published' : 'Draft' }}
                 </span>
               </li>
@@ -95,17 +49,6 @@
         }
       </section>
 
-<<<<<<< HEAD
-      <section class="admin-dashboard__section">
-        <h3>Recently uploaded gallery images</h3>
-        @if (recentGallery().length === 0) {
-          <p class="admin-dashboard__empty">No gallery images found.</p>
-        } @else {
-          <ul class="admin-dashboard__list">
-            @for (item of recentGallery(); track item.id) {
-              <li class="admin-dashboard__list-item">
-                <span class="admin-dashboard__list-title">{{ item.title ?? 'Untitled' }}</span>
-=======
       <section class="admin-dashboard__panel">
         <h3>Recent Gallery Images</h3>
         @if (recentGalleryImages().length === 0) {
@@ -118,35 +61,22 @@
                 <span class="admin-dashboard__badge" [class.admin-dashboard__badge--published]="item.is_published">
                   {{ item.is_published ? 'Published' : 'Draft' }}
                 </span>
->>>>>>> dropdown
               </li>
             }
           </ul>
         }
       </section>
 
-<<<<<<< HEAD
-      <section class="admin-dashboard__section">
-        <h3>Recently updated facilities</h3>
-        @if (recentFacilities().length === 0) {
-          <p class="admin-dashboard__empty">No facilities found.</p>
-=======
       <section class="admin-dashboard__panel">
         <h3>Recent Facilities</h3>
         @if (recentFacilities().length === 0) {
           <p class="admin-dashboard__empty">No facilities yet.</p>
->>>>>>> dropdown
         } @else {
           <ul class="admin-dashboard__list">
             @for (item of recentFacilities(); track item.id) {
               <li class="admin-dashboard__list-item">
-<<<<<<< HEAD
-                <span class="admin-dashboard__list-title">{{ item.title ?? 'Untitled' }}</span>
-                <span class="admin-dashboard__list-meta">
-=======
                 <span>{{ item.title }}</span>
                 <span class="admin-dashboard__badge" [class.admin-dashboard__badge--published]="item.is_published">
->>>>>>> dropdown
                   {{ item.is_published ? 'Published' : 'Draft' }}
                 </span>
               </li>
