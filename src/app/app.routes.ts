@@ -63,8 +63,24 @@ export const routes: Routes = [
             path: 'gallery',
             title: 'Gallery | Bright Way School',
             loadComponent: () =>
-              import('./features/admin/placeholder/admin-placeholder').then(
-                (m) => m.AdminPlaceholder,
+              import('./features/admin/gallery/gallery-list').then(
+                (m) => m.GalleryList,
+              ),
+          },
+          {
+            path: 'gallery/new',
+            title: 'Add Gallery Image | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/gallery/gallery-form').then(
+                (m) => m.GalleryForm,
+              ),
+          },
+          {
+            path: 'gallery/:id/edit',
+            title: 'Edit Gallery Image | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/gallery/gallery-form').then(
+                (m) => m.GalleryForm,
               ),
           },
           {

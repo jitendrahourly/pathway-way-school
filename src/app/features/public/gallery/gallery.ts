@@ -10,6 +10,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { GALLERY_CATEGORY_LABELS } from '../../../core/data/gallery-categories';
 import type { GalleryCategoryId } from '../../../core/models/gallery-item.model';
 import { GalleryContentService } from '../../../core/services/gallery-content.service';
@@ -27,7 +28,7 @@ type GalleryFilterId = GalleryCategoryId | 'all';
   styleUrl: './gallery.scss',
   templateUrl: './gallery.html',
 })
-export class Gallery {
+export class Gallery implements OnInit {
   private readonly service = inject(GalleryContentService);
   private readonly closeButton = viewChild<ElementRef<HTMLButtonElement>>('closeButton');
   private trigger: HTMLElement | null = null;
@@ -50,6 +51,10 @@ export class Gallery {
     const current = this.index();
     return current === null ? '' : `${current + 1} / ${this.items().length}`;
   });
+
+  ngOnInit(): void {
+    void this.service.reload();
+  }
 
   constructor() {
     // Background scrolling is locked only while the lightbox is open.

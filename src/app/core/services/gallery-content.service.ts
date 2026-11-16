@@ -24,6 +24,10 @@ export class GalleryContentService {
   readonly content = this.state.asReadonly();
   readonly items = this.gallery.active;
 
+  reload(): Promise<void> {
+    return this.gallery.load();
+  }
+
   readonly filters = computed<readonly GalleryFilter[]>(() => {
     const items = this.items();
     return [
