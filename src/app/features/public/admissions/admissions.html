@@ -23,7 +23,7 @@
 
     <div class="pending-grid">
       @for (section of page.sections; track section.id) {
-        <article class="pending-card">
+        <article class="pending-card" appTiltCard appScrollReveal [revealDelay]="$index * 90">
           <p class="pending-card__eyebrow">Awaiting confirmation</p>
           <h3>{{ section.title }}</h3>
           <p>{{ section.message }}</p>

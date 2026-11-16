@@ -157,6 +157,20 @@ button {
   transform: translateY(-2px);
 }
 
+/* Reusable scroll reveal */
+.scroll-reveal {
+  opacity: 0;
+  translate: 0 22px;
+  transition:
+    opacity 0.6s var(--bw-ease),
+    translate 0.6s var(--bw-ease);
+}
+
+.scroll-reveal.is-revealed {
+  opacity: 1;
+  translate: 0 0;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -198,5 +212,10 @@ button {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .scroll-reveal {
+    opacity: 1;
+    translate: none;
   }
 }

@@ -3,10 +3,11 @@ import { RouterLink } from '@angular/router';
 import { HomeContentService } from '../../../../../core/services/home-content.service';
 import { MediaFrame } from '../../../../../shared/components/media-frame/media-frame';
 import { UiIcon } from '../../../../../shared/components/ui-icon/ui-icon';
+import { ScrollRevealDirective } from '../../../../../shared/directives/scroll-reveal.directive';
 
 @Component({
   selector: 'app-home-about',
-  imports: [RouterLink, MediaFrame, UiIcon],
+  imports: [RouterLink, MediaFrame, UiIcon, ScrollRevealDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './home-about.scss',
   templateUrl: './home-about.html',

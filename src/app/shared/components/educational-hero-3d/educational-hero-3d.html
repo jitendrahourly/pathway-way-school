@@ -1,0 +1,16 @@
+<div class="hero3d" #container>
+  <canvas #canvas class="hero3d__canvas" aria-hidden="true"></canvas>
+
+  @if (fallback()) {
+    <div class="hero3d__fallback">
+      <span class="hero3d__fallback-icon" aria-hidden="true">🎓</span>
+      <p>Interactive 3D scene unavailable on this device.</p>
+    </div>
+  }
+
+  @if (!ready() && !fallback()) {
+    <div class="hero3d__loading" aria-hidden="true">
+      <span class="hero3d__spinner"></span>
+    </div>
+  }
+</div>

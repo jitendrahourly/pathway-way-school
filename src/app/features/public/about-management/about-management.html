@@ -1,0 +1,125 @@
+<app-page-banner
+  title="Management"
+  subtitle="Guided by Banashankari Vidya Samsthe"
+  imageUrl="/images/home/hero-campus.jpg"
+  imageAlt="Bright Way School campus building"
+/>
+
+<section class="management-page">
+  <div class="container">
+    <!-- Principal's message -->
+    <article class="principal">
+      <div class="principal__media">
+        @if (principal.imageUrl) {
+          <img
+            class="portrait portrait--lg portrait--photo"
+            [src]="principal.imageUrl"
+            [alt]="principal.name + ', ' + principal.role"
+          />
+        } @else {
+          <div class="portrait portrait--lg">
+            <span class="portrait__initials">{{ initials(principal.name) }}</span>
+          </div>
+        }
+        <p class="principal__caption">Principal, Bright Way School</p>
+      </div>
+
+      <div class="principal__body">
+        <p class="eyebrow">Principal's Message</p>
+        <h2>A message from our Principal</h2>
+
+        <blockquote class="principal__quote">
+          <p>{{ principal.message }}</p>
+          <p>{{ principal.messageSecondary }}</p>
+        </blockquote>
+
+        <div class="signature">
+          <span class="signature__line" aria-hidden="true"></span>
+          <div>
+            <p class="signature__name">{{ principal.name }}</p>
+            <p class="signature__role">{{ principal.role }}</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Management / trust -->
+    <section class="block">
+      <app-section-heading eyebrow="Governance" title="About the Management" />
+
+      <div class="management-grid">
+        <div class="management-grid__text">
+          @for (paragraph of managementParagraphs; track $index) {
+            <p>{{ paragraph }}</p>
+          }
+        </div>
+
+        <ul class="facts">
+          @for (fact of facts; track fact.label) {
+            <li class="facts__item">
+              <span class="facts__icon"><app-icon [name]="fact.icon" [size]="18" /></span>
+              <div>
+                <p class="facts__label">{{ fact.label }}</p>
+                <p class="facts__value">{{ fact.value }}</p>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Faculty -->
+    <section class="block">
+      <app-section-heading eyebrow="Our Team" title="Faculty at Bright Way School" />
+
+      <p class="block__intro">
+        Our teachers bring subject expertise and a caring approach to the classroom. The
+        team below reflects the academic leadership and teaching staff who guide students
+        through the school year.
+      </p>
+
+      <div class="faculty">
+        @for (member of faculty; track member.name) {
+          <article class="faculty-card">
+            @if (member.imageUrl) {
+              <img
+                class="portrait portrait--sm portrait--photo"
+                [src]="member.imageUrl"
+                [alt]="member.name + ', ' + member.role"
+              />
+            } @else {
+              <div class="portrait portrait--sm">
+                <span class="portrait__initials">{{ initials(member.name) }}</span>
+              </div>
+            }
+
+            <h3 class="faculty-card__name">{{ member.name }}</h3>
+            <p class="faculty-card__role">{{ member.role }}</p>
+
+            <dl class="faculty-card__meta">
+              <div>
+                <dt>Subject</dt>
+                <dd>{{ member.subject }}</dd>
+              </div>
+              <div>
+                <dt>Qualification</dt>
+                <dd>{{ member.qualification }}</dd>
+              </div>
+              <div>
+                <dt>Experience</dt>
+                <dd>{{ member.experience }}</dd>
+              </div>
+            </dl>
+          </article>
+        }
+      </div>
+
+      <p class="block__note">
+        <app-icon name="image" [size]="16" />
+        <span>
+          Staff photographs will be added once they are supplied by the school office.
+        </span>
+      </p>
+    </section>
+  </div>
+</section>

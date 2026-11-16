@@ -7,7 +7,7 @@
 
     <div class="facilities__grid">
       @for (facility of facilities(); track facility.id) {
-        <app-facility-card [facility]="facility" />
+        <app-facility-card appScrollReveal [revealDelay]="$index * 80" [facility]="facility" />
       }
     </div>
 

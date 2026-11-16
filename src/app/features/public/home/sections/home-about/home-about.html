@@ -2,7 +2,7 @@
 
 <section class="about">
   <div class="container about__grid">
-    <div class="about__media">
+    <div class="about__media" appScrollReveal>
       <app-media-frame
         class="about__photo"
         [src]="about.imageUrl"
@@ -12,7 +12,7 @@
       <span class="about__badge">{{ about.badge }}</span>
     </div>
 
-    <div class="about__body">
+    <div class="about__body" appScrollReveal [revealDelay]="120">
       <p class="eyebrow">{{ about.eyebrow }}</p>
       <h2>{{ about.title }}</h2>
       <p class="about__text">{{ about.body }}</p>

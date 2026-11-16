@@ -3,10 +3,12 @@ import { SiteSettingsService } from '../../../core/services/site-settings.servic
 import { AdmissionsContentService } from '../../../core/services/admissions-content.service';
 import { PageBanner } from '../../../shared/components/page-banner/page-banner';
 import { UiIcon } from '../../../shared/components/ui-icon/ui-icon';
+import { ScrollRevealDirective } from '../../../shared/directives/scroll-reveal.directive';
+import { TiltCardDirective } from '../../../shared/directives/tilt-card.directive';
 
 @Component({
   selector: 'app-admissions',
-  imports: [PageBanner, UiIcon],
+  imports: [PageBanner, UiIcon, ScrollRevealDirective, TiltCardDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './admissions.scss',
   templateUrl: './admissions.html',

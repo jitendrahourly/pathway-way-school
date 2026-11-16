@@ -69,14 +69,53 @@
   <nav class="nav" aria-label="Primary">
     <div class="container nav__inner">
       @for (item of nav; track item.path) {
-        <a
-          class="nav__link"
-          [routerLink]="item.path"
-          routerLinkActive="is-active"
-          [routerLinkActiveOptions]="{ exact: item.path === '/' }"
+        <div
+          class="nav__item"
+          [class.is-open]="desktopOpen() === item.label"
+          (mouseenter)="openDesktop(item.label)"
+          (mouseleave)="closeDesktop()"
         >
-          {{ item.label }}
-        </a>
+          <a
+            class="nav__link"
+            [routerLink]="item.path"
+            routerLinkActive="is-active"
+            [routerLinkActiveOptions]="{ exact: item.path === '/' }"
+          >
+            {{ item.label }}
+          </a>
+
+          @if (item.children?.length) {
+            <button
+              type="button"
+              class="nav__chevron"
+              [attr.aria-expanded]="desktopOpen() === item.label"
+              aria-haspopup="true"
+              [attr.aria-label]="'Toggle ' + item.label + ' menu'"
+              (click)="toggleDesktop(item.label)"
+            >
+              <app-icon name="chevron-right" [size]="14" />
+            </button>
+
+            <ul
+              class="dropdown"
+              role="menu"
+              [attr.aria-label]="item.label + ' submenu'"
+            >
+              @for (child of item.children; track child.path) {
+                <li role="none">
+                  <a
+                    class="dropdown__link"
+                    role="menuitem"
+                    [routerLink]="child.path"
+                    routerLinkActive="is-active"
+                  >
+                    {{ child.label }}
+                  </a>
+                </li>
+              }
+            </ul>
+          }
+        </div>
       }
     </div>
   </nav>
@@ -95,15 +134,53 @@
 
       <nav class="drawer__nav" aria-label="Mobile">
         @for (item of nav; track item.path) {
-          <a
-            [routerLink]="item.path"
-            routerLinkActive="is-active"
-            [routerLinkActiveOptions]="{ exact: item.path === '/' }"
-            (click)="closeMenu()"
-          >
-            {{ item.label }}
-            <app-icon name="chevron-right" [size]="16" />
-          </a>
+          @if (item.children?.length) {
+            <div class="drawer__group" [class.is-open]="isMobileExpanded(item.label)">
+              <a
+                class="drawer__link"
+                [routerLink]="item.path"
+                routerLinkActive="is-active"
+                [routerLinkActiveOptions]="{ exact: item.path === '/' }"
+                (click)="closeMenu()"
+              >
+                {{ item.label }}
+              </a>
+              <button
+                type="button"
+                class="drawer__toggle"
+                [attr.aria-expanded]="isMobileExpanded(item.label)"
+                [attr.aria-label]="'Toggle ' + item.label + ' menu'"
+                (click)="toggleMobile(item.label)"
+              >
+                <app-icon name="chevron-right" [size]="16" />
+              </button>
+            </div>
+
+            @if (isMobileExpanded(item.label)) {
+              <div class="drawer__submenu">
+                @for (child of item.children; track child.path) {
+                  <a
+                    class="drawer__sublink"
+                    [routerLink]="child.path"
+                    routerLinkActive="is-active"
+                    (click)="closeMenu()"
+                  >
+                    {{ child.label }}
+                  </a>
+                }
+              </div>
+            }
+          } @else {
+            <a
+              class="drawer__link"
+              [routerLink]="item.path"
+              routerLinkActive="is-active"
+              [routerLinkActiveOptions]="{ exact: item.path === '/' }"
+              (click)="closeMenu()"
+            >
+              {{ item.label }}
+            </a>
+          }
         }
       </nav>
 

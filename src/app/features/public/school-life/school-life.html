@@ -1,0 +1,50 @@
+<app-page-banner
+  title="School Life"
+  subtitle="Learning beyond the classroom"
+  imageUrl="/images/gallery/gallery-03.jpg"
+  imageAlt="Students gathered together at the school"
+/>
+
+<section class="school-life">
+  <div class="container">
+    <div class="intro">
+      <p class="eyebrow">Beyond the classroom</p>
+      <h2>School Life at Bright Way School</h2>
+      <p class="school-life__text">
+        Learning at Bright Way School combines classroom teaching with co-curricular
+        activities, sport, the arts and cultural events, with a strong emphasis on
+        discipline, ethics and leadership.
+      </p>
+      <p class="intro__note">
+        <app-icon name="clock" [size]="16" />
+        <span>
+          Specific programmes, dates and details for each area below will be published
+          once they are confirmed by the school office.
+        </span>
+      </p>
+    </div>
+
+    <div class="sections">
+      @for (section of sections; track section.id) {
+        <article
+          class="section-card"
+          appScrollReveal
+          [revealDelay]="$index * 90"
+          [id]="section.id"
+        >
+          <span class="section-card__icon">
+            <app-icon name="trophy" [size]="20" />
+          </span>
+          <div>
+            <h3>{{ section.title }}</h3>
+            <p>{{ section.text }}</p>
+            <p class="section-card__pending">
+              <app-icon name="clock" [size]="14" />
+              <span>Information will be updated soon.</span>
+            </p>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>
