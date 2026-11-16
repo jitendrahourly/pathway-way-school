@@ -39,8 +39,29 @@ export const routes: Routes = [
             path: 'announcements',
             title: 'Announcements | Bright Way School',
             loadComponent: () =>
+<<<<<<< HEAD
               import('./features/admin/placeholder/admin-placeholder').then(
                 (m) => m.AdminPlaceholder,
+=======
+              import('./features/admin/announcements/announcements-list').then(
+                (m) => m.AnnouncementsList,
+              ),
+          },
+          {
+            path: 'announcements/new',
+            title: 'Add Announcement | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/announcements/announcement-form').then(
+                (m) => m.AnnouncementForm,
+              ),
+          },
+          {
+            path: 'announcements/:id/edit',
+            title: 'Edit Announcement | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/announcements/announcement-form').then(
+                (m) => m.AnnouncementForm,
+>>>>>>> dropdown
               ),
           },
           {
@@ -80,11 +101,44 @@ export const routes: Routes = [
         title: 'Bright Way School | Bengaluru',
         loadComponent: () => import('./features/public/home/home').then((m) => m.Home),
       },
+
+      // About Us
       {
         path: 'about',
         title: 'About Us | Bright Way School',
         loadComponent: () => import('./features/public/about/about').then((m) => m.About),
       },
+      {
+        path: 'about/our-school',
+        title: 'Our School | Bright Way School',
+        data: { slug: 'about-our-school' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+      {
+        path: 'about/vision-mission',
+        title: 'Vision & Mission | Bright Way School',
+        data: { slug: 'about-vision-mission' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+      {
+        path: 'about/management',
+        title: 'Management | Bright Way School',
+        loadComponent: () =>
+          import('./features/public/about-management/about-management').then(
+            (m) => m.AboutManagement,
+          ),
+      },
+      {
+        path: 'about/history',
+        title: 'History & Legacy | Bright Way School',
+        data: { slug: 'about-history' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+
+      // Academics
       {
         path: 'academics',
         title: 'Academics | Bright Way School',
@@ -92,16 +146,135 @@ export const routes: Routes = [
           import('./features/public/academics/academics').then((m) => m.Academics),
       },
       {
+        path: 'academics/kindergarten',
+        title: 'Kindergarten | Bright Way School',
+        data: { slug: 'academics-kindergarten' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+      {
+        path: 'academics/primary-school',
+        title: 'Primary School | Bright Way School',
+        data: { slug: 'academics-primary' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+      {
+        path: 'academics/middle-school',
+        title: 'Middle School | Bright Way School',
+        data: { slug: 'academics-middle' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+      {
+        path: 'academics/high-school',
+        title: 'High School | Bright Way School',
+        data: { slug: 'academics-high' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+
+      // School Life
+      {
+        path: 'school-life',
+        title: 'School Life | Bright Way School',
+        loadComponent: () =>
+          import('./features/public/school-life/school-life').then((m) => m.SchoolLife),
+      },
+      {
+        path: 'school-life/events',
+        title: 'Events & Celebrations | Bright Way School',
+        data: { slug: 'school-life-events' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+      {
+        path: 'school-life/student-activities',
+        title: 'Student Activities | Bright Way School',
+        data: { slug: 'school-life-student-activities' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+      {
+        path: 'school-life/sports',
+        title: 'Sports & Games | Bright Way School',
+        data: { slug: 'school-life-sports' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+      {
+        path: 'school-life/arts-culture',
+        title: 'Arts & Culture | Bright Way School',
+        data: { slug: 'school-life-arts-culture' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+      {
+        path: 'school-life/clubs',
+        title: 'Clubs & Activities | Bright Way School',
+        data: { slug: 'school-life-clubs' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+      {
+        path: 'school-life/achievements',
+        title: 'Student Achievements | Bright Way School',
+        data: { slug: 'school-life-achievements' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+
+      // Facilities
+      {
         path: 'facilities',
         title: 'Facilities | Bright Way School',
         loadComponent: () =>
           import('./features/public/facilities/facilities').then((m) => m.Facilities),
       },
       {
+        path: 'facilities/classrooms',
+        title: 'Classrooms | Bright Way School',
+        data: { slug: 'facilities-classrooms' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+      {
+        path: 'facilities/library',
+        title: 'Library | Bright Way School',
+        data: { slug: 'facilities-library' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+      {
+        path: 'facilities/computer-lab',
+        title: 'Computer Lab | Bright Way School',
+        data: { slug: 'facilities-computer-lab' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+      {
+        path: 'facilities/sports',
+        title: 'Sports Facilities | Bright Way School',
+        data: { slug: 'facilities-sports' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+      {
+        path: 'facilities/other',
+        title: 'Other Facilities | Bright Way School',
+        data: { slug: 'facilities-other' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+
+      // Gallery
+      {
         path: 'gallery',
         title: 'Gallery | Bright Way School',
         loadComponent: () => import('./features/public/gallery/gallery').then((m) => m.Gallery),
       },
+
+      // Announcements
       {
         path: 'announcements',
         title: 'Announcements | Bright Way School',
@@ -118,6 +291,8 @@ export const routes: Routes = [
             (m) => m.AnnouncementDetail,
           ),
       },
+
+      // Admissions
       {
         path: 'admissions',
         title: 'Admissions | Bright Way School',
@@ -125,11 +300,45 @@ export const routes: Routes = [
           import('./features/public/admissions/admissions').then((m) => m.Admissions),
       },
       {
+        path: 'admissions/process',
+        title: 'Admission Process | Bright Way School',
+        data: { slug: 'admissions-process' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+      {
+        path: 'admissions/required-documents',
+        title: 'Required Documents | Bright Way School',
+        data: { slug: 'admissions-required-documents' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+      {
+        path: 'admissions/enquiry',
+        title: 'Admission Enquiry | Bright Way School',
+        data: { slug: 'admissions-enquiry' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+      {
+        path: 'admissions/faqs',
+        title: 'Admission FAQs | Bright Way School',
+        data: { slug: 'admissions-faqs' },
+        loadComponent: () =>
+          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+
+      {
         path: 'contact',
         title: 'Contact Us | Bright Way School',
         loadComponent: () => import('./features/public/contact/contact').then((m) => m.Contact),
       },
-      { path: '**', redirectTo: '' },
+      {
+        path: '**',
+        title: 'Page Not Found | Bright Way School',
+        loadComponent: () =>
+          import('./features/public/not-found/not-found').then((m) => m.NotFound),
+      },
     ],
   },
 ];

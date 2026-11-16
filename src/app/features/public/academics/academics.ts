@@ -4,10 +4,11 @@ import { MediaFrame } from '../../../shared/components/media-frame/media-frame';
 import { PageBanner } from '../../../shared/components/page-banner/page-banner';
 import { SectionHeading } from '../../../shared/components/section-heading/section-heading';
 import { UiIcon } from '../../../shared/components/ui-icon/ui-icon';
+import { TiltCardDirective } from '../../../shared/directives/tilt-card.directive';
 
 @Component({
   selector: 'app-academics',
-  imports: [PageBanner, MediaFrame, SectionHeading, UiIcon],
+  imports: [PageBanner, MediaFrame, SectionHeading, UiIcon, TiltCardDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './academics.scss',
   templateUrl: './academics.html',

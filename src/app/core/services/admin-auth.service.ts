@@ -5,7 +5,7 @@ import { ContentService } from './content.service';
 import { SupabaseService } from './supabase.service';
 import type { AdminProfile } from '../models/supabase.model';
 
-const ALLOWED_ROLES = ['admin', 'editor'] as const;
+const ALLOWED_ROLES = ['admin'] as const;
 
 /**
  * Admin authentication and authorization over the existing AuthService.
@@ -87,7 +87,7 @@ export class AdminAuthService {
 
   /**
    * Sign in with email/password, then verify the admin profile. Returns true only
-   * when the user is an authorized admin or editor.
+   * when the user is an authorized admin.
    */
   async login(email: string, password: string): Promise<boolean> {
     this.loading.set(true);

@@ -36,7 +36,7 @@
 
       <div id="vision-mission" data-about-section class="pillars">
         @for (pillar of page.pillars; track pillar.title) {
-          <div class="pillar">
+          <div class="pillar" appTiltCard>
             <span class="pillar__icon"><app-icon [name]="pillar.icon" [size]="22" /></span>
             <div>
               <h3>{{ pillar.title }}</h3>

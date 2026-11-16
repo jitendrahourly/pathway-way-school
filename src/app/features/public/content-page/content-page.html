@@ -1,0 +1,91 @@
+@if (page; as content) {
+  <app-page-banner
+    [title]="content.title"
+    [subtitle]="content.subtitle"
+    [imageUrl]="content.imageUrl"
+    [imageAlt]="content.imageAlt"
+  />
+
+  <section class="content-page">
+    <div class="container content-page__grid">
+      <app-media-frame
+        class="content-page__media"
+        [src]="content.imageUrl"
+        [alt]="content.imageAlt"
+        ratio="4/3"
+      />
+
+      <div class="content-page__body">
+        @for (paragraph of content.paragraphs; track $index) {
+          <p class="content-page__text">{{ paragraph }}</p>
+        }
+
+        @if (content.bullets?.length) {
+          <ul class="content-page__bullets">
+            @for (bullet of content.bullets; track bullet) {
+              <li>
+                <app-icon name="check" [size]="16" />
+                <span>{{ bullet }}</span>
+              </li>
+            }
+          </ul>
+        }
+
+        @if (content.note; as note) {
+          <div class="content-page__note" role="note">
+            <app-icon name="clock" [size]="18" />
+            <p>{{ note }}</p>
+          </div>
+        }
+      </div>
+    </div>
+
+    @if (content.faqs?.length) {
+      <section class="content-page__faqs" aria-labelledby="faq-heading">
+        <div class="container">
+          <h2 id="faq-heading" class="content-page__faq-heading">Frequently asked questions</h2>
+          <div class="content-page__faq-list">
+            @for (faq of content.faqs; track faq.question; let index = $index) {
+              <article
+                class="faq"
+                [class.faq--open]="openFaq() === index"
+              >
+                <button
+                  type="button"
+                  class="faq__trigger"
+                  [attr.aria-expanded]="openFaq() === index"
+                  [attr.aria-controls]="'faq-panel-' + index"
+                  (click)="toggleFaq(index)"
+                >
+                  <span class="faq__question">{{ faq.question }}</span>
+                  <span class="faq__icon" aria-hidden="true">
+                    <app-icon name="chevron-right" [size]="18" />
+                  </span>
+                </button>
+                <div
+                  class="faq__panel"
+                  [id]="'faq-panel-' + index"
+                  role="region"
+                >
+                  <p class="faq__answer">{{ faq.answer }}</p>
+                </div>
+              </article>
+            }
+          </div>
+        </div>
+      </section>
+    }
+  </section>
+} @else {
+  <app-page-banner title="Information" subtitle="Information will be updated soon." />
+  <section class="placeholder-page">
+    <div class="container placeholder-page__card">
+      <span class="placeholder-page__icon">
+        <app-icon name="megaphone" [size]="26" />
+      </span>
+      <h2>Information will be updated soon.</h2>
+      <p>This section is being prepared with verified school information.</p>
+      <a class="btn btn--primary" routerLink="/">Back to Home</a>
+    </div>
+  </section>
+}

@@ -35,7 +35,7 @@
 
       <ul class="glance">
         @for (card of page.cards; track card.label) {
-          <li class="glance__card">
+          <li class="glance__card" appTiltCard>
             <span class="glance__icon"><app-icon [name]="card.icon" [size]="22" /></span>
             <p class="glance__label">{{ card.label }}</p>
             <p class="glance__value" [class.is-pending]="card.status === 'pending'">

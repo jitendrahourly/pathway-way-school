@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import type { AnnouncementCategoryId } from '../../../core/models/announcement.model';
 import { AnnouncementsContentService } from '../../../core/services/announcements-content.service';
 import { SiteSettingsService } from '../../../core/services/site-settings.service';
@@ -14,7 +21,7 @@ import { UiIcon } from '../../../shared/components/ui-icon/ui-icon';
   styleUrl: './announcements.scss',
   templateUrl: './announcements.html',
 })
-export class Announcements {
+export class Announcements implements OnInit {
   private readonly service = inject(AnnouncementsContentService);
 
   protected readonly settings = inject(SiteSettingsService).settings;
@@ -33,6 +40,10 @@ export class Announcements {
     () => `tel:${this.settings().phone.replace(/[^\d+]/g, '')}`,
   );
   protected readonly emailHref = computed(() => `mailto:${this.settings().email}`);
+
+  ngOnInit(): void {
+    void this.service.reload();
+  }
 
   protected setFilter(id: AnnouncementCategoryId | 'all'): void {
     this.filter.set(id);

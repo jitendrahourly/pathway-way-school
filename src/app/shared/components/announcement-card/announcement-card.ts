@@ -10,9 +10,11 @@ import { UiIcon } from '../ui-icon/ui-icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './announcement-card.scss',
   templateUrl: './announcement-card.html',
+  host: { '[class.is-compact]': 'compact()' },
 })
 export class AnnouncementCard {
   readonly announcement = input.required<Announcement>();
+  readonly compact = input(false);
 
   protected readonly categoryLabel = computed(
     () => ANNOUNCEMENT_CATEGORY_LABELS[this.announcement().category] ?? this.announcement().category,

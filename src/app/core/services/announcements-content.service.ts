@@ -25,6 +25,10 @@ export class AnnouncementsContentService {
   readonly categories = ANNOUNCEMENT_CATEGORIES;
   readonly published = this.announcements.published;
 
+  reload(): Promise<void> {
+    return this.announcements.load();
+  }
+
   readonly filters = computed<readonly AnnouncementFilter[]>(() => {
     const published = this.published();
     return [

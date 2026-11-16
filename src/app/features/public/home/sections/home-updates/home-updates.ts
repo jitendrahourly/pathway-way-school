@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AnnouncementsService } from '../../../../../core/services/announcements.service';
 import { GalleryService } from '../../../../../core/services/gallery.service';
@@ -13,7 +13,13 @@ import { UiIcon } from '../../../../../shared/components/ui-icon/ui-icon';
   styleUrl: './home-updates.scss',
   templateUrl: './home-updates.html',
 })
-export class HomeUpdates {
-  protected readonly announcements = inject(AnnouncementsService).latest;
+export class HomeUpdates implements OnInit {
+  private readonly announcementsService = inject(AnnouncementsService);
+
+  protected readonly announcements = this.announcementsService.latest;
   protected readonly gallery = inject(GalleryService).highlights;
+
+  ngOnInit(): void {
+    void this.announcementsService.load();
+  }
 }

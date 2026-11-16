@@ -6,14 +6,22 @@
   border-radius: var(--bw-radius);
   background: var(--bw-white);
   box-shadow: var(--bw-shadow-sm);
+  transform-style: preserve-3d;
   transition:
-    transform 0.25s var(--bw-ease),
-    box-shadow 0.25s var(--bw-ease);
+    transform 0.3s var(--bw-ease),
+    box-shadow 0.3s var(--bw-ease);
 }
 
 .facility:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--bw-shadow-md);
+  box-shadow: var(--bw-shadow-lg);
+}
+
+.facility :is(img) {
+  transition: transform 0.35s var(--bw-ease);
+}
+
+.facility:hover :is(img) {
+  transform: scale(1.05);
 }
 
 .facility__media {

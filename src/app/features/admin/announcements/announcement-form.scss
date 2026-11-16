@@ -1,0 +1,251 @@
+:host { display: block; }
+
+.ann-form {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.ann-form__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.ann-form__eyebrow {
+  margin: 0 0 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bw-orange);
+}
+
+.ann-form__header h1 {
+  margin: 0;
+  color: var(--bw-purple);
+  font-size: clamp(1.55rem, 2.2vw, 1.9rem);
+  line-height: 1.15;
+}
+
+.ann-form__state {
+  padding: 2rem;
+  text-align: center;
+  background: var(--bw-white);
+  border: 1px solid var(--bw-line);
+  border-radius: 16px;
+  color: var(--bw-body);
+}
+
+.ann-form__card {
+  display: grid;
+  gap: 0.55rem;
+  padding: 1.1rem 1.2rem;
+  background: var(--bw-white);
+  border: 1px solid var(--bw-line);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(48, 32, 93, 0.08);
+}
+
+.field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.field--full {
+  grid-column: 1 / -1;
+}
+
+.field label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--bw-ink);
+}
+
+.field input,
+.field select {
+  height: 40px;
+  padding: 0 0.9rem;
+  border: 1px solid var(--bw-line);
+  border-radius: 10px;
+  font: inherit;
+  color: var(--bw-ink);
+  background: var(--bw-white);
+  width: 100%;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field textarea {
+  padding: 0.6rem 0.9rem;
+  resize: vertical;
+}
+
+.description-textarea {
+  height: 100px;
+  min-height: 100px;
+  max-height: 120px;
+  overflow-y: auto;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--bw-purple);
+  box-shadow: 0 0 0 3px rgba(48, 32, 93, 0.1);
+}
+
+.ann-form__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.ann-form__publish {
+  padding: 0.15rem 0.7rem;
+  border: 1px solid var(--bw-line);
+  border-radius: 10px;
+  background: var(--bw-bg);
+  min-height: 52px;
+}
+
+.toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.toggle input {
+  width: 18px;
+  height: 18px;
+  margin-top: 0.15rem;
+  accent-color: var(--bw-orange);
+}
+
+.toggle__text {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.toggle__text strong {
+  color: var(--bw-purple);
+  font-size: 0.95rem;
+}
+
+.toggle__text small {
+  color: var(--bw-body);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.upload-area {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 0.75rem;
+  padding: 0.5rem 0.7rem;
+  min-height: 90px;
+  border: 1.5px dashed var(--bw-line);
+  border-radius: 14px;
+  background: var(--bw-bg);
+}
+
+.upload-area__placeholder {
+  flex: 1 1 260px;
+  min-height: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+  text-align: left;
+  color: var(--bw-body);
+}
+
+.upload-area__icon {
+  font-size: 1.25rem;
+  color: var(--bw-orange);
+}
+
+.upload-area__preview {
+  flex: 1 1 100%;
+  width: 100%;
+  max-height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--bw-line);
+}
+
+.upload-area__actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.upload-area .upload-area__button {
+  cursor: pointer;
+  color: #ffffff;
+  background: var(--bw-purple);
+  border-color: var(--bw-purple);
+}
+
+.field__error {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #b03a2e;
+}
+
+.field__hint {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--bw-muted);
+}
+
+.ann-form__error {
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  background: rgba(176, 58, 46, 0.08);
+  color: #b03a2e;
+  font-size: 0.88rem;
+}
+
+.ann-form__success {
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  background: rgba(232, 121, 39, 0.1);
+  color: var(--bw-orange-dark);
+  font-size: 0.88rem;
+}
+
+.ann-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  margin-top: 0.15rem;
+}
+
+.ann-form__actions .btn {
+  height: 38px;
+  padding: 0 0.9rem;
+}
+
+@media (max-width: 720px) {
+  .ann-form__row {
+    grid-template-columns: 1fr;
+  }
+
+  .ann-form__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .ann-form__header .btn {
+    align-self: flex-end;
+  }
+}

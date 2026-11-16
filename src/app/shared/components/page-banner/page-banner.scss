@@ -25,6 +25,16 @@
   object-position: 22% 58%;
   transform: scale(1.6);
   transform-origin: 18% 55%;
+  animation: banner-zoom 16s ease-in-out infinite alternate;
+}
+
+@keyframes banner-zoom {
+  from {
+    transform: scale(1.6);
+  }
+  to {
+    transform: scale(1.72);
+  }
 }
 
 .banner__media::after {
@@ -38,6 +48,34 @@
   position: relative;
   z-index: 2;
   padding-block: 3.4rem 3.1rem;
+  animation: banner-fade-up 0.7s var(--bw-ease) both;
+}
+
+.banner__inner > * {
+  animation: banner-fade-up 0.7s var(--bw-ease) both;
+}
+
+.banner__crumb {
+  animation-delay: 0.05s;
+}
+
+.banner h1 {
+  animation-delay: 0.12s;
+}
+
+.banner__sub {
+  animation-delay: 0.2s;
+}
+
+@keyframes banner-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .banner__crumb {

@@ -11,10 +11,11 @@ import { AboutContentService } from '../../../core/services/about-content.servic
 import { MediaFrame } from '../../../shared/components/media-frame/media-frame';
 import { PageBanner } from '../../../shared/components/page-banner/page-banner';
 import { UiIcon } from '../../../shared/components/ui-icon/ui-icon';
+import { TiltCardDirective } from '../../../shared/directives/tilt-card.directive';
 
 @Component({
   selector: 'app-about',
-  imports: [PageBanner, MediaFrame, UiIcon],
+  imports: [PageBanner, MediaFrame, UiIcon, TiltCardDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './about.scss',
   templateUrl: './about.html',

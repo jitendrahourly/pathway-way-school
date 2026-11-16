@@ -14,6 +14,11 @@
   gap: clamp(2rem, 4vw, 3.5rem);
 }
 
+.updates__col {
+  display: flex;
+  flex-direction: column;
+}
+
 .updates__head {
   display: flex;
   align-items: center;
@@ -43,6 +48,19 @@
 .updates__list {
   display: flex;
   flex-direction: column;
+  gap: 0.8rem;
+}
+
+/* Let the announcement list fill the column so both section links align. */
+@include mx.up(901px) {
+  .updates__list {
+    flex: 1;
+  }
+
+  .updates__list app-announcement-card {
+    flex: 1 1 0;
+    min-height: 0;
+  }
 }
 
 .updates__empty {

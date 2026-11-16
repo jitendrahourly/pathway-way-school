@@ -47,6 +47,16 @@
   background: linear-gradient(90deg, rgba(48, 32, 93, 0.55) 0%, rgba(48, 32, 93, 0) 42%);
 }
 
+/* Transparent 3D layer: sits above the photograph, below the copy, and
+   never intercepts pointer events or changes the hero layout. */
+.hero__scene {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
 .hero__container {
   position: relative;
   z-index: 2;
@@ -100,7 +110,7 @@
   .hero__media {
     inset: 0;
     clip-path: none;
-    opacity: 0.45;
+    opacity: 0.35;
   }
 
   .hero__media::before {
@@ -114,6 +124,10 @@
       rgba(48, 32, 93, 0.9) 48%,
       rgba(48, 32, 93, 0.62) 100%
     );
+  }
+
+  .hero__scene {
+    opacity: 0.5;
   }
 
   .hero__content {
@@ -132,5 +146,9 @@
 
   .hero__actions .btn {
     flex: 1 1 150px;
+  }
+
+  .hero__scene {
+    opacity: 0.34;
   }
 }
