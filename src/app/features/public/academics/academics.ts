@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject } from '@angular/core';
 import { AcademicsContentService } from '../../../core/services/academics-content.service';
 import { MediaFrame } from '../../../shared/components/media-frame/media-frame';
 import { PageBanner } from '../../../shared/components/page-banner/page-banner';
@@ -13,8 +13,9 @@ import { TiltCardDirective } from '../../../shared/directives/tilt-card.directiv
   styleUrl: './academics.scss',
   templateUrl: './academics.html',
 })
-export class Academics {
-  protected readonly content = inject(AcademicsContentService).content;
+export class Academics implements OnInit {
+  private readonly service = inject(AcademicsContentService);
+  protected readonly content = this.service.content;
 
   /** Alternates the photograph side across rows that have one. */
   protected readonly sections = computed(() => {
@@ -24,4 +25,8 @@ export class Academics {
       mediaLeft: section.imageUrl ? mediaCount++ % 2 === 1 : false,
     }));
   });
+
+  ngOnInit(): void {
+    void this.service.load();
+  }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject } from '@angular/core';
 import { FacilitiesContentService } from '../../../core/services/facilities-content.service';
 import { FacilityCard } from '../../../shared/components/facility-card/facility-card';
 import { MediaFrame } from '../../../shared/components/media-frame/media-frame';
@@ -13,7 +13,7 @@ import { UiIcon } from '../../../shared/components/ui-icon/ui-icon';
   styleUrl: './facilities.scss',
   templateUrl: './facilities.html',
 })
-export class Facilities {
+export class Facilities implements OnInit {
   private readonly service = inject(FacilitiesContentService);
 
   protected readonly content = this.service.content;
@@ -25,4 +25,8 @@ export class Facilities {
       reversed: index % 2 === 1,
     })),
   );
+
+  ngOnInit(): void {
+    void this.service.load();
+  }
 }

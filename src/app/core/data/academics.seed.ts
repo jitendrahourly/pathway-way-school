@@ -45,6 +45,13 @@ export const ACADEMICS_CONTENT: AcademicsContent = {
       note: 'Teaching approach details are awaiting confirmation.',
       status: 'pending',
     },
+    {
+      icon: 'book-open',
+      label: 'Assessment',
+      value: 'To be confirmed',
+      note: 'Assessment and progress reporting details are awaiting confirmation.',
+      status: 'pending',
+    },
   ],
   sections: [
     {
@@ -102,6 +109,15 @@ export const ACADEMICS_CONTENT: AcademicsContent = {
       imageAlt: 'Students in uniform on parade at the school sports day',
       status: 'pending',
       note: 'Academic activities will be published here once they are confirmed.',
+    },
+    {
+      id: 'assessment',
+      title: 'Assessment & Progress',
+      paragraphs: [
+        'Assessment and progress reporting details are being confirmed with the school office.',
+      ],
+      status: 'pending',
+      note: 'Assessment information will be published once it is confirmed.',
     },
   ],
 };

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject } from '@angular/core';
 import { SiteSettingsService } from '../../../core/services/site-settings.service';
 import { AdmissionsContentService } from '../../../core/services/admissions-content.service';
 import { PageBanner } from '../../../shared/components/page-banner/page-banner';
@@ -13,7 +13,7 @@ import { TiltCardDirective } from '../../../shared/directives/tilt-card.directiv
   styleUrl: './admissions.scss',
   templateUrl: './admissions.html',
 })
-export class Admissions {
+export class Admissions implements OnInit {
   private readonly service = inject(AdmissionsContentService);
 
   protected readonly content = this.service.content;
@@ -27,4 +27,8 @@ export class Admissions {
   protected readonly phone = this.settings().phone;
   protected readonly email = this.settings().email;
   protected readonly address = this.settings().address;
+
+  ngOnInit(): void {
+    void this.service.load();
+  }
 }

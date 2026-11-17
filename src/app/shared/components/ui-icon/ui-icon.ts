@@ -5,6 +5,8 @@ export type IconName =
   | 'mail'
   | 'map-pin'
   | 'instagram'
+  | 'facebook'
+  | 'youtube'
   | 'menu'
   | 'close'
   | 'arrow-right'

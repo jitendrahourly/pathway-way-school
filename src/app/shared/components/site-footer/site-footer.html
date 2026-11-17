@@ -34,21 +34,41 @@
 
     <div class="footer__col">
       <h2>Follow Us</h2>
-      <a
-        class="footer__social"
-        [href]="settings().instagramUrl"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Bright Way School on Instagram"
-      >
-        <app-icon name="instagram" [size]="18" />
-      </a>
+      <div class="footer__socials">
+        <a
+          class="footer__social"
+          [href]="settings().instagramUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          [attr.aria-label]="settings().schoolName + ' on Instagram'"
+        >
+          <app-icon name="instagram" [size]="18" />
+        </a>
+        <a
+          class="footer__social"
+          [attr.href]="settings().facebookUrl || null"
+          target="_blank"
+          rel="noopener noreferrer"
+          [attr.aria-label]="settings().schoolName + ' on Facebook'"
+        >
+          <app-icon name="facebook" [size]="18" />
+        </a>
+        <a
+          class="footer__social"
+          [attr.href]="settings().youtubeUrl || null"
+          target="_blank"
+          rel="noopener noreferrer"
+          [attr.aria-label]="settings().schoolName + ' on YouTube'"
+        >
+          <app-icon name="youtube" [size]="18" />
+        </a>
+      </div>
     </div>
   </div>
 
   <div class="footer__bottom">
     <div class="container">
-      <p>&copy; {{ year }} Bright Way School. All Rights Reserved.</p>
+      <p>&copy; {{ year }} {{ settings().schoolName }}. All Rights Reserved.</p>
     </div>
   </div>
 </footer>

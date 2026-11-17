@@ -17,6 +17,7 @@ export const ANNOUNCEMENTS_CONTENT: AnnouncementsContent = {
     title: 'Latest Announcements',
     paragraphs: [
       'Official notices from the school office are published here once they are confirmed, including admissions, holidays, events and general information for parents.',
+      'Check this page for admission updates, holiday notices, school events and other important information.',
     ],
   },
   listHeading: 'Published Notices',

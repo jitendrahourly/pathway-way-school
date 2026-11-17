@@ -76,6 +76,33 @@ export interface GalleryImageRecord {
 }
 
 /**
+ * Row shape for the page_contents table. The content column stores the
+ * structured JSON for one public content page.
+ */
+export interface PageContentRecord {
+  readonly id: string | number;
+  page_slug: string;
+  content: Record<string, unknown>;
+  is_published: boolean;
+  updated_at?: string;
+  updated_by?: string | null;
+}
+
+/**
+ * Row shape for messages submitted through the public Contact Us form.
+ */
+export interface ContactMessageRecord {
+  readonly id?: string | number;
+  name: string;
+  email: string;
+  phone: string | null;
+  subject: string | null;
+  message: string;
+  is_read?: boolean;
+  created_at?: string;
+}
+
+/**
  * Row shape for the facilities table.
  */
 export interface FacilityRecord {

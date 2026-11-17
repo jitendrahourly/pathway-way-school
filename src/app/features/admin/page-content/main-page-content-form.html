@@ -1,0 +1,1346 @@
+<section class="main-form ann-form">
+  <header class="main-form__header">
+    <div class="main-form__header-main">
+      <nav class="main-form__breadcrumbs" aria-label="Breadcrumb">
+        <a routerLink="/admin/page-content" class="breadcrumb-link">Page Content</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">{{ pageTitle() }}</span>
+      </nav>
+      <div class="main-form__title-row">
+        <h1 class="main-form__title">Edit {{ pageTitle() }} Page Content</h1>
+        <span class="main-form__status-badge" [class.main-form__status-badge--published]="form.controls.is_published.value">
+          {{ form.controls.is_published.value ? '● Published' : '○ Draft' }}
+        </span>
+      </div>
+      <p class="main-form__subtitle">
+        Update and configure page banners, copy narrative, structured cards, media, and sections.
+      </p>
+    </div>
+
+    <div class="main-form__header-actions">
+      @if (previewUrl()) {
+        <a class="btn-top-action btn-top-action--preview" [href]="previewUrl()" target="_blank" rel="noopener">
+          <app-icon name="external-link" [size]="15" />
+          <span>Preview live page</span>
+        </a>
+      }
+      <a class="btn-top-action btn-top-action--back" routerLink="/admin/page-content">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        <span>Back to list</span>
+      </a>
+    </div>
+  </header>
+
+  @if (loading()) {
+    <div class="main-form__state">
+      <div class="main-form__spinner"></div>
+      <p>Loading page content…</p>
+    </div>
+  } @else {
+    @if (slug() === 'about') {
+      <nav class="main-form__quick-nav" aria-label="About Page Sections Navigation">
+        <span class="quick-nav__label">Jump to:</span>
+        <button type="button" class="quick-nav__item" (click)="scrollToSection('section-banner', $event)">
+          <app-icon name="image" [size]="14" /> Banner
+        </button>
+        <button type="button" class="quick-nav__item" (click)="scrollToSection('section-story', $event)">
+          <app-icon name="book-open" [size]="14" /> Our Story
+        </button>
+        <button type="button" class="quick-nav__item" (click)="scrollToSection('section-pillars', $event)">
+          <app-icon name="target" [size]="14" /> Core Pillars ({{ aboutPillars.length }})
+        </button>
+        <button type="button" class="quick-nav__item" (click)="scrollToSection('section-photo', $event)">
+          <app-icon name="image" [size]="14" /> Feature Photo
+        </button>
+        <button type="button" class="quick-nav__item" (click)="scrollToSection('section-sections', $event)">
+          <app-icon name="menu" [size]="14" /> Page Sections ({{ aboutSections.length }})
+        </button>
+        <button type="button" class="quick-nav__item" (click)="scrollToSection('section-publish', $event)">
+          <app-icon name="check" [size]="14" /> Publishing
+        </button>
+      </nav>
+    }
+
+    <form class="main-form__card" [class.main-form__card--stacked]="slug() === 'about'" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      @if (slug() === 'home') {
+        <div formGroupName="home">
+          <h2 class="ann-form__section-title">Hero</h2>
+          <div formGroupName="hero">
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="home-hero-eyebrow">Eyebrow</label>
+                <input id="home-hero-eyebrow" type="text" formControlName="eyebrow" />
+              </div>
+              <div class="field">
+                <label for="home-hero-title-lead">Title Lead</label>
+                <input id="home-hero-title-lead" type="text" formControlName="titleLead" />
+              </div>
+            </div>
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="home-hero-title-accent">Title Accent</label>
+                <input id="home-hero-title-accent" type="text" formControlName="titleAccent" />
+              </div>
+              <div class="field">
+                <label for="home-hero-subtitle">Subtitle</label>
+                <input id="home-hero-subtitle" type="text" formControlName="subtitle" />
+              </div>
+            </div>
+            <div class="field field--full">
+              <label>Image</label>
+              <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
+            </div>
+            <div class="field">
+              <label for="home-hero-image-alt">Image Alt Text</label>
+              <input id="home-hero-image-alt" type="text" formControlName="imageAlt" />
+            </div>
+            <div class="field">
+              <label for="home-hero-position">Image Position</label>
+              <input id="home-hero-position" type="text" formControlName="imagePosition" />
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Highlights</h2>
+          <div formArrayName="highlights">
+            @for (item of homeHighlights.controls; track $index) {
+              <div class="ann-form__array-item" [formGroupName]="$index">
+                <div class="ann-form__row">
+                  <div class="field">
+                    <label [for]="'home-highlight-icon-' + $index">Icon</label>
+                    <input [id]="'home-highlight-icon-' + $index" type="text" formControlName="icon" />
+                  </div>
+                  <div class="field">
+                    <label [for]="'home-highlight-title-' + $index">Title</label>
+                    <input [id]="'home-highlight-title-' + $index" type="text" formControlName="title" />
+                  </div>
+                </div>
+                <div class="field">
+                  <label [for]="'home-highlight-description-' + $index">Description</label>
+                  <input [id]="'home-highlight-description-' + $index" type="text" formControlName="description" />
+                </div>
+                <button type="button" class="btn btn--ghost" (click)="removeHomeHighlight($index)">Remove highlight</button>
+              </div>
+            }
+          </div>
+          <button type="button" class="btn btn--ghost" (click)="addHomeHighlight()">+ Add highlight</button>
+
+          <h2 class="ann-form__section-title">About Section</h2>
+          <div formGroupName="about">
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="home-about-eyebrow">Eyebrow</label>
+                <input id="home-about-eyebrow" type="text" formControlName="eyebrow" />
+              </div>
+              <div class="field">
+                <label for="home-about-title">Title</label>
+                <input id="home-about-title" type="text" formControlName="title" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="home-about-body">Body</label>
+              <textarea id="home-about-body" rows="3" formControlName="body"></textarea>
+            </div>
+            <div class="field field--full">
+              <label>Image</label>
+              <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
+            </div>
+            <div class="field">
+              <label for="home-about-image-alt">Image Alt Text</label>
+              <input id="home-about-image-alt" type="text" formControlName="imageAlt" />
+            </div>
+            <div class="field">
+              <label for="home-about-badge">Badge</label>
+              <input id="home-about-badge" type="text" formControlName="badge" />
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Section Introductions</h2>
+          <div class="field">
+            <label for="home-facilities-intro">Facilities Intro</label>
+            <input id="home-facilities-intro" type="text" formControlName="facilitiesIntro" />
+          </div>
+          <div class="field">
+            <label for="home-gallery-intro">Gallery Intro</label>
+            <input id="home-gallery-intro" type="text" formControlName="galleryIntro" />
+          </div>
+          <div class="field">
+            <label for="home-announcements-intro">Announcements Intro</label>
+            <input id="home-announcements-intro" type="text" formControlName="announcementsIntro" />
+          </div>
+        </div>
+      }
+
+      @if (slug() === 'about') {
+        <div formGroupName="about" class="main-form__sections-stack">
+          <!-- 1. Hero Banner Card -->
+          <section id="section-banner" class="section-card">
+            <div class="section-card__header">
+              <div class="section-card__icon-wrap">
+                <app-icon name="image" [size]="20" />
+              </div>
+              <div class="section-card__header-text">
+                <div class="section-card__title-flex">
+                  <h2>Hero Banner</h2>
+                  <span class="badge-tag">Page Header</span>
+                </div>
+                <p>The top banner image, title and subtitle displayed at the head of the About Us page.</p>
+              </div>
+            </div>
+
+            <div class="section-card__body" formGroupName="banner">
+              <div class="form-grid form-grid--2">
+                <div class="field">
+                  <label for="about-banner-title">
+                    <span>Banner Title</span>
+                    <span class="field__required">*</span>
+                  </label>
+                  <input id="about-banner-title" type="text" formControlName="title" placeholder="e.g. About Us" />
+                  <span class="field__hint">Main headline rendered across the top banner.</span>
+                </div>
+
+                <div class="field">
+                  <label for="about-banner-subtitle">
+                    <span>Banner Subtitle</span>
+                  </label>
+                  <input id="about-banner-subtitle" type="text" formControlName="subtitle" placeholder="e.g. A legacy of quality education since 1981" />
+                  <span class="field__hint">Supporting tagline directly below the main title.</span>
+                </div>
+              </div>
+
+              <div class="field field--full">
+                <label>
+                  <span>Banner Background Image</span>
+                </label>
+                <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
+                <span class="field__hint">Recommended landscape resolution: 1920×600 or 16:9 ratio.</span>
+              </div>
+
+              <div class="field field--full">
+                <label for="about-banner-image-alt">
+                  <span>Image Alt Text</span>
+                </label>
+                <input id="about-banner-image-alt" type="text" formControlName="imageAlt" placeholder="e.g. Bright Way School campus building" />
+                <span class="field__hint">Describe the image for accessibility and search engines.</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- 2. Story Card -->
+          <section id="section-story" class="section-card">
+            <div class="section-card__header">
+              <div class="section-card__icon-wrap">
+                <app-icon name="book-open" [size]="20" />
+              </div>
+              <div class="section-card__header-text">
+                <div class="section-card__title-flex">
+                  <h2>Our Story</h2>
+                  <span class="badge-tag">Introductory Narrative</span>
+                </div>
+                <p>The core narrative detailing the school's founding in 1981, heritage, and educational mission.</p>
+              </div>
+            </div>
+
+            <div class="section-card__body" formGroupName="story">
+              <div class="form-grid form-grid--2">
+                <div class="field">
+                  <label for="about-story-eyebrow">
+                    <span>Eyebrow Tag</span>
+                  </label>
+                  <input id="about-story-eyebrow" type="text" formControlName="eyebrow" placeholder="e.g. About Us" />
+                  <span class="field__hint">Small uppercase tag badge above the story title.</span>
+                </div>
+
+                <div class="field">
+                  <label for="about-story-title">
+                    <span>Story Heading</span>
+                  </label>
+                  <input id="about-story-title" type="text" formControlName="title" placeholder="e.g. Our Story" />
+                  <span class="field__hint">Primary headline for the narrative block.</span>
+                </div>
+              </div>
+
+              <div class="field field--full">
+                <label for="about-story-paragraphs">
+                  <span class="label-with-badge">
+                    <span>Story Paragraphs</span>
+                    <span class="badge-pill">One paragraph per line</span>
+                  </span>
+                </label>
+                <textarea
+                  id="about-story-paragraphs"
+                  rows="5"
+                  class="textarea-narrative"
+                  formControlName="paragraphs"
+                  placeholder="Enter paragraphs for your story narrative. Press Enter for each new paragraph..."
+                ></textarea>
+                <span class="field__hint">Press Enter between paragraphs. Each line is displayed as a formatted paragraph block on the public site.</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- 3. Pillars Card -->
+          <section id="section-pillars" class="section-card">
+            <div class="section-card__header">
+              <div class="section-card__icon-wrap">
+                <app-icon name="target" [size]="20" />
+              </div>
+              <div class="section-card__header-text">
+                <div class="section-card__title-flex">
+                  <h2>Core Pillars</h2>
+                  <span class="counter-badge">{{ aboutPillars.length }} Pillars</span>
+                </div>
+                <p>Highlights the foundational pillars (e.g. Vision, Mission, Values) displayed as interactive 3D tilted cards on the About page.</p>
+              </div>
+            </div>
+
+            <div class="section-card__body">
+              <div formArrayName="pillars" class="pillars-list">
+                @for (item of aboutPillars.controls; track $index) {
+                  <div class="item-card" [formGroupName]="$index">
+                    <div class="item-card__header">
+                      <div class="item-card__badge-row">
+                        <span class="item-card__num">Pillar #{{ $index + 1 }}</span>
+                        <span class="item-card__title-preview">{{ item.get('title')?.value || 'Untitled Pillar' }}</span>
+                      </div>
+                      <button
+                        type="button"
+                        class="btn-icon-danger"
+                        (click)="removeAboutPillar($index)"
+                        title="Remove pillar"
+                        aria-label="Remove pillar"
+                      >
+                        <app-icon name="close" [size]="15" />
+                        <span>Remove</span>
+                      </button>
+                    </div>
+
+                    <div class="item-card__body">
+                      <div class="form-grid form-grid--2">
+                        <div class="field">
+                          <label [for]="'about-pillar-icon-' + $index">
+                            <span>Icon</span>
+                          </label>
+                          <div class="icon-input-group">
+                            <div class="icon-input-preview" title="Live icon preview">
+                              <app-icon [name]="getPillarIcon($index)" [size]="20" />
+                            </div>
+                            <input
+                              [id]="'about-pillar-icon-' + $index"
+                              type="text"
+                              formControlName="icon"
+                              list="pillar-icons-list"
+                              placeholder="e.g. eye, target, heart"
+                            />
+                          </div>
+                          <span class="field__hint">Supported: eye, target, heart, trophy, users, book-open, graduation-cap, etc.</span>
+                        </div>
+
+                        <div class="field">
+                          <label [for]="'about-pillar-title-' + $index">
+                            <span>Pillar Title</span>
+                          </label>
+                          <input
+                            [id]="'about-pillar-title-' + $index"
+                            type="text"
+                            formControlName="title"
+                            placeholder="e.g. Our Vision, Our Mission"
+                          />
+                          <span class="field__hint">Title shown on the pillar card.</span>
+                        </div>
+                      </div>
+
+                      <div class="field field--full">
+                        <label [for]="'about-pillar-text-' + $index">
+                          <span>Pillar Statement</span>
+                        </label>
+                        <textarea
+                          [id]="'about-pillar-text-' + $index"
+                          rows="2"
+                          formControlName="text"
+                          placeholder="e.g. To nurture responsible, confident and compassionate individuals."
+                        ></textarea>
+                        <span class="field__hint">Concise summary statement shown inside the card.</span>
+                      </div>
+                    </div>
+                  </div>
+                }
+
+                @if (aboutPillars.length === 0) {
+                  <div class="empty-items-state">
+                    <p>No pillars configured yet. Click below to add the school's core pillars.</p>
+                  </div>
+                }
+              </div>
+
+              <datalist id="pillar-icons-list">
+                @for (icon of suggestedIcons; track icon) {
+                  <option [value]="icon"></option>
+                }
+              </datalist>
+
+              <div class="section-card__footer">
+                <button type="button" class="btn-add-item" (click)="addAboutPillar()">
+                  <span class="btn-add-item__icon">+</span>
+                  <span>Add another pillar</span>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- 4. Photo Card -->
+          <section id="section-photo" class="section-card">
+            <div class="section-card__header">
+              <div class="section-card__icon-wrap">
+                <app-icon name="image" [size]="20" />
+              </div>
+              <div class="section-card__header-text">
+                <div class="section-card__title-flex">
+                  <h2>Campus Showcase Photo</h2>
+                  <span class="badge-tag">Widescreen Frame</span>
+                </div>
+                <p>The widescreen showcase photo displayed between the pillars and page sections.</p>
+              </div>
+            </div>
+
+            <div class="section-card__body" formGroupName="photo">
+              <div class="field field--full">
+                <label>
+                  <span>Featured Campus Photograph</span>
+                </label>
+                <app-image-upload-field formControlName="url"></app-image-upload-field>
+                <span class="field__hint">High quality 16:9 ratio photo of students, faculty, or school campus.</span>
+              </div>
+
+              <div class="field field--full">
+                <label for="about-photo-alt">
+                  <span>Image Alt Text</span>
+                </label>
+                <input id="about-photo-alt" type="text" formControlName="alt" placeholder="e.g. Students and teachers together on campus" />
+                <span class="field__hint">Describe the image for accessibility and screen readers.</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- 5. Content Sections Card -->
+          <section id="section-sections" class="section-card">
+            <div class="section-card__header">
+              <div class="section-card__icon-wrap">
+                <app-icon name="menu" [size]="20" />
+              </div>
+              <div class="section-card__header-text">
+                <div class="section-card__title-flex">
+                  <h2>Page Sections (Table of Contents)</h2>
+                  <span class="counter-badge">{{ aboutSections.length }} Sections</span>
+                </div>
+                <p>Detailed content blocks that automatically build the sticky sidebar Table of Contents on the live About page.</p>
+              </div>
+            </div>
+
+            <div class="section-card__body">
+              <div formArrayName="sections" class="sections-list">
+                @for (item of aboutSections.controls; track $index) {
+                  <div class="item-card item-card--section" [formGroupName]="$index">
+                    <div class="item-card__header">
+                      <div class="item-card__badge-row">
+                        <span class="item-card__num">Section #{{ $index + 1 }}</span>
+                        <span class="item-card__anchor-badge">
+                          #{{ item.get('id')?.value || 'anchor-id' }}
+                        </span>
+                        <span class="item-card__title-preview">{{ item.get('title')?.value || 'Untitled Section' }}</span>
+                      </div>
+                      <button
+                        type="button"
+                        class="btn-icon-danger"
+                        (click)="removeAboutSection($index)"
+                        title="Remove section"
+                        aria-label="Remove section"
+                      >
+                        <app-icon name="close" [size]="15" />
+                        <span>Remove</span>
+                      </button>
+                    </div>
+
+                    <div class="item-card__body">
+                      <div class="form-grid form-grid--2">
+                        <div class="field">
+                          <label [for]="'about-section-id-' + $index">
+                            <span>Section Anchor ID (Slug)</span>
+                            <span class="field__required">*</span>
+                          </label>
+                          <div class="input-prefix-group">
+                            <span class="input-prefix">#</span>
+                            <input
+                              [id]="'about-section-id-' + $index"
+                              type="text"
+                              formControlName="id"
+                              placeholder="e.g. history, philosophy, values"
+                            />
+                          </div>
+                          <span class="field__hint">Anchor slug used in URL/TOC jump links. Lowercase letters and hyphens only.</span>
+                        </div>
+
+                        <div class="field">
+                          <label [for]="'about-section-title-' + $index">
+                            <span>Section Heading</span>
+                            <span class="field__required">*</span>
+                          </label>
+                          <input
+                            [id]="'about-section-title-' + $index"
+                            type="text"
+                            formControlName="title"
+                            placeholder="e.g. Our History, Educational Philosophy"
+                          />
+                          <span class="field__hint">Heading displayed in TOC and page content.</span>
+                        </div>
+                      </div>
+
+                      <div class="field field--full">
+                        <label [for]="'about-section-paragraphs-' + $index">
+                          <span class="label-with-badge">
+                            <span>Section Paragraphs</span>
+                            <span class="badge-pill">One paragraph per line</span>
+                          </span>
+                        </label>
+                        <textarea
+                          [id]="'about-section-paragraphs-' + $index"
+                          rows="4"
+                          class="textarea-narrative"
+                          formControlName="paragraphs"
+                          placeholder="Enter paragraphs for this section. Press Enter between paragraphs..."
+                        ></textarea>
+                        <span class="field__hint">Each line is formatted as a distinct paragraph on the live page.</span>
+                      </div>
+                    </div>
+                  </div>
+                }
+
+                @if (aboutSections.length === 0) {
+                  <div class="empty-items-state">
+                    <p>No content sections configured. Click below to add table-of-contents sections.</p>
+                  </div>
+                }
+              </div>
+
+              <div class="section-card__footer">
+                <button type="button" class="btn-add-item" (click)="addAboutSection()">
+                  <span class="btn-add-item__icon">+</span>
+                  <span>Add another content section</span>
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+      }
+
+      @if (slug() === 'academics') {
+        <div formGroupName="academics">
+          <h2 class="ann-form__section-title">Banner</h2>
+          <div formGroupName="banner">
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="academics-banner-title">Title</label>
+                <input id="academics-banner-title" type="text" formControlName="title" />
+              </div>
+              <div class="field">
+                <label for="academics-banner-subtitle">Subtitle</label>
+                <input id="academics-banner-subtitle" type="text" formControlName="subtitle" />
+              </div>
+            </div>
+            <div class="field field--full">
+              <label>Image</label>
+              <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
+            </div>
+            <div class="field">
+              <label for="academics-banner-image-alt">Image Alt Text</label>
+              <input id="academics-banner-image-alt" type="text" formControlName="imageAlt" />
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Intro</h2>
+          <div formGroupName="intro">
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="academics-intro-eyebrow">Eyebrow</label>
+                <input id="academics-intro-eyebrow" type="text" formControlName="eyebrow" />
+              </div>
+              <div class="field">
+                <label for="academics-intro-title">Title</label>
+                <input id="academics-intro-title" type="text" formControlName="title" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="academics-intro-paragraphs">Paragraphs (one per line)</label>
+              <textarea id="academics-intro-paragraphs" rows="4" formControlName="paragraphs"></textarea>
+            </div>
+            <div class="field field--full">
+              <label>Image</label>
+              <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
+            </div>
+            <div class="field">
+              <label for="academics-intro-image-alt">Image Alt Text</label>
+              <input id="academics-intro-image-alt" type="text" formControlName="imageAlt" />
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Cards</h2>
+          <div formArrayName="cards">
+            @for (item of academicsCards.controls; track $index) {
+              <div class="ann-form__array-item" [formGroupName]="$index">
+                <div class="ann-form__row">
+                  <div class="field">
+                    <label [for]="'academics-card-icon-' + $index">Icon</label>
+                    <input [id]="'academics-card-icon-' + $index" type="text" formControlName="icon" />
+                  </div>
+                  <div class="field">
+                    <label [for]="'academics-card-label-' + $index">Label</label>
+                    <input [id]="'academics-card-label-' + $index" type="text" formControlName="label" />
+                  </div>
+                </div>
+                <div class="ann-form__row">
+                  <div class="field">
+                    <label [for]="'academics-card-value-' + $index">Value</label>
+                    <input [id]="'academics-card-value-' + $index" type="text" formControlName="value" />
+                  </div>
+                  <div class="field">
+                    <label [for]="'academics-card-status-' + $index">Status</label>
+                    <select [id]="'academics-card-status-' + $index" formControlName="status">
+                      <option value="confirmed">Confirmed</option>
+                      <option value="pending">Pending</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="field">
+                  <label [for]="'academics-card-note-' + $index">Note</label>
+                  <input [id]="'academics-card-note-' + $index" type="text" formControlName="note" />
+                </div>
+                <button type="button" class="btn btn--ghost" (click)="removeAcademicsCard($index)">Remove card</button>
+              </div>
+            }
+          </div>
+          <button type="button" class="btn btn--ghost" (click)="addAcademicsCard()">+ Add card</button>
+
+          <h2 class="ann-form__section-title">Sections</h2>
+          <div formArrayName="sections">
+            @for (item of academicsSections.controls; track $index) {
+              <div class="ann-form__array-item" [formGroupName]="$index">
+                <div class="ann-form__row">
+                  <div class="field">
+                    <label [for]="'academics-section-id-' + $index">Section ID</label>
+                    <input [id]="'academics-section-id-' + $index" type="text" formControlName="id" />
+                  </div>
+                  <div class="field">
+                    <label [for]="'academics-section-title-' + $index">Title</label>
+                    <input [id]="'academics-section-title-' + $index" type="text" formControlName="title" />
+                  </div>
+                </div>
+                <div class="field">
+                  <label [for]="'academics-section-paragraphs-' + $index">Paragraphs (one per line)</label>
+                  <textarea [id]="'academics-section-paragraphs-' + $index" rows="3" formControlName="paragraphs"></textarea>
+                </div>
+                <div class="field">
+                  <label [for]="'academics-section-bullets-' + $index">Bullets (one per line)</label>
+                  <textarea [id]="'academics-section-bullets-' + $index" rows="2" formControlName="bullets"></textarea>
+                </div>
+                <div class="field field--full">
+                  <label>Image</label>
+                  <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
+                </div>
+                <div class="field">
+                  <label [for]="'academics-section-image-alt-' + $index">Image Alt Text</label>
+                  <input [id]="'academics-section-image-alt-' + $index" type="text" formControlName="imageAlt" />
+                </div>
+                <div class="ann-form__row">
+                  <div class="field">
+                    <label [for]="'academics-section-status-' + $index">Status</label>
+                    <select [id]="'academics-section-status-' + $index" formControlName="status">
+                      <option value="confirmed">Confirmed</option>
+                      <option value="pending">Pending</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label [for]="'academics-section-note-' + $index">Note</label>
+                    <input [id]="'academics-section-note-' + $index" type="text" formControlName="note" />
+                  </div>
+                </div>
+                <button type="button" class="btn btn--ghost" (click)="removeAcademicsSection($index)">Remove section</button>
+              </div>
+            }
+          </div>
+          <button type="button" class="btn btn--ghost" (click)="addAcademicsSection()">+ Add section</button>
+        </div>
+      }
+
+      @if (slug() === 'admissions') {
+        <div formGroupName="admissions">
+          <h2 class="ann-form__section-title">Banner</h2>
+          <div formGroupName="banner">
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="admissions-banner-title">Title</label>
+                <input id="admissions-banner-title" type="text" formControlName="title" />
+              </div>
+              <div class="field">
+                <label for="admissions-banner-subtitle">Subtitle</label>
+                <input id="admissions-banner-subtitle" type="text" formControlName="subtitle" />
+              </div>
+            </div>
+            <div class="field field--full">
+              <label>Image</label>
+              <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
+            </div>
+            <div class="field">
+              <label for="admissions-banner-image-alt">Image Alt Text</label>
+              <input id="admissions-banner-image-alt" type="text" formControlName="imageAlt" />
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Intro</h2>
+          <div formGroupName="intro">
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="admissions-intro-eyebrow">Eyebrow</label>
+                <input id="admissions-intro-eyebrow" type="text" formControlName="eyebrow" />
+              </div>
+              <div class="field">
+                <label for="admissions-intro-title">Title</label>
+                <input id="admissions-intro-title" type="text" formControlName="title" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="admissions-intro-paragraphs">Paragraphs (one per line)</label>
+              <textarea id="admissions-intro-paragraphs" rows="4" formControlName="paragraphs"></textarea>
+            </div>
+            <div class="field">
+              <label for="admissions-intro-note">Note</label>
+              <input id="admissions-intro-note" type="text" formControlName="note" />
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Sections</h2>
+          <div formArrayName="sections">
+            @for (item of admissionsSections.controls; track $index) {
+              <div class="ann-form__array-item" [formGroupName]="$index">
+                <div class="ann-form__row">
+                  <div class="field">
+                    <label [for]="'admissions-section-id-' + $index">Section ID</label>
+                    <input [id]="'admissions-section-id-' + $index" type="text" formControlName="id" />
+                  </div>
+                  <div class="field">
+                    <label [for]="'admissions-section-title-' + $index">Title</label>
+                    <input [id]="'admissions-section-title-' + $index" type="text" formControlName="title" />
+                  </div>
+                </div>
+                <div class="field">
+                  <label [for]="'admissions-section-message-' + $index">Message</label>
+                  <textarea [id]="'admissions-section-message-' + $index" rows="2" formControlName="message"></textarea>
+                </div>
+                <button type="button" class="btn btn--ghost" (click)="removeAdmissionsSection($index)">Remove section</button>
+              </div>
+            }
+          </div>
+          <button type="button" class="btn btn--ghost" (click)="addAdmissionsSection()">+ Add section</button>
+
+          <h2 class="ann-form__section-title">Contact Block</h2>
+          <div formGroupName="contact">
+            <div class="field">
+              <label for="admissions-contact-title">Title</label>
+              <input id="admissions-contact-title" type="text" formControlName="title" />
+            </div>
+            <div class="field">
+              <label for="admissions-contact-intro">Intro</label>
+              <input id="admissions-contact-intro" type="text" formControlName="intro" />
+            </div>
+            <div class="field">
+              <label for="admissions-contact-note">Note</label>
+              <input id="admissions-contact-note" type="text" formControlName="note" />
+            </div>
+          </div>
+        </div>
+      }
+
+      @if (slug() === 'contact') {
+        <div formGroupName="contact">
+          <h2 class="ann-form__section-title">Banner</h2>
+          <div formGroupName="banner">
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="contact-banner-title">Title</label>
+                <input id="contact-banner-title" type="text" formControlName="title" />
+              </div>
+              <div class="field">
+                <label for="contact-banner-subtitle">Subtitle</label>
+                <input id="contact-banner-subtitle" type="text" formControlName="subtitle" />
+              </div>
+            </div>
+            <div class="field field--full">
+              <label>Image</label>
+              <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
+            </div>
+            <div class="field">
+              <label for="contact-banner-image-alt">Image Alt Text</label>
+              <input id="contact-banner-image-alt" type="text" formControlName="imageAlt" />
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Intro</h2>
+          <div formGroupName="intro">
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="contact-intro-eyebrow">Eyebrow</label>
+                <input id="contact-intro-eyebrow" type="text" formControlName="eyebrow" />
+              </div>
+              <div class="field">
+                <label for="contact-intro-title">Title</label>
+                <input id="contact-intro-title" type="text" formControlName="title" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="contact-intro-paragraphs">Paragraphs (one per line)</label>
+              <textarea id="contact-intro-paragraphs" rows="4" formControlName="paragraphs"></textarea>
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Contact Form</h2>
+          <div formGroupName="form">
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="contact-form-eyebrow">Eyebrow</label>
+                <input id="contact-form-eyebrow" type="text" formControlName="eyebrow" />
+              </div>
+              <div class="field">
+                <label for="contact-form-title">Title</label>
+                <input id="contact-form-title" type="text" formControlName="title" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="contact-form-intro">Intro</label>
+              <textarea id="contact-form-intro" rows="2" formControlName="intro"></textarea>
+            </div>
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="contact-form-name">Name Label</label>
+                <input id="contact-form-name" type="text" formControlName="nameLabel" />
+              </div>
+              <div class="field">
+                <label for="contact-form-email">Email Label</label>
+                <input id="contact-form-email" type="text" formControlName="emailLabel" />
+              </div>
+            </div>
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="contact-form-phone">Phone Label</label>
+                <input id="contact-form-phone" type="text" formControlName="phoneLabel" />
+              </div>
+              <div class="field">
+                <label for="contact-form-subject">Subject Label</label>
+                <input id="contact-form-subject" type="text" formControlName="subjectLabel" />
+              </div>
+            </div>
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="contact-form-message">Message Label</label>
+                <input id="contact-form-message" type="text" formControlName="messageLabel" />
+              </div>
+              <div class="field">
+                <label for="contact-form-submit">Submit Label</label>
+                <input id="contact-form-submit" type="text" formControlName="submitLabel" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="contact-form-success">Success Message</label>
+              <input id="contact-form-success" type="text" formControlName="successMessage" />
+            </div>
+            <div class="field">
+              <label for="contact-form-error">Error Message</label>
+              <input id="contact-form-error" type="text" formControlName="errorMessage" />
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Office Hours</h2>
+          <div formGroupName="officeHours">
+            <div class="field">
+              <label for="contact-office-title">Title</label>
+              <input id="contact-office-title" type="text" formControlName="title" />
+            </div>
+            <div class="field">
+              <label for="contact-office-lines">Lines (one per line)</label>
+              <textarea id="contact-office-lines" rows="4" formControlName="lines"></textarea>
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Contact Cards</h2>
+          <div formGroupName="cards">
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="contact-card-phone">Phone Title</label>
+                <input id="contact-card-phone" type="text" formControlName="phoneTitle" />
+              </div>
+              <div class="field">
+                <label for="contact-card-email">Email Title</label>
+                <input id="contact-card-email" type="text" formControlName="emailTitle" />
+              </div>
+            </div>
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="contact-card-address">Address Title</label>
+                <input id="contact-card-address" type="text" formControlName="addressTitle" />
+              </div>
+              <div class="field">
+                <label for="contact-card-call">Call Button Label</label>
+                <input id="contact-card-call" type="text" formControlName="callLabel" />
+              </div>
+            </div>
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="contact-card-email-action">Email Button Label</label>
+                <input id="contact-card-email-action" type="text" formControlName="emailActionLabel" />
+              </div>
+              <div class="field">
+                <label for="contact-card-map-action">Map Button Label</label>
+                <input id="contact-card-map-action" type="text" formControlName="mapActionLabel" />
+              </div>
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Map</h2>
+          <div formGroupName="map">
+            <div class="field">
+              <label for="contact-map-title">Title</label>
+              <input id="contact-map-title" type="text" formControlName="title" />
+            </div>
+            <div class="field">
+              <label for="contact-map-intro">Intro</label>
+              <input id="contact-map-intro" type="text" formControlName="intro" />
+            </div>
+            <div class="field">
+              <label for="contact-map-empty">Empty Message</label>
+              <input id="contact-map-empty" type="text" formControlName="emptyMessage" />
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Directions</h2>
+          <div formGroupName="directions">
+            <div class="field">
+              <label for="contact-directions-title">Title</label>
+              <input id="contact-directions-title" type="text" formControlName="title" />
+            </div>
+            <div class="field">
+              <label for="contact-directions-intro">Intro</label>
+              <input id="contact-directions-intro" type="text" formControlName="intro" />
+            </div>
+            <div class="field">
+              <label for="contact-directions-steps">Steps (one per line)</label>
+              <textarea id="contact-directions-steps" rows="4" formControlName="steps"></textarea>
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Instagram</h2>
+          <div formGroupName="instagram">
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="contact-instagram-eyebrow">Eyebrow</label>
+                <input id="contact-instagram-eyebrow" type="text" formControlName="eyebrow" />
+              </div>
+              <div class="field">
+                <label for="contact-instagram-title">Title</label>
+                <input id="contact-instagram-title" type="text" formControlName="title" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="contact-instagram-text">Text</label>
+              <input id="contact-instagram-text" type="text" formControlName="text" />
+            </div>
+            <div class="field">
+              <label for="contact-instagram-button">Button Label</label>
+              <input id="contact-instagram-button" type="text" formControlName="buttonLabel" />
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">School Details</h2>
+          <div formGroupName="schoolDetails">
+            <div class="field">
+              <label for="contact-school-title">Title</label>
+              <input id="contact-school-title" type="text" formControlName="title" />
+            </div>
+            <div class="field">
+              <label for="contact-school-lines">Lines (one per line)</label>
+              <textarea id="contact-school-lines" rows="5" formControlName="lines"></textarea>
+            </div>
+          </div>
+        </div>
+      }
+
+      @if (slug() === 'facilities') {
+        <div formGroupName="facilities">
+          <h2 class="ann-form__section-title">Banner</h2>
+          <div formGroupName="banner">
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="facilities-banner-title">Title</label>
+                <input id="facilities-banner-title" type="text" formControlName="title" />
+              </div>
+              <div class="field">
+                <label for="facilities-banner-subtitle">Subtitle</label>
+                <input id="facilities-banner-subtitle" type="text" formControlName="subtitle" />
+              </div>
+            </div>
+            <div class="field field--full">
+              <label>Image</label>
+              <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
+            </div>
+            <div class="field">
+              <label for="facilities-banner-image-alt">Image Alt Text</label>
+              <input id="facilities-banner-image-alt" type="text" formControlName="imageAlt" />
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Intro</h2>
+          <div formGroupName="intro">
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="facilities-intro-eyebrow">Eyebrow</label>
+                <input id="facilities-intro-eyebrow" type="text" formControlName="eyebrow" />
+              </div>
+              <div class="field">
+                <label for="facilities-intro-title">Title</label>
+                <input id="facilities-intro-title" type="text" formControlName="title" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="facilities-intro-paragraphs">Paragraphs (one per line)</label>
+              <textarea id="facilities-intro-paragraphs" rows="3" formControlName="paragraphs"></textarea>
+            </div>
+            <div class="field">
+              <label for="facilities-intro-note">Note</label>
+              <input id="facilities-intro-note" type="text" formControlName="note" />
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Headings</h2>
+          <div class="ann-form__row">
+            <div class="field">
+              <label for="facilities-grid-eyebrow">Grid Eyebrow</label>
+              <input id="facilities-grid-eyebrow" type="text" formControlName="gridEyebrow" />
+            </div>
+            <div class="field">
+              <label for="facilities-grid-heading">Grid Heading</label>
+              <input id="facilities-grid-heading" type="text" formControlName="gridHeading" />
+            </div>
+          </div>
+          <div class="ann-form__row">
+            <div class="field">
+              <label for="facilities-details-heading">Details Heading</label>
+              <input id="facilities-details-heading" type="text" formControlName="detailsHeading" />
+            </div>
+            <div class="field">
+              <label for="facilities-additional-heading">Additional Heading</label>
+              <input id="facilities-additional-heading" type="text" formControlName="additionalHeading" />
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Additional Facilities</h2>
+          <div formArrayName="additional">
+            @for (item of facilitiesAdditional.controls; track $index) {
+              <div class="ann-form__array-item" [formGroupName]="$index">
+                <div class="ann-form__row">
+                  <div class="field">
+                    <label [for]="'facility-id-' + $index">ID</label>
+                    <input [id]="'facility-id-' + $index" type="text" formControlName="id" />
+                  </div>
+                  <div class="field">
+                    <label [for]="'facility-title-' + $index">Title</label>
+                    <input [id]="'facility-title-' + $index" type="text" formControlName="title" />
+                  </div>
+                </div>
+                <div class="field">
+                  <label [for]="'facility-description-' + $index">Description</label>
+                  <textarea [id]="'facility-description-' + $index" rows="2" formControlName="description"></textarea>
+                </div>
+                <div class="field field--full">
+                  <label>Image</label>
+                  <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
+                </div>
+                <div class="field">
+                  <label [for]="'facility-image-alt-' + $index">Image Alt Text</label>
+                  <input [id]="'facility-image-alt-' + $index" type="text" formControlName="imageAlt" />
+                </div>
+                <div class="ann-form__row">
+                  <div class="field">
+                    <label [for]="'facility-order-' + $index">Display Order</label>
+                    <input [id]="'facility-order-' + $index" type="number" formControlName="displayOrder" />
+                  </div>
+                  <div class="field">
+                    <label [for]="'facility-active-' + $index">Active</label>
+                    <select [id]="'facility-active-' + $index" formControlName="isActive">
+                      <option [ngValue]="true">Active</option>
+                      <option [ngValue]="false">Inactive</option>
+                    </select>
+                  </div>
+                </div>
+                <button type="button" class="btn btn--ghost" (click)="removeFacility($index)">Remove facility</button>
+              </div>
+            }
+          </div>
+          <button type="button" class="btn btn--ghost" (click)="addFacility()">+ Add facility</button>
+        </div>
+      }
+
+      @if (slug() === 'gallery') {
+        <div formGroupName="gallery">
+          <h2 class="ann-form__section-title">Banner</h2>
+          <div formGroupName="banner">
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="gallery-banner-title">Title</label>
+                <input id="gallery-banner-title" type="text" formControlName="title" />
+              </div>
+              <div class="field">
+                <label for="gallery-banner-subtitle">Subtitle</label>
+                <input id="gallery-banner-subtitle" type="text" formControlName="subtitle" />
+              </div>
+            </div>
+            <div class="field field--full">
+              <label>Image</label>
+              <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
+            </div>
+            <div class="field">
+              <label for="gallery-banner-image-alt">Image Alt Text</label>
+              <input id="gallery-banner-image-alt" type="text" formControlName="imageAlt" />
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Intro</h2>
+          <div formGroupName="intro">
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="gallery-intro-eyebrow">Eyebrow</label>
+                <input id="gallery-intro-eyebrow" type="text" formControlName="eyebrow" />
+              </div>
+              <div class="field">
+                <label for="gallery-intro-title">Title</label>
+                <input id="gallery-intro-title" type="text" formControlName="title" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="gallery-intro-paragraphs">Paragraphs (one per line)</label>
+              <textarea id="gallery-intro-paragraphs" rows="3" formControlName="paragraphs"></textarea>
+            </div>
+            <div class="field">
+              <label for="gallery-intro-note">Note</label>
+              <input id="gallery-intro-note" type="text" formControlName="note" />
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Labels</h2>
+          <div class="field">
+            <label for="gallery-filter-label">Filter Label</label>
+            <input id="gallery-filter-label" type="text" formControlName="filterLabel" />
+          </div>
+          <div class="field">
+            <label for="gallery-empty-title">Empty Title</label>
+            <input id="gallery-empty-title" type="text" formControlName="emptyTitle" />
+          </div>
+          <div class="field">
+            <label for="gallery-empty-message">Empty Message</label>
+            <input id="gallery-empty-message" type="text" formControlName="emptyMessage" />
+          </div>
+          <div class="field">
+            <label for="gallery-reset-label">Reset Label</label>
+            <input id="gallery-reset-label" type="text" formControlName="resetLabel" />
+          </div>
+          <div class="field">
+            <label for="gallery-placeholder-label">Placeholder Label</label>
+            <input id="gallery-placeholder-label" type="text" formControlName="placeholderLabel" />
+          </div>
+        </div>
+      }
+
+      @if (slug() === 'announcements') {
+        <div formGroupName="announcements">
+          <h2 class="ann-form__section-title">Banner</h2>
+          <div formGroupName="banner">
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="announcements-banner-title">Title</label>
+                <input id="announcements-banner-title" type="text" formControlName="title" />
+              </div>
+              <div class="field">
+                <label for="announcements-banner-subtitle">Subtitle</label>
+                <input id="announcements-banner-subtitle" type="text" formControlName="subtitle" />
+              </div>
+            </div>
+            <div class="field field--full">
+              <label>Image</label>
+              <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
+            </div>
+            <div class="field">
+              <label for="announcements-banner-image-alt">Image Alt Text</label>
+              <input id="announcements-banner-image-alt" type="text" formControlName="imageAlt" />
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Intro</h2>
+          <div formGroupName="intro">
+            <div class="ann-form__row">
+              <div class="field">
+                <label for="announcements-intro-eyebrow">Eyebrow</label>
+                <input id="announcements-intro-eyebrow" type="text" formControlName="eyebrow" />
+              </div>
+              <div class="field">
+                <label for="announcements-intro-title">Title</label>
+                <input id="announcements-intro-title" type="text" formControlName="title" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="announcements-intro-paragraphs">Paragraphs (one per line)</label>
+              <textarea id="announcements-intro-paragraphs" rows="3" formControlName="paragraphs"></textarea>
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Headings</h2>
+          <div class="ann-form__row">
+            <div class="field">
+              <label for="announcements-list-heading">List Heading</label>
+              <input id="announcements-list-heading" type="text" formControlName="listHeading" />
+            </div>
+            <div class="field">
+              <label for="announcements-filter-label">Filter Label</label>
+              <input id="announcements-filter-label" type="text" formControlName="filterLabel" />
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Empty State</h2>
+          <div formGroupName="empty">
+            <div class="field">
+              <label for="announcements-empty-title">Title</label>
+              <input id="announcements-empty-title" type="text" formControlName="title" />
+            </div>
+            <div class="field">
+              <label for="announcements-empty-message">Message</label>
+              <textarea id="announcements-empty-message" rows="3" formControlName="message"></textarea>
+            </div>
+            <div class="field">
+              <label for="announcements-empty-contact">Contact Note</label>
+              <input id="announcements-empty-contact" type="text" formControlName="contactNote" />
+            </div>
+          </div>
+
+          <h2 class="ann-form__section-title">Detail Page Copy</h2>
+          <div formGroupName="detail">
+            <div class="field">
+              <label for="announcements-detail-back">Back Label</label>
+              <input id="announcements-detail-back" type="text" formControlName="backLabel" />
+            </div>
+            <div class="field">
+              <label for="announcements-detail-unavailable-title">Unavailable Title</label>
+              <input id="announcements-detail-unavailable-title" type="text" formControlName="unavailableTitle" />
+            </div>
+            <div class="field">
+              <label for="announcements-detail-unavailable-message">Unavailable Message</label>
+              <textarea id="announcements-detail-unavailable-message" rows="3" formControlName="unavailableMessage"></textarea>
+            </div>
+            <div class="field">
+              <label for="announcements-detail-unavailable-link">Unavailable Link Label</label>
+              <input id="announcements-detail-unavailable-link" type="text" formControlName="unavailableLinkLabel" />
+            </div>
+            <div class="field">
+              <label for="announcements-detail-fallback">Fallback Banner Subtitle</label>
+              <input id="announcements-detail-fallback" type="text" formControlName="fallbackBannerSubtitle" />
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Publishing & Visibility Card -->
+      <section id="section-publish" class="section-card section-card--publish">
+        <div class="section-card__header">
+          <div class="section-card__icon-wrap section-card__icon-wrap--accent">
+            <app-icon name="check" [size]="20" />
+          </div>
+          <div class="section-card__header-text">
+            <div class="section-card__title-flex">
+              <h2>Publishing & Visibility</h2>
+              <span class="status-indicator" [class.status-indicator--live]="form.controls.is_published.value">
+                {{ form.controls.is_published.value ? 'Live on Site' : 'Draft / Hidden' }}
+              </span>
+            </div>
+            <p>Control whether this page's content is visible to public visitors.</p>
+          </div>
+        </div>
+
+        <div class="section-card__body">
+          <div class="publish-control-box">
+            <label class="custom-toggle">
+              <input type="checkbox" formControlName="is_published" />
+              <span class="custom-toggle__track">
+                <span class="custom-toggle__thumb"></span>
+              </span>
+              <div class="custom-toggle__text">
+                <div class="custom-toggle__title-row">
+                  <strong>Published Status</strong>
+                  <span class="badge-tag" [class.badge-tag--success]="form.controls.is_published.value">
+                    {{ form.controls.is_published.value ? 'Publicly Visible' : 'Unpublished' }}
+                  </span>
+                </div>
+                <p>
+                  When enabled, all saved modifications are immediately rendered live on the public site.
+                  @if (previewUrl()) {
+                    You can view the page via the <a [href]="previewUrl()" target="_blank" rel="noopener" class="link-inline">Live Preview link ↗</a>.
+                  }
+                </p>
+              </div>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      @if (error()) {
+        <div class="main-form__alert main-form__alert--error" role="alert">
+          <span class="alert-icon" aria-hidden="true">✕</span>
+          <div class="alert-content">
+            <strong>Error saving page content</strong>
+            <p>{{ error() }}</p>
+          </div>
+        </div>
+      }
+      @if (success()) {
+        <div class="main-form__alert main-form__alert--success" role="status">
+          <app-icon name="check" [size]="18" />
+          <div class="alert-content">
+            <strong>Changes Saved Successfully</strong>
+            <p>{{ success() }}</p>
+          </div>
+        </div>
+      }
+
+      <!-- Sticky Bottom Action Bar -->
+      <div class="main-form__sticky-bar">
+        <div class="sticky-bar__inner">
+          <div class="sticky-bar__status">
+            <span class="sticky-bar__dot" [class.sticky-bar__dot--live]="form.controls.is_published.value"></span>
+            <span class="sticky-bar__text">
+              Target: {{ form.controls.is_published.value ? 'Live Public Page' : 'Draft Mode' }}
+            </span>
+          </div>
+
+          <div class="sticky-bar__actions">
+            <button type="button" class="btn-cancel" (click)="cancel()" [disabled]="saving()">
+              Cancel
+            </button>
+            <button type="submit" class="btn-save" [disabled]="saving()">
+              @if (saving()) {
+                <span class="btn-spinner" aria-hidden="true"></span>
+                <span>Saving…</span>
+              } @else {
+                <app-icon name="check" [size]="17" />
+                <span>Save changes</span>
+              }
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  }
+</section>

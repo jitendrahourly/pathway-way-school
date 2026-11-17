@@ -9,6 +9,8 @@ export interface SiteSettings {
   readonly address: string;
   readonly instagramHandle: string;
   readonly instagramUrl: string;
+  readonly facebookUrl: string;
+  readonly youtubeUrl: string;
   readonly mapsUrl: string;
   readonly footerDescription: string;
 }

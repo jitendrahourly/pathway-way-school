@@ -1,0 +1,12 @@
+@use '../announcements/announcements-list';
+
+.ann-list__group-title {
+  margin: 1.4rem 0 0.6rem;
+  color: var(--bw-purple);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.ann-list__group:first-of-type .ann-list__group-title {
+  margin-top: 0.6rem;
+}

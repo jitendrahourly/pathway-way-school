@@ -2,7 +2,7 @@
   class="brand"
   [class.brand--light]="variant() === 'light'"
   routerLink="/"
-  aria-label="Bright Way School, home"
+  [attr.aria-label]="settings().schoolName + ', home'"
 >
   <span class="brand__crest">
     @if (!logoFailed()) {
@@ -18,8 +18,8 @@
     }
   </span>
   <span class="brand__text">
-    <span class="brand__name">Bright Way School</span>
-    <span class="brand__meta">Banashankari Vidya Samsthe</span>
-    <span class="brand__estd">Estd : 1981</span>
+    <span class="brand__name">{{ settings().schoolName }}</span>
+    <span class="brand__meta">{{ settings().managementName }}</span>
+    <span class="brand__estd">Estd : {{ settings().establishedYear }}</span>
   </span>
 </a>

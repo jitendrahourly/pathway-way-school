@@ -34,17 +34,6 @@ export const CONTENT_PAGES: Record<string, ContentPageData> = {
     ],
     bullets: ['Nurture responsible individuals', 'Provide quality education', 'Encourage creativity', 'Build strong character'],
   },
-  'about-management': {
-    title: 'Management',
-    subtitle: 'Guided by Banashankari Vidya Samsthe',
-    imageUrl: '/images/home/about-students.jpg',
-    imageAlt: 'Students and teachers on campus',
-    paragraphs: [
-      'Bright Way School is managed by Banashankari Vidya Samsthe, Bengaluru, Karnataka.',
-      'The management is committed to maintaining a safe, supportive and inspiring learning environment for all students.',
-      'School policies, academic planning and campus development are guided with a focus on student welfare and quality education.',
-    ],
-  },
   'about-history': {
     title: 'History & Legacy',
     subtitle: 'A legacy of quality education since 1981',

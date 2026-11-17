@@ -31,8 +31,32 @@ export const routes: Routes = [
             path: 'page-content',
             title: 'Page Content | Bright Way School',
             loadComponent: () =>
-              import('./features/admin/placeholder/admin-placeholder').then(
-                (m) => m.AdminPlaceholder,
+              import('./features/admin/page-content/page-content-list').then(
+                (m) => m.PageContentList,
+              ),
+          },
+          {
+            path: 'page-content/new',
+            title: 'Add Page Content | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/page-content/page-content-form').then(
+                (m) => m.PageContentForm,
+              ),
+          },
+          {
+            path: 'page-content/:slug/main',
+            title: 'Edit Main Page Content | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/page-content/main-page-content-form').then(
+                (m) => m.MainPageContentForm,
+              ),
+          },
+          {
+            path: 'page-content/:slug/edit',
+            title: 'Edit Page Content | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/page-content/page-content-form').then(
+                (m) => m.PageContentForm,
               ),
           },
           {
@@ -95,8 +119,8 @@ export const routes: Routes = [
             path: 'settings',
             title: 'Site Settings | Bright Way School',
             loadComponent: () =>
-              import('./features/admin/placeholder/admin-placeholder').then(
-                (m) => m.AdminPlaceholder,
+              import('./features/admin/settings/site-settings-form').then(
+                (m) => m.SiteSettingsForm,
               ),
           },
         ],

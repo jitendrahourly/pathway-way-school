@@ -75,6 +75,12 @@
   background: var(--bw-orange);
 }
 
+.footer__socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 .footer__bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.14);
 }
