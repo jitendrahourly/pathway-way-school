@@ -1,0 +1,164 @@
+<section class="ann-form">
+  <header class="ann-form__header">
+    <div>
+      <p class="ann-form__eyebrow">Content</p>
+      <h1>{{ isEdit() ? 'Edit Page Content' : 'Add Page Content' }}</h1>
+    </div>
+    <div class="ann-form__actions">
+      @if (previewUrl()) {
+        <a class="btn btn--ghost" [href]="previewUrl()" target="_blank" rel="noopener">Preview page</a>
+      }
+      <a class="btn btn--ghost" routerLink="/admin/page-content">Back to list</a>
+    </div>
+  </header>
+
+  @if (loading()) {
+    <div class="ann-form__state">Loading…</div>
+  } @else {
+    <form class="ann-form__card" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="ann-form__row">
+        <div class="field">
+          <label for="page_slug">Page Slug *</label>
+          <input
+            id="page_slug"
+            type="text"
+            formControlName="page_slug"
+            list="page-slugs"
+            placeholder="about-our-school"
+            [readonly]="isEdit()"
+          />
+          <datalist id="page-slugs">
+            @for (slug of knownSlugs; track slug) {
+              <option [value]="slug"></option>
+            }
+          </datalist>
+          @if (form.controls.page_slug.touched && form.controls.page_slug.invalid) {
+            <p class="field__error">Use lowercase letters, numbers and hyphens.</p>
+          }
+        </div>
+
+        <div class="field">
+          <label for="title">Title *</label>
+          <input id="title" type="text" formControlName="title" placeholder="Page title" />
+          @if (form.controls.title.touched && form.controls.title.invalid) {
+            <p class="field__error">Title is required.</p>
+          }
+        </div>
+      </div>
+
+      <div class="field field--full">
+        <label for="subtitle">Subtitle</label>
+        <input id="subtitle" type="text" formControlName="subtitle" placeholder="Short page subtitle" />
+      </div>
+
+      <div class="field field--full">
+        <label>Image</label>
+        <div class="upload-area">
+          @if (imagePreviewUrl()) {
+            <img [src]="imagePreviewUrl()" alt="Selected image preview" class="upload-area__preview" />
+          } @else if (existingImageUrl()) {
+            <img [src]="existingImageUrl()" alt="Current image" class="upload-area__preview" />
+          } @else {
+            <div class="upload-area__placeholder">
+              <span class="upload-area__icon" aria-hidden="true">↑</span>
+              <strong>Drag and drop an image or choose a file</strong>
+              <span>JPEG, PNG or WebP, max 5 MB</span>
+            </div>
+          }
+
+          <div class="upload-area__actions">
+            <label class="btn btn--purple upload-area__button">
+              {{ imagePreviewUrl() || existingImageUrl() ? 'Replace image' : 'Choose image' }}
+              <input type="file" accept="image/jpeg,image/png,image/webp" (change)="onFileChange($event)" hidden />
+            </label>
+            @if (imagePreviewUrl()) {
+              <button type="button" class="btn btn--ghost" (click)="clearSelectedImage()">Remove selection</button>
+            }
+            @if (existingImageUrl() && !imagePreviewUrl()) {
+              <button type="button" class="btn btn--ghost" (click)="markRemoveImage()">Remove image</button>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="field field--full">
+        <label for="imageAlt">Image Alt Text</label>
+        <input id="imageAlt" type="text" formControlName="imageAlt" placeholder="Describe the image" />
+      </div>
+
+      <div class="field field--full">
+        <label for="paragraphs">Paragraphs *</label>
+        <textarea
+          id="paragraphs"
+          class="description-textarea"
+          rows="7"
+          formControlName="paragraphs"
+          placeholder="One paragraph per line"
+        ></textarea>
+        @if (form.controls.paragraphs.touched && form.controls.paragraphs.invalid) {
+          <p class="field__error">At least one paragraph is required.</p>
+        }
+      </div>
+
+      <div class="field field--full">
+        <label for="bullets">Bullet Points</label>
+        <textarea
+          id="bullets"
+          class="description-textarea"
+          rows="4"
+          formControlName="bullets"
+          placeholder="One bullet point per line (optional)"
+        ></textarea>
+      </div>
+
+      <div class="field field--full">
+        <label for="note">Note</label>
+        <input id="note" type="text" formControlName="note" placeholder="Optional note shown on the page" />
+      </div>
+
+      <div class="field field--full">
+        <label>FAQs</label>
+        <div formArrayName="faqs" class="ann-form__faqs">
+          @for (faq of faqs.controls; track $index) {
+            <div class="ann-form__row" [formGroupName]="$index">
+              <div class="field">
+                <label [for]="'faq-question-' + $index">Question</label>
+                <input [id]="'faq-question-' + $index" type="text" formControlName="question" placeholder="Question" />
+              </div>
+              <div class="field">
+                <label [for]="'faq-answer-' + $index">Answer</label>
+                <input [id]="'faq-answer-' + $index" type="text" formControlName="answer" placeholder="Answer" />
+              </div>
+              <button type="button" class="btn btn--ghost" (click)="removeFaq($index)">Remove</button>
+            </div>
+          }
+        </div>
+        <button type="button" class="btn btn--ghost" (click)="addFaq()">+ Add FAQ</button>
+      </div>
+
+      <div class="ann-form__publish">
+        <label class="toggle">
+          <input type="checkbox" formControlName="is_published" />
+          <span class="toggle__text">
+            <strong>Published</strong>
+            <small>Make this page content visible on the public website immediately.</small>
+          </span>
+        </label>
+      </div>
+
+      @if (error()) {
+        <div class="ann-form__error" role="alert">{{ error() }}</div>
+      }
+      @if (success()) {
+        <div class="ann-form__success" role="status">{{ success() }}</div>
+      }
+
+      <div class="ann-form__actions">
+        <button type="button" class="btn btn--ghost" (click)="cancel()" [disabled]="saving()">Cancel</button>
+        <button type="submit" class="btn btn--primary" [disabled]="form.invalid || saving()">
+          {{ saving() ? 'Saving…' : (isEdit() ? 'Save changes' : 'Create') }}
+        </button>
+      </div>
+    </form>
+  }
+</section>

@@ -15,15 +15,35 @@
       </span>
     </div>
 
-    <a
-      class="topbar__social"
-      [href]="settings().instagramUrl"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Bright Way School on Instagram"
-    >
-      <app-icon name="instagram" [size]="15" />
-    </a>
+    <div class="topbar__socials">
+      <a
+        class="topbar__social"
+        [href]="settings().instagramUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        [attr.aria-label]="settings().schoolName + ' on Instagram'"
+      >
+        <app-icon name="instagram" [size]="15" />
+      </a>
+      <a
+        class="topbar__social"
+        [attr.href]="settings().facebookUrl || null"
+        target="_blank"
+        rel="noopener noreferrer"
+        [attr.aria-label]="settings().schoolName + ' on Facebook'"
+      >
+        <app-icon name="facebook" [size]="15" />
+      </a>
+      <a
+        class="topbar__social"
+        [attr.href]="settings().youtubeUrl || null"
+        target="_blank"
+        rel="noopener noreferrer"
+        [attr.aria-label]="settings().schoolName + ' on YouTube'"
+      >
+        <app-icon name="youtube" [size]="15" />
+      </a>
+    </div>
   </div>
 </div>
 

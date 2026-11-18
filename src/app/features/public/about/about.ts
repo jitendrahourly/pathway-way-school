@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  OnInit,
   afterNextRender,
   computed,
   inject,
@@ -20,8 +21,9 @@ import { TiltCardDirective } from '../../../shared/directives/tilt-card.directiv
   styleUrl: './about.scss',
   templateUrl: './about.html',
 })
-export class About {
-  protected readonly content = inject(AboutContentService).content;
+export class About implements OnInit {
+  private readonly service = inject(AboutContentService);
+  protected readonly content = this.service.content;
   private readonly destroyRef = inject(DestroyRef);
 
   protected readonly activeId = signal('story');
@@ -56,6 +58,10 @@ export class About {
       sections.forEach((section) => observer.observe(section));
       this.destroyRef.onDestroy(() => observer.disconnect());
     });
+  }
+
+  ngOnInit(): void {
+    void this.service.load();
   }
 
   protected setActive(id: string): void {

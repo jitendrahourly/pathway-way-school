@@ -1,9 +1,11 @@
 import { Service, computed, inject, signal } from '@angular/core';
 import { ANNOUNCEMENT_CATEGORIES } from '../data/announcement-categories';
 import { ANNOUNCEMENTS_CONTENT } from '../data/announcements.seed';
+import { mergeWithSeed } from '../data/seed-merge';
 import type { AnnouncementsContent } from '../models/announcements-content.model';
 import type { AnnouncementCategoryId } from '../models/announcement.model';
 import { AnnouncementsService } from './announcements.service';
+import { PageContentsService } from './page-contents.service';
 
 export interface AnnouncementFilter {
   readonly id: AnnouncementCategoryId | 'all';
@@ -19,14 +21,26 @@ export interface AnnouncementFilter {
 @Service()
 export class AnnouncementsContentService {
   private readonly announcements = inject(AnnouncementsService);
+  private readonly pageContents = inject(PageContentsService);
   private readonly state = signal<AnnouncementsContent>(ANNOUNCEMENTS_CONTENT);
 
   readonly content = this.state.asReadonly();
   readonly categories = ANNOUNCEMENT_CATEGORIES;
   readonly published = this.announcements.published;
 
-  reload(): Promise<void> {
-    return this.announcements.load();
+  constructor() {
+    void this.loadPageContent();
+  }
+
+  async reload(): Promise<void> {
+    await Promise.all([this.loadPageContent(), this.announcements.load()]);
+  }
+
+  private async loadPageContent(): Promise<void> {
+    const saved = await this.pageContents.load<Partial<AnnouncementsContent>>('announcements');
+    if (saved) {
+      this.state.set(mergeWithSeed(ANNOUNCEMENTS_CONTENT, saved));
+    }
   }
 
   readonly filters = computed<readonly AnnouncementFilter[]>(() => {

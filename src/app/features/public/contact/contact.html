@@ -18,35 +18,101 @@
       }
     </div>
 
+    <section class="contact-form-block">
+      <div class="contact-form-block__intro">
+        <p class="eyebrow">{{ page.form.eyebrow }}</p>
+        <h2>{{ page.form.title }}</h2>
+        <p class="contact-form-block__text">{{ page.form.intro }}</p>
+      </div>
+
+      <form class="contact-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="contact-form__row">
+          <div class="contact-form__field">
+            <label for="contact-name">{{ page.form.nameLabel }} *</label>
+            <input id="contact-name" type="text" formControlName="name" />
+            @if (form.controls.name.touched && form.controls.name.invalid) {
+              <p class="contact-form__error">Please enter your name.</p>
+            }
+          </div>
+          <div class="contact-form__field">
+            <label for="contact-email">{{ page.form.emailLabel }} *</label>
+            <input id="contact-email" type="email" formControlName="email" />
+            @if (form.controls.email.touched && form.controls.email.invalid) {
+              <p class="contact-form__error">Please enter a valid email address.</p>
+            }
+          </div>
+        </div>
+
+        <div class="contact-form__row">
+          <div class="contact-form__field">
+            <label for="contact-phone">{{ page.form.phoneLabel }}</label>
+            <input id="contact-phone" type="tel" formControlName="phone" />
+          </div>
+          <div class="contact-form__field">
+            <label for="contact-subject">{{ page.form.subjectLabel }} *</label>
+            <input id="contact-subject" type="text" formControlName="subject" />
+            @if (form.controls.subject.touched && form.controls.subject.invalid) {
+              <p class="contact-form__error">Please enter a subject.</p>
+            }
+          </div>
+        </div>
+
+        <div class="contact-form__field">
+          <label for="contact-message">{{ page.form.messageLabel }} *</label>
+          <textarea id="contact-message" rows="5" formControlName="message"></textarea>
+          @if (form.controls.message.touched && form.controls.message.invalid) {
+            <p class="contact-form__error">Please enter your message.</p>
+          }
+        </div>
+
+        @if (submitError()) {
+          <div class="contact-form__state contact-form__state--error" role="alert">
+            {{ submitError() }}
+          </div>
+        }
+        @if (submitted()) {
+          <div class="contact-form__state contact-form__state--success" role="status">
+            {{ page.form.successMessage }}
+          </div>
+        }
+
+        <div class="contact-form__actions">
+          <button type="submit" class="btn btn--primary" [disabled]="form.invalid || submitting()">
+            {{ submitting() ? 'Sending…' : page.form.submitLabel }}
+          </button>
+        </div>
+      </form>
+    </section>
+
     <div class="contact-grid">
       <article class="contact-card">
         <span class="contact-card__icon"><app-icon name="phone" [size]="22" /></span>
-        <h3>Phone</h3>
+        <h3>{{ page.cards.phoneTitle }}</h3>
         <a class="contact-card__value" [href]="phoneHref()">{{ site.phone }}</a>
-        <a class="contact-card__action" [href]="phoneHref()">Call Now</a>
+        <a class="contact-card__action" [href]="phoneHref()">{{ page.cards.callLabel }}</a>
       </article>
       <article class="contact-card">
         <span class="contact-card__icon"><app-icon name="mail" [size]="22" /></span>
-        <h3>Email</h3>
+        <h3>{{ page.cards.emailTitle }}</h3>
         <a class="contact-card__value" [href]="emailHref()">{{ site.email }}</a>
-        <a class="contact-card__action" [href]="emailHref()">Send Email</a>
+        <a class="contact-card__action" [href]="emailHref()">{{ page.cards.emailActionLabel }}</a>
       </article>
       <article class="contact-card">
         <span class="contact-card__icon"><app-icon name="map-pin" [size]="22" /></span>
-        <h3>Address</h3>
+        <h3>{{ page.cards.addressTitle }}</h3>
         <p class="contact-card__value">{{ site.address }}</p>
         <a
           class="contact-card__action"
           [href]="site.mapsUrl"
           target="_blank"
           rel="noopener noreferrer"
-        >View on Map</a>
+        >{{ page.cards.mapActionLabel }}</a>
       </article>
     </div>
 
     <section class="map-block">
-      <h2>Our Location</h2>
-      <p class="map-block__intro">Find us on the map below.</p>
+      <h2>{{ page.map.title }}</h2>
+      <p class="map-block__intro">{{ page.map.intro }}</p>
       @if (site.mapsUrl) {
         <div class="map-frame">
           <iframe
@@ -58,7 +124,7 @@
           ></iframe>
         </div>
       } @else {
-        <p class="map-block__empty">Map link is not configured yet.</p>
+        <p class="map-block__empty">{{ page.map.emptyMessage }}</p>
       }
     </section>
 
@@ -72,10 +138,19 @@
       </ul>
     </section>
 
+    <section class="office-hours">
+      <h2>{{ page.officeHours.title }}</h2>
+      <ul class="office-hours__list">
+        @for (line of page.officeHours.lines; track $index) {
+          <li>{{ line }}</li>
+        }
+      </ul>
+    </section>
+
     <section class="instagram-block">
       <div class="instagram-block__body">
         <span class="instagram-block__icon"><app-icon name="instagram" [size]="26" /></span>
-        <p class="instagram-block__eyebrow">Stay connected</p>
+        <p class="instagram-block__eyebrow">{{ page.instagram.eyebrow }}</p>
         <h2>{{ page.instagram.title }}</h2>
         <p class="instagram-block__handle">{{ site.instagramHandle }}</p>
         <p class="instagram-block__text">{{ page.instagram.text }}</p>
@@ -85,7 +160,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          Follow Now
+          {{ page.instagram.buttonLabel }}
           <app-icon name="arrow-up-right" [size]="16" />
         </a>
       </div>

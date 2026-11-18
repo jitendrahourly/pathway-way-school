@@ -47,6 +47,12 @@ export const ADMISSIONS_CONTENT: AdmissionsContent = {
       message:
         'Admission dates, fees and other important information will be published here once they are confirmed by the school office.',
     },
+    {
+      id: 'fees',
+      title: 'Fees',
+      message:
+        'The fee structure will be published here once it is confirmed by the school office.',
+    },
   ],
   contact: {
     title: 'Contact for Admissions',

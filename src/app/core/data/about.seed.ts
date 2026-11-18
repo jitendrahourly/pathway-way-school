@@ -63,5 +63,13 @@ export const ABOUT_CONTENT: AboutContent = {
       title: 'Recognition',
       paragraphs: ['Bright Way School is recognised by the Government of Karnataka.'],
     },
+    {
+      id: 'values',
+      title: 'Our Values',
+      paragraphs: [
+        'Respect, responsibility and compassion guide the way students and staff work together at Bright Way School.',
+        'The school encourages honesty, discipline and care for others alongside academic learning.',
+      ],
+    },
   ],
 };

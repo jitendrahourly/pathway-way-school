@@ -1,0 +1,106 @@
+<section class="ann-list">
+  <header class="ann-list__header">
+    <div>
+      <p class="ann-list__eyebrow">Content</p>
+      <h1>Page Content</h1>
+      <p class="ann-list__sub">Manage the text and images shown on the public pages.</p>
+    </div>
+    <a class="btn btn--primary" routerLink="/admin/page-content/new" (click)="rememberScrollPosition()">+ Add Page Content</a>
+  </header>
+
+  <div class="ann-list__toolbar">
+    <input
+      type="search"
+      class="ann-list__search"
+      placeholder="Search by page slug or title"
+      [value]="search()"
+      (input)="onSearch($any($event.target).value)"
+    />
+  </div>
+
+  @if (loading()) {
+    <div class="ann-list__state">Loading page content…</div>
+  } @else if (error()) {
+    <div class="ann-list__state ann-list__state--error">{{ error() }}</div>
+  } @else if (filtered().length === 0) {
+    <div class="ann-list__state">No page content found.</div>
+  } @else {
+    @for (group of grouped(); track group.name) {
+      <section class="ann-list__group">
+        <h2 class="ann-list__group-title">{{ group.name }}</h2>
+
+        <div class="ann-list__table-wrap">
+          <table class="ann-list__table">
+            <colgroup>
+              <col style="width: 25%" />
+              <col style="width: 23%" />
+              <col style="width: 12%" />
+              <col style="width: 13%" />
+              <col style="width: 27%" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Page Slug</th>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Last Updated</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of group.rows; track row.slug) {
+                <tr>
+                  <td class="ann-list__title">{{ formatSlug(row.slug) }}</td>
+                  <td>{{ row.title }}</td>
+                  <td>
+                    @if (!row.configured) {
+                      <span class="status-badge">Default</span>
+                    } @else {
+                      <span class="status-badge" [class.status-badge--published]="row.isPublished">
+                        {{ row.isPublished ? 'Published' : 'Draft' }}
+                      </span>
+                    }
+                  </td>
+                  <td>{{ formatDate(row.updatedAt) }}</td>
+                  <td>
+                    <div class="ann-list__actions">
+                      @if (previewLink(row); as link) {
+                        <a
+                          class="ann-list__action"
+                          [href]="link.href"
+                          target="_blank"
+                          rel="noopener"
+                        >{{ link.label }}</a>
+                      }
+                      <button type="button" class="ann-list__action" (click)="edit(row)">Edit</button>
+                      @if (row.configured) {
+                        <button type="button" class="ann-list__action" (click)="togglePublish(row)">
+                          {{ row.isPublished ? 'Unpublish' : 'Publish' }}
+                        </button>
+                        <button type="button" class="ann-list__action ann-list__action--danger" (click)="askDelete(row)">Delete</button>
+                      }
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    }
+  }
+
+  @if (deleteTarget()) {
+    <div class="ann-list__modal-backdrop" (click)="cancelDelete()"></div>
+    <div class="ann-list__modal" role="dialog" aria-modal="true">
+      <h2>Delete page content?</h2>
+      <p>This will delete the saved content for <strong>{{ deleteTarget()?.slug }}</strong>.</p>
+      <div class="ann-list__modal-actions">
+        <button type="button" class="btn" (click)="cancelDelete()">Cancel</button>
+        <button type="button" class="btn btn--primary" (click)="confirmDelete()" [disabled]="deleting()">
+          {{ deleting() ? 'Deleting…' : 'Delete' }}
+        </button>
+      </div>
+    </div>
+  }
+</section>

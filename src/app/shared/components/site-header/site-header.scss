@@ -69,6 +69,13 @@
   background: var(--bw-orange);
 }
 
+.topbar__socials {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: none;
+}
+
 .mainbar__inner {
   display: flex;
   align-items: center;

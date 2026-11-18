@@ -22,6 +22,8 @@ export const SITE_SETTINGS: SiteSettings = {
     'No. 105, 12th Main, Opp. BHCS Layout, Subramanyapura Post, Bangalore - 560061',
   instagramHandle: '@bright_way_school_bhcs',
   instagramUrl: 'https://www.instagram.com/bright_way_school_bhcs/',
+  facebookUrl: '',
+  youtubeUrl: '',
   mapsUrl:
     'https://www.google.com/maps?q=No.+105,+12th+Main,+Opp.+BHCS+Layout,+Subramanyapura+Post,+Bangalore+-+560061&output=embed',
   footerDescription:
@@ -63,7 +65,7 @@ export const HOME_CONTENT: HomeContent = {
   about: {
     eyebrow: 'About Us',
     title: 'About Bright Way School',
-    body: 'Bright Way School, managed by Banashankari Vidya Samsthe, is a recognised educational institution in Bengaluru, Karnataka. Established in 1981, the school is committed to providing quality education and supporting the overall development of students.',
+    body: 'Bright Way School, managed by Banashankari Vidya Samsthe, is a recognised educational institution in Bengaluru, Karnataka. Established in 1981, the school is committed to providing quality education and supporting the overall development of students. The school works closely with families to support each student\'s academic progress and wellbeing.',
     imageUrl: '/images/home/about-students.jpg',
     imageAlt: 'Students and teachers of the school together on campus',
     badge: 'Estd. 1981',

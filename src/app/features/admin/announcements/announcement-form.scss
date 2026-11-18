@@ -1,7 +1,7 @@
 :host { display: block; }
 
 .ann-form {
-  max-width: 900px;
+  max-width: 1040px;
   margin: 0 auto;
 }
 
@@ -40,12 +40,12 @@
 
 .ann-form__card {
   display: grid;
-  gap: 0.55rem;
-  padding: 1.1rem 1.2rem;
+  gap: 1rem;
+  padding: 1.5rem 1.6rem;
   background: var(--bw-white);
   border: 1px solid var(--bw-line);
-  border-radius: 18px;
-  box-shadow: 0 10px 30px rgba(48, 32, 93, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 14px 36px rgba(48, 32, 93, 0.09);
 }
 
 .field {
@@ -65,10 +65,10 @@
 
 .field input,
 .field select {
-  height: 40px;
-  padding: 0 0.9rem;
+  height: 44px;
+  padding: 0 1rem;
   border: 1px solid var(--bw-line);
-  border-radius: 10px;
+  border-radius: 12px;
   font: inherit;
   color: var(--bw-ink);
   background: var(--bw-white);
@@ -84,7 +84,7 @@
 .description-textarea {
   height: 100px;
   min-height: 100px;
-  max-height: 120px;
+  max-height: 180px;
   overflow-y: auto;
   resize: vertical;
   box-sizing: border-box;
@@ -147,11 +147,11 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem 0.75rem;
-  padding: 0.5rem 0.7rem;
-  min-height: 90px;
+  gap: 0.75rem 1rem;
+  padding: 0.9rem 1rem;
+  min-height: 120px;
   border: 1.5px dashed var(--bw-line);
-  border-radius: 14px;
+  border-radius: 16px;
   background: var(--bw-bg);
 }
 
@@ -174,9 +174,9 @@
 .upload-area__preview {
   flex: 1 1 100%;
   width: 100%;
-  max-height: 120px;
+  max-height: 200px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 14px;
   border: 1px solid var(--bw-line);
 }
 
@@ -227,7 +227,12 @@
   display: flex;
   justify-content: flex-end;
   gap: 0.65rem;
-  margin-top: 0.15rem;
+  margin-top: 0.5rem;
+  padding: 0.85rem 0;
+  position: sticky;
+  bottom: 0;
+  background: var(--bw-white);
+  border-top: 1px solid var(--bw-line);
 }
 
 .ann-form__actions .btn {

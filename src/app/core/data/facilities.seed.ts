@@ -18,6 +18,7 @@ export const FACILITIES_CONTENT: FacilitiesContent = {
     title: 'Our Facilities',
     paragraphs: [
       'Bright Way School provides spaces that support learning, reading, practical work, sport and play across the school day.',
+      'The campus is planned to support both academic learning and co-curricular activities.',
     ],
     note: 'Photographs on this page are representative placeholders and will be replaced with photographs of the school.',
   },

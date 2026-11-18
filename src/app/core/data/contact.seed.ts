@@ -1,3 +1,4 @@
+import { mergeWithSeed } from './seed-merge';
 import type { ContactContent } from '../models/contact-content.model';
 
 /**
@@ -20,6 +21,43 @@ export const CONTACT_CONTENT: ContactContent = {
       'Use the details below to reach us by phone, email or in person. For admission enquiries, please see the Admissions page.',
     ],
   },
+  form: {
+    eyebrow: 'Send a message',
+    title: 'How can we help?',
+    intro:
+      'Share your question with the school office using the form below. Please include a phone number or email address so we can reply.',
+    nameLabel: 'Your name',
+    emailLabel: 'Email address',
+    phoneLabel: 'Phone number (optional)',
+    subjectLabel: 'Subject',
+    messageLabel: 'Message',
+    submitLabel: 'Send message',
+    successMessage:
+      'Thank you. Your message has been sent to the school office.',
+    errorMessage:
+      'Sorry, your message could not be sent. Please try again or contact the school office directly.',
+  },
+  officeHours: {
+    title: 'Office Hours',
+    lines: [
+      'The school office is available during school working days.',
+      'Please call ahead before visiting the campus.',
+      'For admission enquiries, please see the Admissions page.',
+    ],
+  },
+  cards: {
+    phoneTitle: 'Phone',
+    emailTitle: 'Email',
+    addressTitle: 'Address',
+    callLabel: 'Call Now',
+    emailActionLabel: 'Send Email',
+    mapActionLabel: 'View on Map',
+  },
+  map: {
+    title: 'Our Location',
+    intro: 'Find us on the map below.',
+    emptyMessage: 'Map link is not configured yet.',
+  },
   directions: {
     title: 'Directions',
     intro: 'The school is located in Subramanyapura, Bengaluru.',
@@ -30,8 +68,10 @@ export const CONTACT_CONTENT: ContactContent = {
     ],
   },
   instagram: {
+    eyebrow: 'Stay connected',
     title: 'Follow Us on Instagram',
     text: 'Stay updated with our latest events, activities and school life.',
+    buttonLabel: 'Follow Now',
   },
   schoolDetails: {
     title: 'School Details',
@@ -44,3 +84,13 @@ export const CONTACT_CONTENT: ContactContent = {
     ],
   },
 };
+
+/**
+ * Merges a saved contact record with the seed section by section so records
+ * saved before a section existed (form, officeHours, cards, map) still render
+ * the whole page. Missing groups and fields fall back to the seed; saved
+ * values are kept as they are, including deliberately empty strings.
+ */
+export function resolveContactContent(saved: unknown): ContactContent {
+  return mergeWithSeed(CONTACT_CONTENT, saved);
+}

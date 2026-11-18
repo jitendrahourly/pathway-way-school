@@ -18,6 +18,7 @@ export const GALLERY_CONTENT: GalleryContent = {
     title: 'Life at Bright Way School',
     paragraphs: [
       'Photographs of learning, sport, play and celebrations from across the school year.',
+      'New photographs are added as they are confirmed by the school office.',
     ],
     note: 'Photographs in this gallery are representative placeholders and will be replaced with photographs of the school.',
   },

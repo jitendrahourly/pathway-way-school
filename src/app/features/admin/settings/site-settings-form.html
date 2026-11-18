@@ -1,0 +1,144 @@
+<section class="ann-form">
+  <header class="ann-form__header">
+    <div>
+      <p class="ann-form__eyebrow">Settings</p>
+      <h1>Site Settings</h1>
+    </div>
+  </header>
+
+  @if (loading()) {
+    <div class="ann-form__state">Loading…</div>
+  } @else {
+    <form class="ann-form__card" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <p class="field__hint">
+        These details are used in the site header, the footer and the Contact page.
+      </p>
+
+      <div class="field field--full">
+        <label for="schoolName">School name *</label>
+        <input id="schoolName" type="text" formControlName="schoolName" placeholder="Bright Way School" />
+        @if (form.controls.schoolName.touched && form.controls.schoolName.invalid) {
+          <p class="field__error">School name is required.</p>
+        }
+      </div>
+
+      <div class="ann-form__row">
+        <div class="field">
+          <label for="phone">Phone *</label>
+          <input id="phone" type="tel" formControlName="phone" placeholder="080-26396720" />
+          @if (form.controls.phone.touched && form.controls.phone.invalid) {
+            <p class="field__error">Phone number is required.</p>
+          }
+        </div>
+
+        <div class="field">
+          <label for="email">Email *</label>
+          <input id="email" type="email" formControlName="email" placeholder="school@example.com" />
+          @if (form.controls.email.touched && form.controls.email.invalid) {
+            <p class="field__error">Enter a valid email address.</p>
+          }
+        </div>
+      </div>
+
+      <div class="field field--full">
+        <label for="address">Address *</label>
+        <textarea
+          id="address"
+          class="description-textarea"
+          rows="3"
+          formControlName="address"
+          placeholder="School address"
+        ></textarea>
+        @if (form.controls.address.touched && form.controls.address.invalid) {
+          <p class="field__error">Address is required.</p>
+        }
+      </div>
+
+      <div class="ann-form__row">
+        <div class="field">
+          <label for="instagramHandle">Instagram handle</label>
+          <input
+            id="instagramHandle"
+            type="text"
+            formControlName="instagramHandle"
+            placeholder="@bright_way_school_bhcs"
+          />
+          <p class="field__hint">Shown on the Contact page, for example @bright_way_school_bhcs.</p>
+        </div>
+
+        <div class="field">
+          <label for="instagramUrl">Instagram URL</label>
+          <input
+            id="instagramUrl"
+            type="url"
+            formControlName="instagramUrl"
+            placeholder="https://www.instagram.com/bright_way_school_bhcs/"
+          />
+          @if (form.controls.instagramUrl.touched && form.controls.instagramUrl.invalid) {
+            <p class="field__error">Enter a full URL starting with http:// or https://.</p>
+          }
+        </div>
+      </div>
+
+      <div class="ann-form__row">
+        <div class="field">
+          <label for="facebookUrl">Facebook URL</label>
+          <input
+            id="facebookUrl"
+            type="url"
+            formControlName="facebookUrl"
+            placeholder="https://www.facebook.com/..."
+          />
+          <p class="field__hint">Shown as a Facebook icon in the header and footer.</p>
+          @if (form.controls.facebookUrl.touched && form.controls.facebookUrl.invalid) {
+            <p class="field__error">Enter a full URL starting with http:// or https://.</p>
+          }
+        </div>
+
+        <div class="field">
+          <label for="youtubeUrl">YouTube URL</label>
+          <input
+            id="youtubeUrl"
+            type="url"
+            formControlName="youtubeUrl"
+            placeholder="https://www.youtube.com/@..."
+          />
+          <p class="field__hint">Shown as a YouTube icon in the header and footer.</p>
+          @if (form.controls.youtubeUrl.touched && form.controls.youtubeUrl.invalid) {
+            <p class="field__error">Enter a full URL starting with http:// or https://.</p>
+          }
+        </div>
+      </div>
+
+      <div class="field field--full">
+        <label for="mapsUrl">Map link</label>
+        <input
+          id="mapsUrl"
+          type="url"
+          formControlName="mapsUrl"
+          placeholder="https://www.google.com/maps?q=...&amp;output=embed"
+        />
+        <p class="field__hint">
+          Used for the map on the Contact page. Paste the Google Maps embed link, which ends with
+          &amp;output=embed.
+        </p>
+        @if (form.controls.mapsUrl.touched && form.controls.mapsUrl.invalid) {
+          <p class="field__error">Enter a full URL starting with http:// or https://.</p>
+        }
+      </div>
+
+      @if (error()) {
+        <div class="ann-form__error" role="alert">{{ error() }}</div>
+      }
+      @if (success()) {
+        <div class="ann-form__success" role="status">{{ success() }}</div>
+      }
+
+      <div class="ann-form__actions">
+        <button type="submit" class="btn btn--primary" [disabled]="form.invalid || saving()">
+          {{ saving() ? 'Saving…' : 'Save settings' }}
+        </button>
+      </div>
+    </form>
+  }
+</section>
