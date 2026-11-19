@@ -26,6 +26,8 @@ export interface AboutSection {
 }
 
 export interface AboutContent {
+  /** Bumped when the default About copy changes so older saved rows can be refreshed. */
+  readonly contentVersion: number;
   readonly banner: AboutBanner;
   readonly story: AboutStory;
   readonly pillars: readonly AboutPillar[];

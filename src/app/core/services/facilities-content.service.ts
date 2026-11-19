@@ -21,7 +21,25 @@ export class FacilitiesContentService {
   async load(): Promise<void> {
     const saved = await this.pageContents.load<Partial<FacilitiesContent>>('facilities');
     if (saved) {
-      this.state.set(mergeWithSeed(FACILITIES_CONTENT, saved));
+      const merged = mergeWithSeed(FACILITIES_CONTENT, saved);
+      const hasPlaceholderText = (paragraphs?: readonly string[]) =>
+        paragraphs?.some(
+          (p) =>
+            p.includes('confirmed by the school office') ||
+            p.includes('will be updated soon') ||
+            p.includes('published once confirmed'),
+        ) ?? false;
+      const finalContent = hasPlaceholderText(merged.intro?.paragraphs)
+        ? {
+            ...merged,
+            intro: {
+              ...merged.intro,
+              paragraphs: FACILITIES_CONTENT.intro.paragraphs,
+              note: FACILITIES_CONTENT.intro.note,
+            },
+          }
+        : merged;
+      this.state.set(finalContent);
     }
   }
 

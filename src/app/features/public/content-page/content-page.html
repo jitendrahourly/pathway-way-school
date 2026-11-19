@@ -2,48 +2,270 @@
   <app-page-banner
     [title]="content.title"
     [subtitle]="content.subtitle"
-    [imageUrl]="content.imageUrl"
+    [imageUrl]="isAcademics() ? undefined : content.imageUrl"
     [imageAlt]="content.imageAlt"
+    [crumb]="pageCrumb()"
+    [crumbLink]="pageCrumbLink()"
   />
 
   <section class="content-page">
-    <div class="container content-page__grid">
-      <app-media-frame
-        class="content-page__media"
-        [src]="content.imageUrl"
-        [alt]="content.imageAlt"
-        ratio="4/3"
-      />
+    @if (isAcademics()) {
+      <div class="container">
+        <nav class="academics-stage-nav" aria-label="Academics Stages">
+          <span class="stage-nav__label">Levels of Study:</span>
+          <div class="stage-nav__pills">
+            @for (item of academicNav; track item.slug) {
+              <a
+                [routerLink]="item.path"
+                class="stage-nav__pill"
+                [class.stage-nav__pill--active]="slug === item.slug"
+              >
+                <span class="stage-nav__pill-title">{{ item.label }}</span>
+                <span class="stage-nav__pill-sub">{{ item.sub }}</span>
+              </a>
+            }
+          </div>
+        </nav>
+      </div>
+    }
 
+    @if (isSchoolLife()) {
+      <div class="container">
+        <nav class="school-life-subnav" aria-label="School Life sections">
+          <span class="school-life-subnav__label">School Life:</span>
+          <div class="school-life-subnav__pills">
+            @for (item of schoolLifeNav; track item.slug) {
+              <a
+                [routerLink]="item.path"
+                class="school-life-subnav__pill"
+                [class.school-life-subnav__pill--active]="slug === item.slug"
+              >{{ item.label }}</a>
+            }
+          </div>
+        </nav>
+      </div>
+    }
+
+    @if (isFacilities()) {
+      <div class="container">
+        <nav class="facilities-subnav" aria-label="Facilities sections">
+          <span class="facilities-subnav__label">Facilities:</span>
+          <div class="facilities-subnav__pills">
+            @for (item of facilitiesNav; track item.slug) {
+              <a
+                [routerLink]="item.path"
+                class="facilities-subnav__pill"
+                [class.facilities-subnav__pill--active]="slug === item.slug"
+              >{{ item.label }}</a>
+            }
+          </div>
+        </nav>
+      </div>
+    }
+
+    <div class="container content-page__grid">
+      <!-- Media & Facts Column -->
+      <div class="content-page__media-col">
+        <div class="content-page__media-wrapper">
+          <app-media-frame
+            class="content-page__media"
+            [src]="content.imageUrl"
+            [alt]="content.imageAlt"
+            ratio="4/3"
+          />
+          @if (isAcademics()) {
+            <div class="content-page__media-badge">
+              <app-icon name="graduation-cap" [size]="18" />
+              <span>Bright Way School · Estd. 1981</span>
+            </div>
+          }
+        </div>
+
+        @if (stageDetails(); as stage) {
+          <div class="stage-facts-card">
+            <div class="stage-facts-card__header">
+              <div class="facts-header__text">
+                <span class="facts-header__tag">Stage Summary</span>
+                <h3 class="facts-header__title">Quick Stage Facts</h3>
+              </div>
+              <span class="facts-header__badge">{{ stage.gradesBadge }}</span>
+            </div>
+
+            <div class="stage-facts-card__list">
+              @for (fact of stage.facts; track fact.label) {
+                <div class="stage-fact-item">
+                  <div class="fact-icon-box">
+                    <app-icon [name]="fact.icon" [size]="16" />
+                  </div>
+                  <div class="fact-content">
+                    <span class="fact-label">{{ fact.label }}</span>
+                    <strong class="fact-value">{{ fact.value }}</strong>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <div class="stage-facts-card__action">
+              <a routerLink="/admissions/enquiry" class="btn btn--primary facts-action-btn">
+                <span>Enquire for Admissions</span>
+                <app-icon name="arrow-right" [size]="15" />
+              </a>
+            </div>
+          </div>
+        }
+
+        @if (schoolLifeDetails(); as details) {
+          <div class="stage-facts-card stage-facts-card--school-life">
+            <div class="stage-facts-card__header">
+              <div class="facts-header__text">
+                <span class="facts-header__tag">School Life At a Glance</span>
+                <h3 class="facts-header__title">{{ details.headline }}</h3>
+              </div>
+              <span class="facts-header__badge">{{ details.gradesBadge }}</span>
+            </div>
+
+            <div class="stage-facts-card__list">
+              @for (fact of details.facts; track fact.label) {
+                <div class="stage-fact-item">
+                  <div class="fact-icon-box">
+                    <app-icon [name]="fact.icon" [size]="16" />
+                  </div>
+                  <div class="fact-content">
+                    <span class="fact-label">{{ fact.label }}</span>
+                    <strong class="fact-value">{{ fact.value }}</strong>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <div class="stage-facts-card__action">
+              <a routerLink="/school-life" class="btn btn--primary facts-action-btn">
+                <span>Explore All School Life</span>
+                <app-icon name="arrow-right" [size]="15" />
+              </a>
+            </div>
+          </div>
+        }
+
+        @if (facilitiesDetails(); as details) {
+          <div class="stage-facts-card stage-facts-card--facilities">
+            <div class="stage-facts-card__header">
+              <div class="facts-header__text">
+                <span class="facts-header__tag">Campus Infrastructure</span>
+                <h3 class="facts-header__title">{{ details.headline }}</h3>
+              </div>
+              <span class="facts-header__badge">{{ details.gradesBadge }}</span>
+            </div>
+
+            <div class="stage-facts-card__list">
+              @for (fact of details.facts; track fact.label) {
+                <div class="stage-fact-item">
+                  <div class="fact-icon-box">
+                    <app-icon [name]="fact.icon" [size]="16" />
+                  </div>
+                  <div class="fact-content">
+                    <span class="fact-label">{{ fact.label }}</span>
+                    <strong class="fact-value">{{ fact.value }}</strong>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <div class="stage-facts-card__action">
+              <a routerLink="/facilities" class="btn btn--primary facts-action-btn">
+                <span>Explore All Facilities</span>
+                <app-icon name="arrow-right" [size]="15" />
+              </a>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Main Overview & Highlights Column -->
       <div class="content-page__body">
+        @if (isAcademics()) {
+          <span class="content-page__eyebrow">Academic Stage Overview</span>
+        } @else if (isSchoolLife()) {
+          <span class="content-page__eyebrow">School Life at Bright Way</span>
+        } @else if (isFacilities()) {
+          <span class="content-page__eyebrow">Campus Infrastructure &amp; Learning Spaces</span>
+        }
+
         @for (paragraph of content.paragraphs; track $index) {
-          <p class="content-page__text">{{ paragraph }}</p>
+          <p class="content-page__text" [class.content-page__lead]="$index === 0">{{ paragraph }}</p>
         }
 
         @if (content.bullets?.length) {
-          <ul class="content-page__bullets">
-            @for (bullet of content.bullets; track bullet) {
-              <li>
-                <app-icon name="check" [size]="16" />
-                <span>{{ bullet }}</span>
-              </li>
-            }
-          </ul>
+          <div class="content-page__highlights">
+            <h3 class="highlights-title">{{ isAcademics() ? 'Key Programme Highlights' : 'Highlights' }}</h3>
+            <ul class="content-page__bullets">
+              @for (bullet of content.bullets; track bullet) {
+                <li>
+                  <span class="bullet-icon-box">
+                    <app-icon name="check" [size]="15" />
+                  </span>
+                  <span>{{ bullet }}</span>
+                </li>
+              }
+            </ul>
+          </div>
         }
 
         @if (content.note; as note) {
           <div class="content-page__note" role="note">
-            <app-icon name="clock" [size]="18" />
+            <span class="note-icon-box">
+              <app-icon name="clock" [size]="18" />
+            </span>
             <p>{{ note }}</p>
           </div>
         }
       </div>
     </div>
 
+    @if (content.sections?.length) {
+      <div class="container content-page__sections">
+        <div class="sections-intro">
+          <span class="sections-eyebrow">{{ isAcademics() ? 'Curriculum & Methodology' : 'Programme Details' }}</span>
+          <h2>{{ isAcademics() ? 'In-Depth Programme Structure' : 'More About This Programme' }}</h2>
+        </div>
+
+        <div class="sections-grid">
+          @for (section of content.sections; track section.title) {
+            <section class="content-page__section-card">
+              <div class="section-card__head">
+                <span class="section-card__indicator"></span>
+                <h2>{{ section.title }}</h2>
+              </div>
+              @for (paragraph of section.paragraphs; track $index) {
+                <p class="content-page__text">{{ paragraph }}</p>
+              }
+              @if (section.bullets?.length) {
+                <ul class="content-page__bullets content-page__bullets--cards">
+                  @for (bullet of section.bullets; track bullet) {
+                    <li>
+                      <span class="bullet-icon-box">
+                        <app-icon name="check" [size]="15" />
+                      </span>
+                      <span>{{ bullet }}</span>
+                    </li>
+                  }
+                </ul>
+              }
+            </section>
+          }
+        </div>
+      </div>
+    }
+
     @if (content.faqs?.length) {
       <section class="content-page__faqs" aria-labelledby="faq-heading">
         <div class="container">
-          <h2 id="faq-heading" class="content-page__faq-heading">Frequently asked questions</h2>
+          <div class="faqs-header">
+            <span class="faqs-eyebrow">Common Questions</span>
+            <h2 id="faq-heading" class="content-page__faq-heading">Frequently Asked Questions</h2>
+            <p class="faqs-sub">Answers to common queries about curriculum, routines, and admissions.</p>
+          </div>
+
           <div class="content-page__faq-list">
             @for (faq of content.faqs; track faq.question; let index = $index) {
               <article
@@ -57,6 +279,7 @@
                   [attr.aria-controls]="'faq-panel-' + index"
                   (click)="toggleFaq(index)"
                 >
+                  <span class="faq__q-num">Q{{ index + 1 }}</span>
                   <span class="faq__question">{{ faq.question }}</span>
                   <span class="faq__icon" aria-hidden="true">
                     <app-icon name="chevron-right" [size]="18" />
@@ -74,6 +297,78 @@
           </div>
         </div>
       </section>
+    }
+
+    @if (isAcademics()) {
+      <div class="container">
+        <div class="academics-subpage-cta">
+          <div class="subpage-cta__content">
+            <span class="subpage-cta__tag">Admissions Enquiries</span>
+            <h2>Interested in Enrolling for {{ content.title }}?</h2>
+            <p>
+              Admissions are open for the academic year. Contact our admissions office to schedule a campus visit,
+              meet our faculty, or receive an admission application.
+            </p>
+            <div class="subpage-cta__actions">
+              <a routerLink="/admissions/enquiry" class="btn btn--primary">
+                <span>Submit Admission Enquiry</span>
+                <app-icon name="arrow-right" [size]="16" />
+              </a>
+              <a routerLink="/academics" class="btn btn--outline">
+                <span>View All Academic Levels</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (isSchoolLife()) {
+      <div class="container">
+        <div class="school-life-subpage-cta">
+          <div class="subpage-cta__content">
+            <span class="subpage-cta__tag">Explore School Life</span>
+            <h2>There's More to Discover at Bright Way School</h2>
+            <p>
+              From sporting competitions to cultural performances and student clubs, school life at Bright Way is rich
+              and rewarding. Browse all areas of school life below.
+            </p>
+            <div class="subpage-cta__actions">
+              <a routerLink="/school-life" class="btn btn--primary">
+                <span>All School Life Areas</span>
+                <app-icon name="arrow-right" [size]="16" />
+              </a>
+              <a routerLink="/contact" class="btn btn--outline">
+                <span>Contact the School</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (isFacilities()) {
+      <div class="container">
+        <div class="facilities-subpage-cta">
+          <div class="subpage-cta__content">
+            <span class="subpage-cta__tag">Campus Visit &amp; Tour</span>
+            <h2>Experience Our Campus Firsthand</h2>
+            <p>
+              We invite parents and prospective students to tour our classrooms, laboratories, library, and sports grounds.
+              Schedule a visit with our admissions office today.
+            </p>
+            <div class="subpage-cta__actions">
+              <a routerLink="/contact" class="btn btn--primary">
+                <span>Schedule a Campus Visit</span>
+                <app-icon name="arrow-right" [size]="16" />
+              </a>
+              <a routerLink="/facilities" class="btn btn--outline">
+                <span>View All Facilities</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     }
   </section>
 } @else {

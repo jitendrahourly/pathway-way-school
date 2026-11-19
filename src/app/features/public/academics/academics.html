@@ -9,6 +9,7 @@
 
 <section class="academics">
   <div class="container">
+    <!-- Introduction Section -->
     <div class="academics__intro">
       <div class="academics__intro-text">
         <p class="eyebrow">{{ page.intro.eyebrow }}</p>
@@ -16,20 +17,92 @@
         @for (paragraph of page.intro.paragraphs; track $index) {
           <p class="academics__text">{{ paragraph }}</p>
         }
+
+        <div class="academics__quick-stats">
+          <div class="stat-pill">
+            <span class="stat-pill__num">40+</span>
+            <span class="stat-pill__label">Years of Excellence</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-pill__num">K–10</span>
+            <span class="stat-pill__label">Complete Schooling</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-pill__num">SSLC</span>
+            <span class="stat-pill__label">State Board Prep</span>
+          </div>
+        </div>
       </div>
 
-      <app-media-frame
-        class="academics__intro-photo"
-        [src]="page.intro.imageUrl"
-        [alt]="page.intro.imageAlt"
-        ratio="4/3"
-      />
+      <div class="academics__intro-media-wrap">
+        <app-media-frame
+          class="academics__intro-photo"
+          [src]="page.intro.imageUrl"
+          [alt]="page.intro.imageAlt"
+          ratio="4/3"
+        />
+        <div class="academics__floating-badge">
+          <app-icon name="graduation-cap" [size]="20" />
+          <span>Holistic & Value-Based Learning</span>
+        </div>
+      </div>
     </div>
 
+    <!-- Academic Stages (Levels of Study) Section -->
+    <div class="academics__stages">
+      <app-section-heading
+        eyebrow="Levels of Study"
+        title="Our Academic Stages"
+        subtitle="Explore each developmental stage from early childhood discovery to state board graduation."
+        align="center"
+      />
+
+      <div class="stages-grid">
+        @for (stage of stages; track stage.title) {
+          <article class="stage-card" [class]="'stage-card--' + stage.accent" appTiltCard>
+            <div class="stage-card__top">
+              <span class="stage-card__grades">{{ stage.grades }}</span>
+              <span class="stage-card__ages">{{ stage.ages }}</span>
+            </div>
+
+            <div class="stage-card__header">
+              <span class="stage-card__icon">
+                <app-icon [name]="stage.icon" [size]="24" />
+              </span>
+              <div>
+                <span class="stage-card__tag">{{ stage.tag }}</span>
+                <h3 class="stage-card__title">{{ stage.title }}</h3>
+              </div>
+            </div>
+
+            <p class="stage-card__desc">{{ stage.description }}</p>
+
+            <ul class="stage-card__highlights">
+              @for (item of stage.highlights; track item) {
+                <li>
+                  <app-icon name="check" [size]="15" />
+                  <span>{{ item }}</span>
+                </li>
+              }
+            </ul>
+
+            <div class="stage-card__action">
+              <a [routerLink]="stage.path" class="stage-card__btn">
+                <span>Explore {{ stage.title }}</span>
+                <app-icon name="arrow-right" [size]="16" />
+              </a>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+
+    <!-- Overview Glance Cards -->
     <div class="academics__glance">
       <app-section-heading
         eyebrow="Overview"
         title="Academic Programme at a Glance"
+        subtitle="Key facets of curriculum, board affiliation, and student assessment."
         align="center"
       />
 
@@ -47,6 +120,7 @@
       </ul>
     </div>
 
+    <!-- Detailed Curriculum & Methodology Sections -->
     <div class="academics__sections">
       @for (section of sections(); track section.id) {
         <section
@@ -94,6 +168,29 @@
           }
         </section>
       }
+    </div>
+
+    <!-- Bottom Admissions Call To Action -->
+    <div class="academics__cta">
+      <div class="cta-card">
+        <div class="cta-card__content">
+          <span class="cta-card__badge">Admissions Open</span>
+          <h2>Join the Bright Way School Family</h2>
+          <p>
+            Give your child a nurturing, value-based education supported by experienced faculty,
+            modern laboratories, and a rich co-curricular calendar.
+          </p>
+          <div class="cta-card__actions">
+            <a routerLink="/admissions/enquiry" class="btn btn--primary">
+              <span>Apply for Admission</span>
+              <app-icon name="arrow-right" [size]="16" />
+            </a>
+            <a routerLink="/contact" class="btn btn--outline">
+              <span>Contact Admissions Office</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

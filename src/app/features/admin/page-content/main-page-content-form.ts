@@ -10,6 +10,8 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ABOUT_CONTENT, resolveAboutContent } from '../../../core/data/about.seed';
+import { FACILITIES_CONTENT } from '../../../core/data/facilities.seed';
 import { mainPageSeed } from '../../../core/data/main-pages.seed';
 import { mergeWithSeed } from '../../../core/data/seed-merge';
 import { resolveContactContent } from '../../../core/data/contact.seed';
@@ -241,7 +243,31 @@ export class MainPageContentForm implements OnInit {
       const data = (row?.content ?? seedContent ?? {}) as FormValue;
       // Saved rows may predate whole sections; merge them over the seed so the
       // editor starts from the same copy the public page renders.
-      const merged = (seedContent ? mergeWithSeed(seedContent, data) : data) as FormValue;
+      const merged = (
+        slug === 'about'
+          ? resolveAboutContent(data)
+          : seedContent
+            ? mergeWithSeed(seedContent, data)
+            : data
+      ) as FormValue;
+
+      if (slug === 'facilities') {
+        const hasPlaceholder = (p?: readonly string[]) =>
+          p?.some(
+            (t) =>
+              t.includes('confirmed by the school office') ||
+              t.includes('will be updated soon') ||
+              t.includes('published once confirmed'),
+          ) ?? false;
+        const facMerged = merged as { intro?: { paragraphs?: string[]; note?: string } };
+        if (hasPlaceholder(facMerged.intro?.paragraphs)) {
+          facMerged.intro = {
+            ...facMerged.intro,
+            paragraphs: [...FACILITIES_CONTENT.intro.paragraphs],
+            note: FACILITIES_CONTENT.intro.note,
+          };
+        }
+      }
 
       switch (slug) {
         case 'home':
@@ -739,6 +765,7 @@ export class MainPageContentForm implements OnInit {
     const story = v['story'] as FormValue;
     const photo = v['photo'] as FormValue;
     return {
+      contentVersion: ABOUT_CONTENT.contentVersion,
       banner: { ...(v['banner'] as FormValue) },
       story: {
         eyebrow: story['eyebrow'] ?? '',

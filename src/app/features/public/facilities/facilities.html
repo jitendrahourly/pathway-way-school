@@ -21,6 +21,43 @@
       </p>
     </div>
 
+    <!-- Quick Stats Strip -->
+    <div class="facilities__stats-strip">
+      @for (stat of stats; track stat.label) {
+        <div class="facilities__stat-card">
+          <strong class="stat-value">{{ stat.value }}</strong>
+          <span class="stat-label">{{ stat.label }}</span>
+        </div>
+      }
+    </div>
+
+    <!-- Facilities Subpages Quick Navigation -->
+    <nav class="facilities__quick-nav" aria-label="Explore individual facilities">
+      <span class="quick-nav__label">Explore Facilities:</span>
+      <div class="quick-nav__pills">
+        <a routerLink="/facilities/classrooms" class="quick-nav__pill">
+          <app-icon name="book-open" [size]="15" />
+          <span>Classrooms</span>
+        </a>
+        <a routerLink="/facilities/library" class="quick-nav__pill">
+          <app-icon name="book-open" [size]="15" />
+          <span>Library</span>
+        </a>
+        <a routerLink="/facilities/computer-lab" class="quick-nav__pill">
+          <app-icon name="monitor" [size]="15" />
+          <span>Computer Lab</span>
+        </a>
+        <a routerLink="/facilities/sports" class="quick-nav__pill">
+          <app-icon name="trophy" [size]="15" />
+          <span>Sports Facilities</span>
+        </a>
+        <a routerLink="/facilities/other" class="quick-nav__pill">
+          <app-icon name="flask" [size]="15" />
+          <span>Science & Campus</span>
+        </a>
+      </div>
+    </nav>
+
     <section class="block">
       <app-section-heading [eyebrow]="page.gridEyebrow" [title]="page.gridHeading" />
       <div class="facilities-grid">
@@ -51,6 +88,10 @@
               <p class="detail__index">{{ facility.label }}</p>
               <h3>{{ facility.title }}</h3>
               <p class="detail__text">{{ facility.description }}</p>
+              <a [routerLink]="subpageUrl(facility.id)" class="detail__link">
+                <span>Explore {{ facility.title }} in detail</span>
+                <app-icon name="arrow-right" [size]="15" />
+              </a>
             </div>
           </article>
         }
@@ -67,5 +108,29 @@
         </div>
       </section>
     }
+
+    <!-- Campus Visit / Tour CTA Section -->
+    <div class="facilities__cta">
+      <div class="facilities-cta-card">
+        <div class="facilities-cta-card__content">
+          <span class="facilities-cta-card__badge">Campus Visits & Tours</span>
+          <h2>Experience Our Campus Firsthand</h2>
+          <p>
+            We invite prospective parents and students to visit Bright Way School. Walk through our
+            well-ventilated classrooms, explore our science and computer laboratories, tour the library,
+            and see our play areas in action.
+          </p>
+          <div class="facilities-cta-card__actions">
+            <a routerLink="/contact" class="btn btn--primary">
+              <span>Schedule a Campus Visit</span>
+              <app-icon name="arrow-right" [size]="16" />
+            </a>
+            <a routerLink="/admissions/enquiry" class="btn btn--outline">
+              <span>Admissions Enquiry</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>

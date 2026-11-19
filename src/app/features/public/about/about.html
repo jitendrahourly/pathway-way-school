@@ -1,67 +1,205 @@
 @let page = content();
 
-<app-page-banner
-  [title]="page.banner.title"
-  [subtitle]="page.banner.subtitle"
-  [imageUrl]="page.banner.imageUrl"
-  [imageAlt]="page.banner.imageAlt"
-/>
+<section class="ab-hero">
+  <div class="container ab-hero__grid">
+    <div class="ab-hero__copy">
+      <p class="ab-eyebrow"><span class="ab-eyebrow__line"></span> About Us</p>
+      <h1>{{ page.banner.title }}</h1>
+      <p class="ab-hero__subtitle">{{ page.banner.subtitle }}</p>
+      @if (page.story.paragraphs[0]) {
+        <p class="ab-hero__lead">{{ page.story.paragraphs[0] }}</p>
+      }
+      <div class="ab-hero__actions">
+        <button type="button" class="ab-btn ab-btn--primary" (click)="scrollTo('story')">
+          Discover our story
+          <app-icon name="arrow-right" [size]="16" />
+        </button>
+        <a class="ab-btn ab-btn--ghost" routerLink="/about/our-school">Explore our school</a>
+      </div>
 
-<section class="about-page">
-  <div class="container about-page__grid">
-    <aside class="toc">
-      <p class="toc__title">On this page</p>
-      <nav aria-label="About page sections">
-        @for (link of links(); track link.id) {
-          <a
-            [href]="'#' + link.id"
-            [class.is-active]="activeId() === link.id"
-            [attr.aria-current]="activeId() === link.id ? 'location' : null"
-            (click)="setActive(link.id)"
-          >
-            {{ link.label }}
-          </a>
-        }
-      </nav>
-    </aside>
+      <div class="ab-hero__stats">
+        <div class="ab-hero__stat">
+          <span class="ab-hero__stat-value">1981</span>
+          <span class="ab-hero__stat-label">Established</span>
+        </div>
+        <span class="ab-hero__stat-sep" aria-hidden="true"></span>
+        <div class="ab-hero__stat">
+          <span class="ab-hero__stat-value">K – 10</span>
+          <span class="ab-hero__stat-label">Classes offered</span>
+        </div>
+        <span class="ab-hero__stat-sep" aria-hidden="true"></span>
+        <div class="ab-hero__stat">
+          <span class="ab-hero__stat-value">45+</span>
+          <span class="ab-hero__stat-label">Years of service</span>
+        </div>
+        <span class="ab-hero__stat-sep" aria-hidden="true"></span>
+        <div class="ab-hero__stat">
+          <span class="ab-hero__stat-value">Karnataka</span>
+          <span class="ab-hero__stat-label">Govt. recognised</span>
+        </div>
+      </div>
+    </div>
 
-    <article class="about-page__body">
-      <section id="story" data-about-section class="block">
-        <p class="eyebrow">{{ page.story.eyebrow }}</p>
-        <h2>{{ page.story.title }}</h2>
-        @for (paragraph of page.story.paragraphs; track $index) {
-          <p class="block__text">{{ paragraph }}</p>
-        }
-      </section>
-
-      <div id="vision-mission" data-about-section class="pillars">
-        @for (pillar of page.pillars; track pillar.title) {
-          <div class="pillar" appTiltCard>
-            <span class="pillar__icon"><app-icon [name]="pillar.icon" [size]="22" /></span>
-            <div>
-              <h3>{{ pillar.title }}</h3>
-              <p>{{ pillar.text }}</p>
-            </div>
+    <div class="ab-hero__visual">
+      <div class="ab-hero__frame">
+        @if (page.banner.imageUrl) {
+          <img [src]="page.banner.imageUrl" [alt]="page.banner.imageAlt" />
+        } @else {
+          <div class="ab-hero__fallback">
+            <app-icon name="image" [size]="34" />
           </div>
         }
       </div>
-
-      <app-media-frame
-        class="about-page__photo"
-        [src]="page.photo.url"
-        [alt]="page.photo.alt"
-        ratio="16/9"
-        position="center 45%"
-      />
-
-      @for (section of page.sections; track section.id) {
-        <section [id]="section.id" data-about-section class="block">
-          <h2>{{ section.title }}</h2>
-          @for (paragraph of section.paragraphs; track $index) {
-            <p class="block__text">{{ paragraph }}</p>
+      <div class="ab-hero__stamp">
+        <span class="ab-hero__stamp-icon">
+          <app-icon name="graduation-cap" [size]="20" />
+        </span>
+        <div>
+          <strong>Bright Way School</strong>
+          @if (page.story.eyebrow) {
+            <span>{{ page.story.eyebrow }}</span>
           }
-        </section>
-      }
-    </article>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
+
+<nav class="ab-hub" aria-label="Explore About Bright Way School">
+  <div class="container ab-hub__grid">
+    @for (link of aboutLinks; track link.path) {
+      <a class="ab-hub__card" [routerLink]="link.path">
+        <span class="ab-hub__icon">
+          <app-icon [name]="link.icon" [size]="20" />
+        </span>
+        <span class="ab-hub__copy">
+          <strong>{{ link.label }}</strong>
+          <span>{{ link.text }}</span>
+        </span>
+        <app-icon name="arrow-up-right" [size]="16" />
+      </a>
+    }
+  </div>
+</nav>
+
+<div class="container ab-layout">
+  <aside class="ab-toc">
+    <p class="ab-toc__label">On this page</p>
+    <nav aria-label="About page sections">
+      @for (link of links(); track link.id) {
+        <a
+          [href]="'#' + link.id"
+          [class.is-active]="activeId() === link.id"
+          [attr.aria-current]="activeId() === link.id ? 'location' : null"
+          (click)="setActive(link.id)"
+        >
+          {{ link.label }}
+        </a>
+      }
+    </nav>
+  </aside>
+
+  <main class="ab-content">
+    <section id="story" data-about-section class="ab-story">
+      <div class="ab-story__mark" aria-hidden="true">“</div>
+      <div class="ab-story__copy">
+        <p class="ab-eyebrow ab-eyebrow--dark">{{ page.story.eyebrow }}</p>
+        <h2>{{ page.story.title }}</h2>
+        @for (paragraph of storyParagraphs(); track $index) {
+          <p [class.ab-story__lead]="$first">{{ paragraph }}</p>
+        }
+      </div>
+    </section>
+
+    <section id="vision-mission" data-about-section class="ab-pillars">
+      <div class="ab-section-head">
+        <p class="ab-eyebrow ab-eyebrow--dark">What guides us</p>
+        <h2>Vision, mission and values</h2>
+      </div>
+      <div class="ab-pillars__grid">
+        @for (pillar of page.pillars; track pillar.title) {
+          <article class="ab-pillar">
+            <span class="ab-pillar__icon">
+              <app-icon [name]="pillar.icon" [size]="22" />
+            </span>
+            <h3>{{ pillar.title }}</h3>
+            <p>{{ pillar.text }}</p>
+          </article>
+        }
+      </div>
+    </section>
+
+    @if (page.photo.url) {
+      <figure class="ab-photo">
+        <img [src]="page.photo.url" [alt]="page.photo.alt" loading="lazy" />
+      </figure>
+    }
+
+    <div class="ab-chapters">
+      @for (section of sectionViews(); track section.id; let i = $index) {
+        <section
+          class="ab-chapter"
+          [id]="section.id"
+          data-about-section
+          [style.animation-delay.ms]="i * 70"
+        >
+          <div class="ab-chapter__rail" aria-hidden="true">
+            <span>{{ section.number.toString().padStart(2, '0') }}</span>
+            <span class="ab-chapter__icon">
+              <app-icon [name]="section.icon" [size]="20" />
+            </span>
+          </div>
+          <div class="ab-chapter__body">
+            <h2>{{ section.title }}</h2>
+            @for (block of section.blocks; track $index) {
+              @if (block.kind === 'text') {
+                <p>{{ block.text }}</p>
+              } @else {
+                <div
+                  class="content-points"
+                  [class.content-points--numbered]="block.style === 'numbered'"
+                >
+                  @for (point of block.points; track $index) {
+                    <article
+                      class="content-point"
+                      [class.content-point--bullet]="block.style === 'bullet'"
+                    >
+                      <span class="content-point__mark" aria-hidden="true">
+                        @if (point.number) {
+                          {{ point.number }}
+                        } @else {
+                          <app-icon name="check" [size]="14" />
+                        }
+                      </span>
+                      <div class="content-point__copy">
+                        @if (point.label) {
+                          <h3 class="content-point__label">{{ point.label }}</h3>
+                        }
+                        <p class="content-point__text">{{ point.text }}</p>
+                      </div>
+                    </article>
+                  }
+                </div>
+              }
+            }
+          </div>
+        </section>
+      }
+    </div>
+
+    <section class="ab-cta">
+      <div class="ab-cta__copy">
+        <p class="ab-eyebrow ab-eyebrow--light"><span class="ab-eyebrow__line"></span> Visit us</p>
+        <h2>See Bright Way School for yourself.</h2>
+        <p>
+          Explore our campus, meet the people who guide our students, and discover how learning
+          comes together here.
+        </p>
+      </div>
+      <div class="ab-cta__actions">
+        <a class="ab-btn ab-btn--primary" routerLink="/admissions">Admissions</a>
+        <a class="ab-btn ab-btn--ghost" routerLink="/contact">Contact us</a>
+      </div>
+    </section>
+  </main>
+</div>

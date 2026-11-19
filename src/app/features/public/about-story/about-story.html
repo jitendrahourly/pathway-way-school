@@ -1,0 +1,216 @@
+@if (page(); as content) {
+  <section class="os-hero">
+    <div class="container os-hero__grid">
+      <div class="os-hero__copy">
+        <p class="os-eyebrow"><span class="os-eyebrow__line"></span> {{ eyebrow }}</p>
+        <h1>{{ content.title }}</h1>
+        <p class="os-hero__subtitle">{{ content.subtitle }}</p>
+        @if (content.paragraphs[0]) {
+          <p class="os-hero__lead">{{ content.paragraphs[0] }}</p>
+        }
+        <div class="os-hero__actions">
+          @if (links().length) {
+            <button type="button" class="os-btn os-btn--primary" (click)="scrollTo(links()[0].id)">
+              Explore the page
+              <app-icon name="arrow-right" [size]="16" />
+            </button>
+          }
+          <a class="os-btn os-btn--ghost" routerLink="/contact">Contact us</a>
+        </div>
+      </div>
+
+      <div class="os-hero__visual">
+        <div class="os-hero__frame">
+          @if (content.imageUrl) {
+            <img [src]="content.imageUrl" [alt]="content.imageAlt" />
+          } @else {
+            <div class="os-hero__fallback">
+              <app-icon name="image" [size]="34" />
+            </div>
+          }
+        </div>
+        <div class="os-hero__stamp">
+          <span class="os-hero__stamp-icon">
+            <app-icon name="graduation-cap" [size]="20" />
+          </span>
+          <div>
+            <strong>Bright Way School</strong>
+            <span>{{ eyebrow }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="about-sub-nav" aria-label="About Us sections">
+    <div class="container about-sub-nav__inner">
+      @for (item of aboutSubNav; track item.slug) {
+        <a
+          class="about-sub-nav__pill"
+          [class.about-sub-nav__pill--active]="isActiveSubNav(item.slug)"
+          [routerLink]="item.path"
+        >{{ item.label }}</a>
+      }
+    </div>
+  </nav>
+
+  <div class="container os-layout">
+    <aside class="os-toc">
+      <p class="os-toc__label">On this page</p>
+      <nav [attr.aria-label]="eyebrow + ' sections'">
+        @for (link of links(); track link.id) {
+          <a
+            [href]="'#' + link.id"
+            [class.is-active]="activeId() === link.id"
+            [attr.aria-current]="activeId() === link.id ? 'location' : null"
+            (click)="scrollTo(link.id); $event.preventDefault()"
+          >
+            {{ link.title }}
+          </a>
+        }
+      </nav>
+    </aside>
+
+    <main class="os-content">
+      @if (introBlocks().length) {
+        <section class="os-intro">
+          <span class="os-intro__quote" aria-hidden="true">“</span>
+          <div class="os-intro__copy">
+            @for (block of introBlocks(); track $index) {
+              @if (block.kind === 'text') {
+                <p [class.os-intro__lead]="$first">{{ block.text }}</p>
+              } @else {
+                <div
+                  class="content-points"
+                  [class.content-points--numbered]="block.style === 'numbered'"
+                >
+                  @for (point of block.points; track $index) {
+                    <article
+                      class="content-point"
+                      [class.content-point--bullet]="block.style === 'bullet'"
+                    >
+                      <span class="content-point__mark" aria-hidden="true">
+                        @if (point.number) {
+                          {{ point.number }}
+                        } @else {
+                          <app-icon name="check" [size]="14" />
+                        }
+                      </span>
+                      <div class="content-point__copy">
+                        @if (point.label) {
+                          <h3 class="content-point__label">{{ point.label }}</h3>
+                        }
+                        <p class="content-point__text">{{ point.text }}</p>
+                      </div>
+                    </article>
+                  }
+                </div>
+              }
+            }
+          </div>
+        </section>
+      }
+
+      <div class="os-chapters">
+        @for (section of sectionViews(); track section.id; let i = $index) {
+          <section
+            class="os-chapter"
+            [id]="section.id"
+            data-our-school-section
+            [style.animation-delay.ms]="i * 70"
+          >
+            <div class="os-chapter__rail" aria-hidden="true">
+              <span class="os-chapter__number">{{ section.number.toString().padStart(2, '0') }}</span>
+              <span class="os-chapter__icon">
+                <app-icon [name]="section.icon" [size]="20" />
+              </span>
+            </div>
+
+            <div class="os-chapter__body">
+              <h2>{{ section.title }}</h2>
+              @for (block of section.blocks; track $index) {
+                @if (block.kind === 'text') {
+                  <p>{{ block.text }}</p>
+                } @else {
+                  <div
+                    class="content-points"
+                    [class.content-points--numbered]="block.style === 'numbered'"
+                  >
+                    @for (point of block.points; track $index) {
+                      <article
+                        class="content-point"
+                        [class.content-point--bullet]="block.style === 'bullet'"
+                      >
+                        <span class="content-point__mark" aria-hidden="true">
+                          @if (point.number) {
+                            {{ point.number }}
+                          } @else {
+                            <app-icon name="check" [size]="14" />
+                          }
+                        </span>
+                        <div class="content-point__copy">
+                          @if (point.label) {
+                            <h3 class="content-point__label">{{ point.label }}</h3>
+                          }
+                          <p class="content-point__text">{{ point.text }}</p>
+                        </div>
+                      </article>
+                    }
+                  </div>
+                }
+              }
+            </div>
+          </section>
+        }
+      </div>
+
+      @if (content.note) {
+        <div class="os-note" role="note">
+          <app-icon name="clock" [size]="18" />
+          <p>{{ content.note }}</p>
+        </div>
+      }
+
+      @if (content.faqs?.length) {
+        <section class="os-faqs" aria-labelledby="os-faq-heading">
+          <h2 id="os-faq-heading">Frequently asked questions</h2>
+          <div class="os-faqs__list">
+            @for (faq of content.faqs; track faq.question; let index = $index) {
+              <article class="os-faq" [class.os-faq--open]="openFaq() === index">
+                <button
+                  type="button"
+                  class="os-faq__trigger"
+                  [attr.aria-expanded]="openFaq() === index"
+                  [attr.aria-controls]="'os-faq-panel-' + index"
+                  (click)="toggleFaq(index)"
+                >
+                  <span>{{ faq.question }}</span>
+                  <span class="os-faq__icon"><app-icon name="chevron-right" [size]="18" /></span>
+                </button>
+                <div class="os-faq__panel" [id]="'os-faq-panel-' + index" role="region">
+                  <p>{{ faq.answer }}</p>
+                </div>
+              </article>
+            }
+          </div>
+        </section>
+      }
+
+      <section class="os-cta">
+        <div class="os-cta__copy">
+          <p class="os-eyebrow os-eyebrow--light"><span class="os-eyebrow__line"></span> Keep exploring</p>
+          <h2>Discover more about Bright Way School.</h2>
+          <p>Follow the links below to learn about our vision, leadership, and journey.</p>
+        </div>
+        <div class="os-cta__links">
+          @for (link of exploreLinks(); track link.path) {
+            <a [routerLink]="link.path">
+              <span>{{ link.label }}</span>
+              <app-icon name="arrow-up-right" [size]="16" />
+            </a>
+          }
+        </div>
+      </section>
+    </main>
+  </div>
+}

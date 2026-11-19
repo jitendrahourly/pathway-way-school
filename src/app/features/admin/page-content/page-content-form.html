@@ -5,6 +5,11 @@
       <h1>{{ isEdit() ? 'Edit Page Content' : 'Add Page Content' }}</h1>
     </div>
     <div class="ann-form__actions">
+      @if (hasSeedTemplate()) {
+        <button type="button" class="btn btn--ghost" (click)="restoreDefaultContent()" title="Populate with recommended template content">
+          Load Default Content
+        </button>
+      }
       @if (previewUrl()) {
         <a class="btn btn--ghost" [href]="previewUrl()" target="_blank" rel="noopener">Preview page</a>
       }
@@ -109,6 +114,47 @@
           formControlName="bullets"
           placeholder="One bullet point per line (optional)"
         ></textarea>
+      </div>
+
+      <div class="field field--full">
+        <label>Content Sections</label>
+        <div formArrayName="sections" class="ann-form__faqs">
+          @for (section of sections.controls; track $index) {
+            <div class="ann-form__array-item" [formGroupName]="$index">
+              <div class="field">
+                <label [for]="'section-title-' + $index">Section Heading</label>
+                <input
+                  [id]="'section-title-' + $index"
+                  type="text"
+                  formControlName="title"
+                  placeholder="e.g. Our Learning Environment"
+                />
+              </div>
+              <div class="field">
+                <label [for]="'section-paragraphs-' + $index">Paragraphs (one per line)</label>
+                <textarea
+                  [id]="'section-paragraphs-' + $index"
+                  class="description-textarea"
+                  rows="4"
+                  formControlName="paragraphs"
+                ></textarea>
+              </div>
+              <div class="field">
+                <label [for]="'section-bullets-' + $index">Bullet Points (one per line, optional)</label>
+                <textarea
+                  [id]="'section-bullets-' + $index"
+                  class="description-textarea"
+                  rows="3"
+                  formControlName="bullets"
+                ></textarea>
+              </div>
+              <button type="button" class="btn btn--ghost" (click)="removeSection($index)">
+                Remove section
+              </button>
+            </div>
+          }
+        </div>
+        <button type="button" class="btn btn--ghost" (click)="addSection()">+ Add section</button>
       </div>
 
       <div class="field field--full">

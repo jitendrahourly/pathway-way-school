@@ -1,26 +1,28 @@
 <app-page-banner
-  title="School Life"
-  subtitle="Learning beyond the classroom"
-  imageUrl="/images/gallery/gallery-03.jpg"
-  imageAlt="Students gathered together at the school"
+  title="School Life & Events"
+  subtitle="Learning, celebrating, and thriving beyond the classroom"
+  imageUrl="/images/gallery/gallery-01.jpg"
+  imageAlt="Bright Way School students marching in uniform at the annual sports day"
 />
 
 <section class="school-life">
   <div class="container">
+    <div class="school-life__stats-strip">
+      @for (stat of stats; track stat.label) {
+        <div class="school-life__stat-card">
+          <strong class="stat-value">{{ stat.value }}</strong>
+          <span class="stat-label">{{ stat.label }}</span>
+        </div>
+      }
+    </div>
+
     <div class="intro">
-      <p class="eyebrow">Beyond the classroom</p>
-      <h2>School Life at Bright Way School</h2>
+      <p class="eyebrow">Beyond the Classroom</p>
+      <h2>Life at Bright Way School</h2>
       <p class="school-life__text">
-        Learning at Bright Way School combines classroom teaching with co-curricular
-        activities, sport, the arts and cultural events, with a strong emphasis on
-        discipline, ethics and leadership.
-      </p>
-      <p class="intro__note">
-        <app-icon name="clock" [size]="16" />
-        <span>
-          Specific programmes, dates and details for each area below will be published
-          once they are confirmed by the school office.
-        </span>
+        Education at Bright Way School is a vibrant journey that combines academic rigor with lively co-curricular
+        activities, competitive sports, artistic expression, and meaningful community celebrations. We nurture well-rounded
+        students grounded in discipline, empathy, and leadership.
       </p>
     </div>
 
@@ -32,19 +34,53 @@
           [revealDelay]="$index * 90"
           [id]="section.id"
         >
-          <span class="section-card__icon">
-            <app-icon name="trophy" [size]="20" />
-          </span>
-          <div>
+          <div class="section-card__top">
+            <span class="section-card__icon">
+              <app-icon [name]="section.icon" [size]="22" />
+            </span>
+            <span class="section-card__tag">{{ section.tag }}</span>
+          </div>
+
+          <div class="section-card__body">
             <h3>{{ section.title }}</h3>
             <p>{{ section.text }}</p>
-            <p class="section-card__pending">
-              <app-icon name="clock" [size]="14" />
-              <span>Information will be updated soon.</span>
-            </p>
+
+            <div class="section-card__pills">
+              @for (highlight of section.highlights; track highlight) {
+                <span class="highlight-pill">{{ highlight }}</span>
+              }
+            </div>
+          </div>
+
+          <div class="section-card__footer">
+            <a [routerLink]="section.path" class="section-card__link">
+              <span>Explore {{ section.title }}</span>
+              <app-icon name="arrow-right" [size]="15" />
+            </a>
           </div>
         </article>
       }
+    </div>
+
+    <div class="school-life__cta">
+      <div class="school-life__cta-content">
+        <p class="eyebrow eyebrow--light">Join Our Community</p>
+        <h2>Experience School Life at Bright Way</h2>
+        <p>
+          Discover how our events, activities, and faculty mentorship inspire students to reach their full potential.
+          Schedule a visit or submit an admissions enquiry today.
+        </p>
+        <div class="cta-actions">
+          <a routerLink="/admissions/enquiry" class="btn btn--primary">
+            <span>Enquire for Admissions</span>
+            <app-icon name="arrow-right" [size]="16" />
+          </a>
+          <a routerLink="/gallery" class="btn btn--ghost">
+            <span>View Campus Gallery</span>
+            <app-icon name="image" [size]="16" />
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </section>

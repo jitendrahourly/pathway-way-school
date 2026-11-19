@@ -44,6 +44,111 @@
   color: var(--bw-orange);
 }
 
+/* ==========================================================================
+   Quick Stats Strip
+   ========================================================================== */
+.facilities__stats-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.facilities__stat-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.15rem 1.25rem;
+  background: var(--bw-purple-soft);
+  border: 1px solid rgba(48, 32, 93, 0.08);
+  border-radius: 14px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(48, 32, 93, 0.07);
+  }
+}
+
+.stat-value {
+  font-family: var(--bw-font-display);
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+  font-weight: 800;
+  color: var(--bw-purple);
+  line-height: 1.1;
+  margin-bottom: 0.35rem;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--bw-body);
+}
+
+/* ==========================================================================
+   Facilities Quick Navigation Pills
+   ========================================================================== */
+.facilities__quick-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2.25rem;
+  padding: 1rem 1.25rem;
+  background: #ffffff;
+  border: 1px solid var(--bw-line);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(48, 32, 93, 0.04);
+}
+
+.quick-nav__label {
+  font-family: var(--bw-font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--bw-purple);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.quick-nav__pills {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.quick-nav__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.95rem;
+  border-radius: 10px;
+  background: var(--bw-bg);
+  border: 1px solid var(--bw-line);
+  color: var(--bw-purple);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+
+  app-icon {
+    color: var(--bw-orange);
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    background: var(--bw-purple);
+    color: #ffffff;
+    border-color: var(--bw-purple);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(48, 32, 93, 0.15);
+
+    app-icon {
+      color: #ffffff;
+      transform: scale(1.1);
+    }
+  }
+}
+
 /* Grid and detail blocks */
 .block {
   margin-top: clamp(2.5rem, 4vw, 3.5rem);
@@ -106,6 +211,132 @@
   color: var(--bw-body);
 }
 
+.detail__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 1.15rem;
+  padding: 0.6rem 1.15rem;
+  border-radius: 10px;
+  background: var(--bw-purple-soft);
+  border: 1px solid rgba(48, 32, 93, 0.1);
+  color: var(--bw-purple);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+
+  app-icon {
+    color: var(--bw-orange);
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    background: var(--bw-purple);
+    color: #ffffff;
+    border-color: var(--bw-purple);
+    transform: translateX(3px);
+
+    app-icon {
+      color: #ffffff;
+      transform: translateX(3px);
+    }
+  }
+}
+
+/* ==========================================================================
+   Campus Visits / Tour CTA Section
+   ========================================================================== */
+.facilities__cta {
+  margin-top: clamp(3.5rem, 6vw, 5rem);
+}
+
+.facilities-cta-card {
+  background: linear-gradient(135deg, var(--bw-purple-dark) 0%, var(--bw-purple) 60%, #462c82 100%);
+  border-radius: 24px;
+  padding: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+  color: #ffffff;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(48, 32, 93, 0.22);
+}
+
+.facilities-cta-card__badge {
+  display: inline-block;
+  padding: 0.35rem 0.95rem;
+  border-radius: 20px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: rgba(232, 121, 39, 0.22);
+  color: #fca76a;
+  border: 1px solid rgba(232, 121, 39, 0.4);
+  margin-bottom: 1.15rem;
+}
+
+.facilities-cta-card h2 {
+  color: #ffffff;
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  font-weight: 700;
+  margin: 0 0 1rem;
+  line-height: 1.25;
+}
+
+.facilities-cta-card p {
+  max-width: 620px;
+  margin: 0 auto 2rem;
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.facilities-cta-card__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.65rem;
+  border-radius: 12px;
+  font-family: var(--bw-font-display);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &--primary {
+    background: var(--bw-orange);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(232, 121, 39, 0.35);
+
+    &:hover {
+      background: var(--bw-orange-dark, #cf6315);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(232, 121, 39, 0.45);
+    }
+  }
+
+  &--outline {
+    background: transparent;
+    color: #ffffff;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: #ffffff;
+      transform: translateY(-2px);
+    }
+  }
+}
+
 @include mx.down(1024px) {
   .facilities-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -113,6 +344,10 @@
 }
 
 @include mx.down(900px) {
+  .facilities__stats-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .detail {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -127,7 +362,29 @@
 }
 
 @include mx.down(560px) {
+  .facilities__stats-strip {
+    grid-template-columns: 1fr;
+  }
+
   .facilities-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .quick-nav__pills {
+    width: 100%;
+  }
+
+  .quick-nav__pill {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .facilities-cta-card__actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .facilities-cta-card__actions .btn {
+    width: 100%;
   }
 }

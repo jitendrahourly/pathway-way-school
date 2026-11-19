@@ -1,0 +1,202 @@
+<section class="ann-form">
+  <header class="ann-form__header">
+    <div>
+      <p class="ann-form__eyebrow">Content</p>
+      <h1>Edit Management Page Content</h1>
+      <p class="ann-form__sub">Manage the banner, principal message, facts and faculty shown on /about/management.</p>
+    </div>
+    <div class="ann-form__actions">
+      <a class="btn btn--ghost" href="/about/management" target="_blank" rel="noopener">Preview page</a>
+      <a class="btn btn--ghost" routerLink="/admin/page-content">Back to list</a>
+    </div>
+  </header>
+
+  @if (loading()) {
+    <div class="ann-form__state">Loading…</div>
+  } @else {
+    <form class="ann-form__card" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <h2 class="ann-form__section-title">Banner</h2>
+      <div formGroupName="banner">
+        <div class="ann-form__row">
+          <div class="field">
+            <label for="management-banner-title">Title</label>
+            <input id="management-banner-title" type="text" formControlName="title" />
+          </div>
+          <div class="field">
+            <label for="management-banner-subtitle">Subtitle</label>
+            <input id="management-banner-subtitle" type="text" formControlName="subtitle" />
+          </div>
+        </div>
+        <div class="field field--full">
+          <label>Background Image</label>
+          <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
+        </div>
+        <div class="field">
+          <label for="management-banner-alt">Image Alt Text</label>
+          <input id="management-banner-alt" type="text" formControlName="imageAlt" />
+        </div>
+      </div>
+
+      <h2 class="ann-form__section-title">Management Introduction</h2>
+      <div class="field field--full">
+        <label for="management-paragraphs">Paragraphs (one per line)</label>
+        <textarea id="management-paragraphs" rows="4" formControlName="paragraphs"></textarea>
+      </div>
+
+      <h2 class="ann-form__section-title">Principal's Message</h2>
+      <div formGroupName="principal">
+        <div class="ann-form__row">
+          <div class="field">
+            <label for="management-principal-name">Name</label>
+            <input id="management-principal-name" type="text" formControlName="name" />
+          </div>
+          <div class="field">
+            <label for="management-principal-role">Role</label>
+            <input id="management-principal-role" type="text" formControlName="role" />
+          </div>
+        </div>
+        <div class="field field--full">
+          <label for="management-principal-message">Message</label>
+          <textarea id="management-principal-message" rows="3" formControlName="message"></textarea>
+        </div>
+        <div class="field field--full">
+          <label for="management-principal-secondary">Message (continued)</label>
+          <textarea
+            id="management-principal-secondary"
+            rows="3"
+            formControlName="messageSecondary"
+          ></textarea>
+        </div>
+        <div class="field field--full">
+          <label>Portrait</label>
+          <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
+        </div>
+      </div>
+
+      <h2 class="ann-form__section-title">Management Facts</h2>
+      <div formArrayName="facts">
+        @for (fact of facts.controls; track $index) {
+          <div class="ann-form__array-item" [formGroupName]="$index">
+            <div class="ann-form__row">
+              <div class="field">
+                <label [for]="'management-fact-icon-' + $index">Icon</label>
+                <input
+                  [id]="'management-fact-icon-' + $index"
+                  type="text"
+                  formControlName="icon"
+                  placeholder="e.g. calendar, users, check"
+                />
+              </div>
+              <div class="field">
+                <label [for]="'management-fact-label-' + $index">Label</label>
+                <input
+                  [id]="'management-fact-label-' + $index"
+                  type="text"
+                  formControlName="label"
+                />
+              </div>
+            </div>
+            <div class="field">
+              <label [for]="'management-fact-value-' + $index">Value</label>
+              <input
+                [id]="'management-fact-value-' + $index"
+                type="text"
+                formControlName="value"
+              />
+            </div>
+            <button type="button" class="btn btn--ghost" (click)="removeFact($index)">
+              Remove fact
+            </button>
+          </div>
+        }
+      </div>
+      <button type="button" class="btn btn--ghost" (click)="addFact()">+ Add fact</button>
+
+      <h2 class="ann-form__section-title">Faculty</h2>
+      <div class="field field--full">
+        <label for="management-faculty-intro">Faculty Introduction</label>
+        <textarea id="management-faculty-intro" rows="3" formControlName="facultyIntro"></textarea>
+      </div>
+
+      <div formArrayName="faculty">
+        @for (member of faculty.controls; track $index) {
+          <div class="ann-form__array-item" [formGroupName]="$index">
+            <div class="ann-form__row">
+              <div class="field">
+                <label [for]="'management-faculty-name-' + $index">Name</label>
+                <input
+                  [id]="'management-faculty-name-' + $index"
+                  type="text"
+                  formControlName="name"
+                />
+              </div>
+              <div class="field">
+                <label [for]="'management-faculty-role-' + $index">Role</label>
+                <input
+                  [id]="'management-faculty-role-' + $index"
+                  type="text"
+                  formControlName="role"
+                />
+              </div>
+            </div>
+            <div class="ann-form__row">
+              <div class="field">
+                <label [for]="'management-faculty-subject-' + $index">Subject</label>
+                <input
+                  [id]="'management-faculty-subject-' + $index"
+                  type="text"
+                  formControlName="subject"
+                />
+              </div>
+              <div class="field">
+                <label [for]="'management-faculty-qualification-' + $index">Qualification</label>
+                <input
+                  [id]="'management-faculty-qualification-' + $index"
+                  type="text"
+                  formControlName="qualification"
+                />
+              </div>
+            </div>
+            <div class="field">
+              <label [for]="'management-faculty-experience-' + $index">Experience</label>
+              <input
+                [id]="'management-faculty-experience-' + $index"
+                type="text"
+                formControlName="experience"
+              />
+            </div>
+            <div class="field field--full">
+              <label>Faculty Image</label>
+              <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
+            </div>
+            <button type="button" class="btn btn--ghost" (click)="removeFaculty($index)">
+              Remove faculty member
+            </button>
+          </div>
+        }
+      </div>
+      <button type="button" class="btn btn--ghost" (click)="addFaculty()">+ Add faculty member</button>
+
+      <div class="field field--full">
+        <label for="management-faculty-note">Faculty Note</label>
+        <input id="management-faculty-note" type="text" formControlName="facultyNote" />
+      </div>
+
+      @if (error()) {
+        <div class="ann-form__error" role="alert">{{ error() }}</div>
+      }
+      @if (success()) {
+        <div class="ann-form__success" role="status">{{ success() }}</div>
+      }
+
+      <div class="ann-form__actions">
+        <button type="button" class="btn btn--ghost" (click)="cancel()" [disabled]="saving()">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn--primary" [disabled]="saving()">
+          {{ saving() ? 'Saving…' : 'Save changes' }}
+        </button>
+      </div>
+    </form>
+  }
+</section>

@@ -8,7 +8,11 @@ import {
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { CONTENT_PAGES, type ContentPageData } from '../../../core/data/content-pages.seed';
+import {
+  CONTENT_PAGES,
+  type ContentPageData,
+  type ContentPageSection,
+} from '../../../core/data/content-pages.seed';
 import { pageContentPreview } from '../../../core/data/page-content-previews';
 import type { PageContentRecord } from '../../../core/models/supabase.model';
 import { AdminAuthService } from '../../../core/services/admin-auth.service';
@@ -40,6 +44,10 @@ export class PageContentForm implements OnInit {
     const url = pageContentPreview(this.originalSlug() ?? '')?.previewUrl;
     return url ? `${url}?preview=1` : undefined;
   });
+  protected readonly hasSeedTemplate = computed(() => {
+    const slug = this.originalSlug() || this.form.controls.page_slug.value;
+    return !!(slug && CONTENT_PAGES[slug]);
+  });
   protected readonly loading = signal(false);
   protected readonly saving = signal(false);
   protected readonly error = signal<string | null>(null);
@@ -60,7 +68,16 @@ export class PageContentForm implements OnInit {
     });
   }
 
+  private newSectionGroup(title = '', paragraphs = '', bullets = '') {
+    return this.fb.group({
+      title: [title],
+      paragraphs: [paragraphs],
+      bullets: [bullets],
+    });
+  }
+
   protected readonly faqs = this.fb.array([this.newFaqGroup()]);
+  protected readonly sections = this.fb.array([this.newSectionGroup()]);
 
   protected readonly form = this.fb.group({
     page_slug: ['', [Validators.required, Validators.pattern(/^[a-z0-9-]+$/)]],
@@ -71,6 +88,7 @@ export class PageContentForm implements OnInit {
     paragraphs: ['', [Validators.required]],
     bullets: [''],
     note: [''],
+    sections: this.sections,
     is_published: [true],
     faqs: this.faqs,
   });
@@ -97,10 +115,47 @@ export class PageContentForm implements OnInit {
 
       this.existingRecord.set(row !== null);
 
+      const rowContent = (row?.content ?? {}) as Partial<ContentPageData>;
+
+      const hasPlaceholderText = (paragraphs?: readonly string[]) =>
+        paragraphs?.some(
+          (p) =>
+            p.includes('confirmed by the school office') ||
+            p.includes('will be updated soon') ||
+            p.includes('published once confirmed'),
+        ) ?? false;
+
+      const paragraphs =
+        !rowContent.paragraphs || rowContent.paragraphs.length === 0 || hasPlaceholderText(rowContent.paragraphs)
+          ? seed?.paragraphs ?? rowContent.paragraphs ?? []
+          : rowContent.paragraphs;
+
+      const bullets =
+        !rowContent.bullets || rowContent.bullets.length === 0 || (seed?.bullets && rowContent.bullets.length < seed.bullets.length)
+          ? seed?.bullets ?? rowContent.bullets
+          : rowContent.bullets;
+
+      const sections =
+        !rowContent.sections || rowContent.sections.length === 0
+          ? seed?.sections ?? rowContent.sections
+          : rowContent.sections;
+
+      const faqs =
+        !rowContent.faqs || rowContent.faqs.length === 0
+          ? seed?.faqs ?? rowContent.faqs
+          : rowContent.faqs;
+
       const data = {
-        ...(seed ?? {}),
-        ...(row?.content ?? {}),
-      } as Partial<ContentPageData>;
+        title: rowContent.title ?? seed?.title ?? '',
+        subtitle: rowContent.subtitle ?? seed?.subtitle ?? '',
+        imageUrl: rowContent.imageUrl ?? seed?.imageUrl ?? '',
+        imageAlt: rowContent.imageAlt ?? seed?.imageAlt ?? '',
+        paragraphs,
+        bullets,
+        sections,
+        note: rowContent.note ?? seed?.note ?? '',
+        faqs,
+      };
 
       this.form.patchValue({
         page_slug: slug,
@@ -113,6 +168,17 @@ export class PageContentForm implements OnInit {
         note: data.note ?? '',
         is_published: row?.is_published ?? true,
       });
+
+      this.sections.clear();
+      for (const section of data.sections ?? []) {
+        this.sections.push(
+          this.newSectionGroup(
+            section.title,
+            (section.paragraphs ?? []).join('\n'),
+            (section.bullets ?? []).join('\n'),
+          ),
+        );
+      }
 
       this.faqs.clear();
       for (const faq of data.faqs ?? []) {
@@ -132,6 +198,46 @@ export class PageContentForm implements OnInit {
     }
   }
 
+  protected restoreDefaultContent(): void {
+    const slug = this.originalSlug() || this.form.controls.page_slug.value;
+    if (!slug) return;
+    const seed = CONTENT_PAGES[slug];
+    if (!seed) return;
+
+    this.form.patchValue({
+      title: seed.title,
+      subtitle: seed.subtitle,
+      imageUrl: seed.imageUrl,
+      imageAlt: seed.imageAlt,
+      paragraphs: (seed.paragraphs ?? []).join('\n'),
+      bullets: (seed.bullets ?? []).join('\n'),
+      note: seed.note ?? '',
+    });
+
+    this.sections.clear();
+    for (const section of seed.sections ?? []) {
+      this.sections.push(
+        this.newSectionGroup(
+          section.title,
+          (section.paragraphs ?? []).join('\n'),
+          (section.bullets ?? []).join('\n'),
+        ),
+      );
+    }
+
+    this.faqs.clear();
+    for (const faq of seed.faqs ?? []) {
+      this.faqs.push(this.newFaqGroup(faq.question, faq.answer));
+    }
+    if (!this.faqs.length) {
+      this.faqs.push(this.newFaqGroup());
+    }
+
+    const imageUrl = (seed.imageUrl ?? '').trim();
+    this.existingImageUrl.set(imageUrl || null);
+    this.success.set(`Default content loaded for "${seed.title}". Click "Save changes" to apply.`);
+  }
+
   protected addFaq(): void {
     this.faqs.push(this.newFaqGroup());
   }
@@ -141,6 +247,14 @@ export class PageContentForm implements OnInit {
     if (!this.faqs.length) {
       this.faqs.push(this.newFaqGroup());
     }
+  }
+
+  protected addSection(): void {
+    this.sections.push(this.newSectionGroup());
+  }
+
+  protected removeSection(index: number): void {
+    this.sections.removeAt(index);
   }
 
   protected onFileChange(event: Event): void {
@@ -194,6 +308,17 @@ export class PageContentForm implements OnInit {
 
     const bullets = this.lines(v.bullets);
     const note = (v.note ?? '').trim();
+    const sections: ContentPageSection[] = this.sections
+      .getRawValue()
+      .map((section) => {
+        const sectionBullets = this.lines(section.bullets);
+        return {
+          title: (section.title ?? '').trim(),
+          paragraphs: this.lines(section.paragraphs),
+          ...(sectionBullets.length ? { bullets: sectionBullets } : {}),
+        };
+      })
+      .filter((section) => section.title && section.paragraphs.length);
     const faqs = this.faqs
       .getRawValue()
       .map((faq) => ({ question: (faq.question ?? '').trim(), answer: (faq.answer ?? '').trim() }))
@@ -221,6 +346,7 @@ export class PageContentForm implements OnInit {
       imageAlt: (v.imageAlt ?? '').trim(),
       paragraphs,
       ...(bullets.length ? { bullets } : {}),
+      ...(sections.length ? { sections } : {}),
       ...(note ? { note } : {}),
       ...(faqs.length ? { faqs } : {}),
     };

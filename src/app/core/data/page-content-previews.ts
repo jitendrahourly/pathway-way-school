@@ -2,6 +2,7 @@ export type PageContentGroup =
   | 'Main Pages'
   | 'About'
   | 'Academics'
+  | 'Events & School Life'
   | 'School Life'
   | 'Facilities'
   | 'Admissions'
@@ -16,6 +17,7 @@ export const PAGE_CONTENT_GROUPS: readonly PageContentGroup[] = [
   'Main Pages',
   'About',
   'Academics',
+  'Events & School Life',
   'School Life',
   'Facilities',
   'Admissions',
@@ -35,8 +37,10 @@ export const PAGE_CONTENT_PREVIEWS: Record<string, PageContentPreview> = {
   facilities: { group: 'Main Pages', previewUrl: '/facilities' },
   gallery: { group: 'Main Pages', previewUrl: '/gallery' },
   announcements: { group: 'Main Pages', previewUrl: '/announcements' },
+  'school-life': { group: 'Main Pages', previewUrl: '/school-life' },
 
   'about-our-school': { group: 'About', previewUrl: '/about/our-school' },
+  'about-management': { group: 'About', previewUrl: '/about/management' },
   'about-vision-mission': { group: 'About', previewUrl: '/about/vision-mission' },
   'about-history': { group: 'About', previewUrl: '/about/history' },
 
@@ -45,19 +49,20 @@ export const PAGE_CONTENT_PREVIEWS: Record<string, PageContentPreview> = {
   'academics-middle': { group: 'Academics', previewUrl: '/academics/middle-school' },
   'academics-high': { group: 'Academics', previewUrl: '/academics/high-school' },
 
-  'school-life-events': { group: 'School Life', previewUrl: '/school-life/events' },
+  events: { group: 'Events & School Life', previewUrl: '/school-life/events' },
+  'school-life-events': { group: 'Events & School Life', previewUrl: '/school-life/events' },
   'school-life-student-activities': {
-    group: 'School Life',
+    group: 'Events & School Life',
     previewUrl: '/school-life/student-activities',
   },
-  'school-life-sports': { group: 'School Life', previewUrl: '/school-life/sports' },
+  'school-life-sports': { group: 'Events & School Life', previewUrl: '/school-life/sports' },
   'school-life-arts-culture': {
-    group: 'School Life',
+    group: 'Events & School Life',
     previewUrl: '/school-life/arts-culture',
   },
-  'school-life-clubs': { group: 'School Life', previewUrl: '/school-life/clubs' },
+  'school-life-clubs': { group: 'Events & School Life', previewUrl: '/school-life/clubs' },
   'school-life-achievements': {
-    group: 'School Life',
+    group: 'Events & School Life',
     previewUrl: '/school-life/achievements',
   },
 

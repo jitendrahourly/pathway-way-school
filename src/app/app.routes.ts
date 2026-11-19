@@ -52,6 +52,14 @@ export const routes: Routes = [
               ),
           },
           {
+            path: 'page-content/about-management/edit',
+            title: 'Edit Management Page Content | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/page-content/management-content-form').then(
+                (m) => m.ManagementContentForm,
+              ),
+          },
+          {
             path: 'page-content/:slug/edit',
             title: 'Edit Page Content | Bright Way School',
             loadComponent: () =>
@@ -146,16 +154,16 @@ export const routes: Routes = [
       {
         path: 'about/our-school',
         title: 'Our School | Bright Way School',
-        data: { slug: 'about-our-school' },
+        data: { slug: 'about-our-school', eyebrow: 'About Us · Our School' },
         loadComponent: () =>
-          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+          import('./features/public/about-story/about-story').then((m) => m.AboutStory),
       },
       {
         path: 'about/vision-mission',
         title: 'Vision & Mission | Bright Way School',
-        data: { slug: 'about-vision-mission' },
+        data: { slug: 'about-vision-mission', eyebrow: 'About Us · Vision & Mission' },
         loadComponent: () =>
-          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+          import('./features/public/about-story/about-story').then((m) => m.AboutStory),
       },
       {
         path: 'about/management',
@@ -168,9 +176,9 @@ export const routes: Routes = [
       {
         path: 'about/history',
         title: 'History & Legacy | Bright Way School',
-        data: { slug: 'about-history' },
+        data: { slug: 'about-history', eyebrow: 'About Us · History & Legacy' },
         loadComponent: () =>
-          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+          import('./features/public/about-story/about-story').then((m) => m.AboutStory),
       },
 
       // Academics
@@ -207,6 +215,43 @@ export const routes: Routes = [
         data: { slug: 'academics-high' },
         loadComponent: () =>
           import('./features/public/content-page/content-page').then((m) => m.ContentPage),
+      },
+
+      // Events aliases & redirects
+      {
+        path: 'events',
+        redirectTo: 'school-life/events',
+        pathMatch: 'full',
+      },
+      {
+        path: 'events/celebrations',
+        redirectTo: 'school-life/events',
+        pathMatch: 'full',
+      },
+      {
+        path: 'events/student-activities',
+        redirectTo: 'school-life/student-activities',
+        pathMatch: 'full',
+      },
+      {
+        path: 'events/sports',
+        redirectTo: 'school-life/sports',
+        pathMatch: 'full',
+      },
+      {
+        path: 'events/arts-culture',
+        redirectTo: 'school-life/arts-culture',
+        pathMatch: 'full',
+      },
+      {
+        path: 'events/clubs',
+        redirectTo: 'school-life/clubs',
+        pathMatch: 'full',
+      },
+      {
+        path: 'events/achievements',
+        redirectTo: 'school-life/achievements',
+        pathMatch: 'full',
       },
 
       // School Life

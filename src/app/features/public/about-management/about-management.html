@@ -1,106 +1,141 @@
-<app-page-banner
-  title="Management"
-  subtitle="Guided by Banashankari Vidya Samsthe"
-  imageUrl="/images/home/hero-campus.jpg"
-  imageAlt="Bright Way School campus building"
-/>
+@let page = content();
 
-<section class="management-page">
-  <div class="container">
-    <!-- Principal's message -->
-    <article class="principal">
-      <div class="principal__media">
-        @if (principal.imageUrl) {
-          <img
-            class="portrait portrait--lg portrait--photo"
-            [src]="principal.imageUrl"
-            [alt]="principal.name + ', ' + principal.role"
-          />
+<section class="mg-hero">
+  <div class="container mg-hero__grid">
+    <div class="mg-hero__copy">
+      <p class="mg-eyebrow"><span class="mg-eyebrow__line"></span> About Us · Management</p>
+      <h1>{{ page.banner.title }}</h1>
+      <p class="mg-hero__subtitle">{{ page.banner.subtitle }}</p>
+      <div class="mg-hero__actions">
+        <a class="mg-btn mg-btn--primary" href="#principal">Principal's message</a>
+        <a class="mg-btn mg-btn--ghost" href="#faculty">Meet our faculty</a>
+      </div>
+    </div>
+
+    <div class="mg-hero__visual">
+      <div class="mg-hero__frame">
+        @if (page.banner.imageUrl) {
+          <img [src]="page.banner.imageUrl" [alt]="page.banner.imageAlt" />
         } @else {
-          <div class="portrait portrait--lg">
-            <span class="portrait__initials">{{ initials(principal.name) }}</span>
-          </div>
+          <div class="mg-hero__fallback"><app-icon name="image" [size]="34" /></div>
         }
-        <p class="principal__caption">Principal, Bright Way School</p>
       </div>
+      <div class="mg-hero__stamp">
+        <span class="mg-hero__stamp-icon"><app-icon name="users" [size]="20" /></span>
+        <div>
+          <strong>Guided by experience</strong>
+          @if (managedBy()) {
+            <span>{{ managedBy() }}</span>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <div class="principal__body">
-        <p class="eyebrow">Principal's Message</p>
-        <h2>A message from our Principal</h2>
+<nav class="mg-sub-nav" aria-label="About Us sections">
+  <div class="container mg-sub-nav__inner">
+    <a class="mg-sub-nav__pill" routerLink="/about/our-school">Our School</a>
+    <a class="mg-sub-nav__pill" routerLink="/about/vision-mission">Vision &amp; Mission</a>
+    <a class="mg-sub-nav__pill mg-sub-nav__pill--active" routerLink="/about/management">Management</a>
+    <a class="mg-sub-nav__pill" routerLink="/about/history">History &amp; Legacy</a>
+  </div>
+</nav>
 
-        <blockquote class="principal__quote">
-          <p>{{ principal.message }}</p>
-          <p>{{ principal.messageSecondary }}</p>
-        </blockquote>
-
-        <div class="signature">
-          <span class="signature__line" aria-hidden="true"></span>
+@if (page.facts.length) {
+  <section class="mg-facts" aria-label="Management at a glance">
+    <div class="container mg-facts__grid">
+      @for (fact of page.facts; track fact.label) {
+        <article class="mg-fact">
+          <span class="mg-fact__icon"><app-icon [name]="fact.icon" [size]="20" /></span>
           <div>
-            <p class="signature__name">{{ principal.name }}</p>
-            <p class="signature__role">{{ principal.role }}</p>
+            <p class="mg-fact__label">{{ fact.label }}</p>
+            <p class="mg-fact__value">{{ fact.value }}</p>
           </div>
+        </article>
+      }
+    </div>
+  </section>
+}
+
+<div class="container mg-body">
+  <article id="principal" class="mg-principal">
+    <div class="mg-principal__media">
+      @if (page.principal.imageUrl) {
+        <img
+          class="mg-portrait mg-portrait--lg"
+          [src]="page.principal.imageUrl"
+          [alt]="page.principal.name + ', ' + page.principal.role"
+        />
+      } @else {
+        <div class="mg-portrait mg-portrait--lg">
+          <span class="mg-portrait__initials">{{ initials(page.principal.name) }}</span>
+        </div>
+      }
+      <div class="mg-principal__caption">
+        <span>{{ page.principal.role }}</span>
+        <strong>{{ page.principal.name }}</strong>
+      </div>
+    </div>
+
+    <div class="mg-principal__body">
+      <p class="mg-eyebrow mg-eyebrow--dark">Principal's Message</p>
+      <blockquote class="mg-quote">
+        <span class="mg-quote__mark" aria-hidden="true">“</span>
+        <p>{{ page.principal.message }}</p>
+        <p>{{ page.principal.messageSecondary }}</p>
+      </blockquote>
+      <div class="mg-signature">
+        <span class="mg-signature__line" aria-hidden="true"></span>
+        <div>
+          <p class="mg-signature__name">{{ page.principal.name }}</p>
+          <p class="mg-signature__role">{{ page.principal.role }}</p>
         </div>
       </div>
-    </article>
+    </div>
+  </article>
 
-    <!-- Management / trust -->
-    <section class="block">
-      <app-section-heading eyebrow="Governance" title="About the Management" />
+  <section class="mg-governance">
+    <div class="mg-section-head">
+      <p class="mg-eyebrow mg-eyebrow--dark">Governance</p>
+      <h2>About the Management</h2>
+    </div>
+    <div class="mg-governance__text">
+      @for (paragraph of page.paragraphs; track $index) {
+        <p>{{ paragraph }}</p>
+      }
+    </div>
+  </section>
 
-      <div class="management-grid">
-        <div class="management-grid__text">
-          @for (paragraph of managementParagraphs; track $index) {
-            <p>{{ paragraph }}</p>
-          }
-        </div>
+  <section id="faculty" class="mg-faculty">
+    <div class="mg-section-head">
+      <p class="mg-eyebrow mg-eyebrow--dark">Our Team</p>
+      <h2>Faculty at Bright Way School</h2>
+      <p class="mg-faculty__intro">{{ page.facultyIntro }}</p>
+    </div>
 
-        <ul class="facts">
-          @for (fact of facts; track fact.label) {
-            <li class="facts__item">
-              <span class="facts__icon"><app-icon [name]="fact.icon" [size]="18" /></span>
-              <div>
-                <p class="facts__label">{{ fact.label }}</p>
-                <p class="facts__value">{{ fact.value }}</p>
-              </div>
-            </li>
-          }
-        </ul>
-      </div>
-    </section>
-
-    <!-- Faculty -->
-    <section class="block">
-      <app-section-heading eyebrow="Our Team" title="Faculty at Bright Way School" />
-
-      <p class="block__intro">
-        Our teachers bring subject expertise and a caring approach to the classroom. The
-        team below reflects the academic leadership and teaching staff who guide students
-        through the school year.
-      </p>
-
-      <div class="faculty">
-        @for (member of faculty; track member.name) {
-          <article class="faculty-card">
+    <div class="mg-faculty__grid">
+      @for (member of page.faculty; track member.name) {
+        <article class="mg-card">
+          <div class="mg-card__media">
             @if (member.imageUrl) {
               <img
-                class="portrait portrait--sm portrait--photo"
+                class="mg-portrait mg-portrait--card"
                 [src]="member.imageUrl"
                 [alt]="member.name + ', ' + member.role"
               />
             } @else {
-              <div class="portrait portrait--sm">
-                <span class="portrait__initials">{{ initials(member.name) }}</span>
+              <div class="mg-portrait mg-portrait--card">
+                <span class="mg-portrait__initials">{{ initials(member.name) }}</span>
               </div>
             }
+            <span class="mg-card__badge">{{ member.role }}</span>
+          </div>
 
-            <h3 class="faculty-card__name">{{ member.name }}</h3>
-            <p class="faculty-card__role">{{ member.role }}</p>
-
-            <dl class="faculty-card__meta">
-              <div>
-                <dt>Subject</dt>
-                <dd>{{ member.subject }}</dd>
-              </div>
+          <div class="mg-card__body">
+            <h3>{{ member.name }}</h3>
+            <p class="mg-card__subject">{{ member.subject }}</p>
+            <dl class="mg-card__meta">
               <div>
                 <dt>Qualification</dt>
                 <dd>{{ member.qualification }}</dd>
@@ -110,16 +145,29 @@
                 <dd>{{ member.experience }}</dd>
               </div>
             </dl>
-          </article>
-        }
-      </div>
+          </div>
+        </article>
+      }
+    </div>
 
-      <p class="block__note">
+    @if (page.facultyNote) {
+      <p class="mg-note">
         <app-icon name="image" [size]="16" />
-        <span>
-          Staff photographs will be added once they are supplied by the school office.
-        </span>
+        <span>{{ page.facultyNote }}</span>
       </p>
-    </section>
-  </div>
-</section>
+    }
+  </section>
+
+  <section class="mg-cta">
+    <div>
+      <p class="mg-eyebrow mg-eyebrow--light"><span class="mg-eyebrow__line"></span> Learn more</p>
+      <h2>Get to know Bright Way School.</h2>
+      <p>Discover the story, vision and learning environment behind our school.</p>
+    </div>
+    <div class="mg-cta__links">
+      <a routerLink="/about/our-school">Our School <app-icon name="arrow-up-right" [size]="16" /></a>
+      <a routerLink="/about/vision-mission">Vision &amp; Mission <app-icon name="arrow-up-right" [size]="16" /></a>
+      <a routerLink="/about/history">History &amp; Legacy <app-icon name="arrow-up-right" [size]="16" /></a>
+    </div>
+  </section>
+</div>

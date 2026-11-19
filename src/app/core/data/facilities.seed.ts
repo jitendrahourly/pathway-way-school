@@ -17,10 +17,10 @@ export const FACILITIES_CONTENT: FacilitiesContent = {
     eyebrow: 'Campus',
     title: 'Our Facilities',
     paragraphs: [
-      'Bright Way School provides spaces that support learning, reading, practical work, sport and play across the school day.',
-      'The campus is planned to support both academic learning and co-curricular activities.',
+      'Bright Way School provides purposeful spaces that support learning, reading, scientific practicals, sport, and creative play across the school day.',
+      'Our campus infrastructure is planned to support both rigorous academic development and joyful co-curricular growth in a safe, child-centred environment.',
     ],
-    note: 'Photographs on this page are representative placeholders and will be replaced with photographs of the school.',
+    note: 'Campus visits and guided tours are available on all school working days by appointment through the admissions office.',
   },
   gridEyebrow: 'At a glance',
   gridHeading: 'Facilities at a Glance',
