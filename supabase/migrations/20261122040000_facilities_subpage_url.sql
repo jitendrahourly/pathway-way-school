@@ -20,3 +20,6 @@ FROM (
     ('Classrooms', '/facilities/classrooms')
 ) AS v(title, subpage_url)
 WHERE lower(f.title) = lower(v.title);
+
+-- Refresh PostgREST schema cache so the new column is visible to the API.
+NOTIFY pgrst, 'reload schema';
