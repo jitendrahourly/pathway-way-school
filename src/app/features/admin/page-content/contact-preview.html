@@ -1,0 +1,165 @@
+@let d = data();
+
+<div class="cop" aria-hidden="true">
+  @switch (section()) {
+    @case ('banner') {
+      <div class="cop-banner">
+        @if (d.banner.imageUrl) {
+          <img class="cop-banner__image" [src]="d.banner.imageUrl" [alt]="d.banner.imageAlt || 'Contact banner image'" />
+        }
+        <div class="cop-banner__scrim"></div>
+        <div class="cop-banner__copy">
+          <p class="cop-eyebrow">Contact</p>
+          <h3>{{ d.banner.title || 'Contact Us' }}</h3>
+          <p>{{ d.banner.subtitle || 'Reach out to Bright Way School.' }}</p>
+        </div>
+      </div>
+    }
+
+    @case ('intro') {
+      <div class="cop-intro">
+        <p class="cop-eyebrow">{{ d.intro.eyebrow || 'Contact' }}</p>
+        <h3>{{ d.intro.title || 'Get in touch' }}</h3>
+        @for (paragraph of d.intro.paragraphs; track $index) {
+          <p>{{ paragraph }}</p>
+        } @empty {
+          <p class="cop-placeholder">Introductory paragraphs appear here.</p>
+        }
+      </div>
+    }
+
+    @case ('form') {
+      <div class="cop-form">
+        <div class="cop-form__intro">
+          <p class="cop-eyebrow">{{ d.form.eyebrow || 'Contact' }}</p>
+          <h3>{{ d.form.title || 'Send us a message' }}</h3>
+          <p>{{ d.form.intro || 'Form intro appears here.' }}</p>
+        </div>
+        <div class="cop-form__mock">
+          <div class="cop-form__row">
+            <div class="cop-form__field">
+              <label>{{ d.form.nameLabel || 'Name' }} *</label>
+              <div class="cop-form__input"></div>
+            </div>
+            <div class="cop-form__field">
+              <label>{{ d.form.emailLabel || 'Email' }} *</label>
+              <div class="cop-form__input"></div>
+            </div>
+          </div>
+          <div class="cop-form__row">
+            <div class="cop-form__field">
+              <label>{{ d.form.phoneLabel || 'Phone' }}</label>
+              <div class="cop-form__input"></div>
+            </div>
+            <div class="cop-form__field">
+              <label>{{ d.form.subjectLabel || 'Subject' }} *</label>
+              <div class="cop-form__input"></div>
+            </div>
+          </div>
+          <div class="cop-form__field">
+            <label>{{ d.form.messageLabel || 'Message' }} *</label>
+            <div class="cop-form__textarea"></div>
+          </div>
+          <span class="cop-form__submit">{{ d.form.submitLabel || 'Send message' }}</span>
+          @if (d.form.successMessage) {
+            <span class="cop-form__success">{{ d.form.successMessage }}</span>
+          }
+        </div>
+      </div>
+    }
+
+    @case ('cards') {
+      <div class="cop-cards">
+        <article class="cop-card">
+          <span class="cop-card__icon"><app-icon name="phone" [size]="18" /></span>
+          <h4>{{ d.cards.phoneTitle || 'Phone' }}</h4>
+          <span class="cop-card__value">School phone number</span>
+          <span class="cop-card__action">{{ d.cards.callLabel || 'Call now' }}</span>
+        </article>
+        <article class="cop-card">
+          <span class="cop-card__icon"><app-icon name="mail" [size]="18" /></span>
+          <h4>{{ d.cards.emailTitle || 'Email' }}</h4>
+          <span class="cop-card__value">School email address</span>
+          <span class="cop-card__action">{{ d.cards.emailActionLabel || 'Email us' }}</span>
+        </article>
+        <article class="cop-card">
+          <span class="cop-card__icon"><app-icon name="map-pin" [size]="18" /></span>
+          <h4>{{ d.cards.addressTitle || 'Address' }}</h4>
+          <span class="cop-card__value">School address</span>
+          <span class="cop-card__action">{{ d.cards.mapActionLabel || 'Open map' }}</span>
+        </article>
+      </div>
+    }
+
+    @case ('map') {
+      <div class="cop-map">
+        <h3>{{ d.map.title || 'Find us' }}</h3>
+        <p>{{ d.map.intro || 'Map intro appears here.' }}</p>
+        <div class="cop-map__frame">
+          <span class="cop-map__pin"><app-icon name="map-pin" [size]="22" /></span>
+          <span class="cop-map__label">Map preview</span>
+        </div>
+        @if (d.map.emptyMessage) {
+          <p class="cop-map__empty">{{ d.map.emptyMessage }}</p>
+        }
+      </div>
+    }
+
+    @case ('directions') {
+      <div class="cop-directions">
+        <h3>{{ d.directions.title || 'How to reach us' }}</h3>
+        <p>{{ d.directions.intro || 'Directions intro appears here.' }}</p>
+        @if (d.directions.steps.length) {
+          <ol class="cop-directions__list">
+            @for (step of d.directions.steps; track $index) {
+              <li>{{ step }}</li>
+            }
+          </ol>
+        } @else {
+          <p class="cop-placeholder">Direction steps appear here, one per line.</p>
+        }
+      </div>
+    }
+
+    @case ('officeHours') {
+      <div class="cop-office">
+        <h3>{{ d.officeHours.title || 'Office hours' }}</h3>
+        @if (d.officeHours.lines.length) {
+          <ul class="cop-office__list">
+            @for (line of d.officeHours.lines; track $index) {
+              <li>{{ line }}</li>
+            }
+          </ul>
+        } @else {
+          <p class="cop-placeholder">Office hours lines appear here, one per line.</p>
+        }
+      </div>
+    }
+
+    @case ('instagram') {
+      <div class="cop-instagram">
+        <span class="cop-instagram__icon"><app-icon name="instagram" [size]="24" /></span>
+        <p class="cop-instagram__eyebrow">{{ d.instagram.eyebrow || 'Instagram' }}</p>
+        <h3>{{ d.instagram.title || 'Follow us' }}</h3>
+        <p class="cop-instagram__handle">@brightwayschool</p>
+        <p class="cop-instagram__text">{{ d.instagram.text || 'Instagram text appears here.' }}</p>
+        <span class="cop-instagram__btn">{{ d.instagram.buttonLabel || 'Follow' }}</span>
+      </div>
+    }
+
+    @case ('schoolDetails') {
+      <div class="cop-details">
+        <h3>{{ d.schoolDetails.title || 'School details' }}</h3>
+        @if (d.schoolDetails.lines.length) {
+          <ul class="cop-details__list">
+            @for (line of d.schoolDetails.lines; track $index) {
+              <li>{{ line }}</li>
+            }
+          </ul>
+        } @else {
+          <p class="cop-placeholder">School detail lines appear here, one per line.</p>
+        }
+      </div>
+    }
+  }
+</div>

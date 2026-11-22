@@ -7,10 +7,15 @@
 
 .ann-form__header {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.6rem;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.85rem 1.1rem;
+  background: linear-gradient(135deg, #faf8ff 0%, #ffffff 100%);
+  border: 1px solid var(--bw-line);
+  border-radius: 16px;
+  box-shadow: var(--bw-shadow-sm);
 }
 
 .ann-form__eyebrow {
@@ -205,6 +210,11 @@
   margin: 0;
   font-size: 0.76rem;
   color: var(--bw-muted);
+}
+
+.highlights-grid {
+  display: grid;
+  gap: 0.5rem;
 }
 
 .ann-form__error {

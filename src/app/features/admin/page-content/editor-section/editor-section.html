@@ -1,0 +1,42 @@
+<section [id]="sectionId()" class="editor-section">
+  <header
+    class="editor-section__head"
+    role="button"
+    tabindex="0"
+    [attr.aria-expanded]="expanded()"
+    (click)="toggle.emit()"
+    (keydown.enter)="toggle.emit()"
+    (keydown.space)="toggle.emit(); $event.preventDefault()"
+  >
+    @if (step()) {
+      <span class="editor-section__step">{{ step() }}</span>
+    }
+    <div class="editor-section__head-text">
+      <h2>
+        {{ title() }}
+        @if (badge()) {
+          <span class="editor-section__pill">{{ badge() }}</span>
+        }
+        @if (count()) {
+          <span class="editor-section__pill editor-section__pill--count">{{ count() }}</span>
+        }
+        @if (status()) {
+          <span
+            class="editor-section__status"
+            [class.editor-section__status--off]="!statusLive()"
+          >
+            {{ status() }}
+          </span>
+        }
+      </h2>
+      @if (description()) {
+        <p>{{ description() }}</p>
+      }
+    </div>
+    <span class="editor-section__chevron" aria-hidden="true"></span>
+  </header>
+
+  <div class="editor-section__content">
+    <ng-content />
+  </div>
+</section>

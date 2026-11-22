@@ -1,4 +1,116 @@
-import type { AcademicsContent } from '../models/academics-content.model';
+import type {
+  AcademicStage,
+  AcademicsContent,
+  AcademicsCta,
+  AcademicsGlanceHeading,
+  AcademicsStagesHeading,
+  AcademicsStatPill,
+} from '../models/academics-content.model';
+
+export const DEFAULT_ACADEMIC_QUICK_STATS: readonly AcademicsStatPill[] = [
+  { num: '40+', label: 'Years of Excellence' },
+  { num: 'K–10', label: 'Complete Schooling' },
+  { num: 'SSLC', label: 'State Board Prep' },
+];
+
+export const DEFAULT_ACADEMIC_STAGES_HEADING: AcademicsStagesHeading = {
+  eyebrow: 'Levels of Study',
+  title: 'Our Academic Stages',
+  subtitle:
+    'Explore each developmental stage from early childhood discovery to state board graduation.',
+};
+
+export const DEFAULT_ACADEMIC_GLANCE_HEADING: AcademicsGlanceHeading = {
+  eyebrow: 'Overview',
+  title: 'Academic Programme at a Glance',
+  subtitle: 'Key facets of curriculum, board affiliation, and student assessment.',
+};
+
+export const DEFAULT_ACADEMIC_CTA: AcademicsCta = {
+  badge: 'Admissions Open',
+  title: 'Join the Bright Way School Family',
+  description:
+    'Give your child a nurturing, value-based education supported by experienced faculty, modern laboratories, and a rich co-curricular calendar.',
+  primaryButtonText: 'Apply for Admission',
+  primaryButtonLink: '/admissions/enquiry',
+  secondaryButtonText: 'Contact Admissions Office',
+  secondaryButtonLink: '/contact',
+};
+
+export const DEFAULT_ACADEMIC_STAGES: readonly AcademicStage[] = [
+  {
+    title: 'Kindergarten',
+    stage: 'Early Years',
+    grades: 'Pre-KG · LKG · UKG',
+    ages: 'Ages 3 – 5.5',
+    path: '/academics/kindergarten',
+    icon: 'heart',
+    tag: 'Foundation',
+    description:
+      'A joyful play-way beginning fostering curiosity, foundational phonics, sensory exploration, and emotional confidence.',
+    highlights: [
+      'Play-Way Methodology',
+      'Early Literacy & Phonics',
+      'Motor Skills & Rhythm',
+      'Secure Learning Spaces',
+    ],
+    accent: 'orange',
+  },
+  {
+    title: 'Primary School',
+    stage: 'Primary Education',
+    grades: 'Grades 1 to 5',
+    ages: 'Ages 6 – 10',
+    path: '/academics/primary-school',
+    icon: 'book-open',
+    tag: 'Discovery',
+    description:
+      'Strengthening fundamental reading, mathematical thinking, multilingual fluency, and disciplined learning habits.',
+    highlights: [
+      'Three-Language Foundation',
+      'Experiential Math & Science',
+      'Dedicated Library Periods',
+      'Co-Curricular Arts',
+    ],
+    accent: 'purple',
+  },
+  {
+    title: 'Middle School',
+    stage: 'Middle School',
+    grades: 'Grades 6 to 8',
+    ages: 'Ages 11 – 13',
+    path: '/academics/middle-school',
+    icon: 'flask',
+    tag: 'Exploration',
+    description:
+      'Transitioning into distinct sciences, algebra, geometry, laboratory experiments, debates, and independent thinking.',
+    highlights: [
+      'Specialized Science Streams',
+      'Hands-On Laboratory Practicals',
+      'IT & Logic Development',
+      'House Competitions',
+    ],
+    accent: 'blue',
+  },
+  {
+    title: 'High School',
+    stage: 'Secondary Education',
+    grades: 'Grades 9 & 10',
+    ages: 'SSLC Board',
+    path: '/academics/high-school',
+    icon: 'graduation-cap',
+    tag: 'Excellence',
+    description:
+      'Rigorous state board preparation, diagnostic revisions, mock testing, career counselling, and leadership formation.',
+    highlights: [
+      'Karnataka KSEAB / SSLC Board',
+      'Intensive Revision & Mock Exams',
+      'Science & Computer Labs',
+      'Stream Selection Guidance',
+    ],
+    accent: 'green',
+  },
+];
 
 /**
  * Academics page content. Only copy supplied in the school references is used;
@@ -23,6 +135,8 @@ export const ACADEMICS_CONTENT: AcademicsContent = {
     imageUrl: '/images/gallery/gallery-02.jpg',
     imageAlt: 'Students learning together in a classroom',
   },
+  stagesHeading: DEFAULT_ACADEMIC_STAGES_HEADING,
+  stages: DEFAULT_ACADEMIC_STAGES,
   cards: [
     {
       icon: 'users',

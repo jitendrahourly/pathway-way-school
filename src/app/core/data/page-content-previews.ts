@@ -49,7 +49,6 @@ export const PAGE_CONTENT_PREVIEWS: Record<string, PageContentPreview> = {
   'academics-middle': { group: 'Academics', previewUrl: '/academics/middle-school' },
   'academics-high': { group: 'Academics', previewUrl: '/academics/high-school' },
 
-  events: { group: 'Events & School Life', previewUrl: '/school-life/events' },
   'school-life-events': { group: 'Events & School Life', previewUrl: '/school-life/events' },
   'school-life-student-activities': {
     group: 'Events & School Life',

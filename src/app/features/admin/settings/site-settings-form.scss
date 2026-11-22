@@ -1,0 +1,47 @@
+@use '../page-content/page-content-form.scss';
+
+/* --------------------------------------------------------------------------
+   Site Settings reuses the shared compact accordion (`app-editor-section`)
+   and the `.editor-compact` overrides from page-content-form.scss, so the
+   panel chrome, headers, pills and spacing stay consistent with the other
+   admin editors. The rules below only refine the settings-specific preview
+   and add a short reveal transition when a panel expands.
+   -------------------------------------------------------------------------- */
+
+/* Slightly tighten the miniature preview now that it lives inside a panel. */
+.editor-compact ::ng-deep app-settings-preview {
+  padding: 0.9rem 1rem;
+}
+
+.editor-compact ::ng-deep app-settings-preview .stp-location__frame {
+  height: 104px;
+}
+
+/* Smooth reveal for the projected panel body. Collapsing stays instant via the
+   shared component's display rule; expanding plays a short, subtle fade. */
+.editor-compact ::ng-deep app-editor-section .editor-section__content {
+  animation: settings-panel-reveal 0.2s ease;
+}
+
+@keyframes settings-panel-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editor-compact ::ng-deep app-editor-section .editor-section__content {
+    animation: none;
+  }
+}
+
+/* Guard against horizontal overflow inside panels on narrow screens. */
+.editor-compact .section-card__body,
+.editor-compact .ann-form__row {
+  min-width: 0;
+}

@@ -1,30 +1,66 @@
-<section class="instagram">
+@let items = shots();
+
+<section class="instagram" aria-labelledby="home-instagram-title">
   <div class="container">
-    <div class="instagram__card" [class.instagram--solo]="!media()">
-      <div class="instagram__body">
-        <span class="instagram__icon"><app-icon name="instagram" [size]="26" /></span>
-        <p class="instagram__eyebrow">Stay connected</p>
-        <h2>Follow Us on Instagram</h2>
-        <p class="instagram__handle">{{ settings().instagramHandle }}</p>
-        <p class="instagram__text">Stay updated with our latest events and activities.</p>
+    <header class="instagram__head" appScrollReveal>
+      <div class="instagram__title">
+        <span class="instagram__icon">
+          <app-icon name="instagram" [size]="24" />
+        </span>
+        <div>
+          <p class="instagram__eyebrow">{{ head().eyebrow }}</p>
+          <h2 id="home-instagram-title">{{ head().title }}</h2>
+          <p class="instagram__handle">{{ settings().instagramHandle }}</p>
+        </div>
+      </div>
+
+      <a
+        class="instagram__follow"
+        [href]="settings().instagramUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {{ head().followLabel || 'Follow us' }}
+        <app-icon name="arrow-up-right" [size]="15" />
+      </a>
+    </header>
+
+    @if (media() && items.length) {
+      <div class="instagram__grid" appScrollReveal [revealDelay]="80">
+        @for (shot of items; track shot.id; let i = $index) {
+          <a
+            class="instagram__shot"
+            [href]="settings().instagramUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            [attr.aria-label]="'View ' + shot.title + ' on Instagram'"
+          >
+            <img
+              [src]="shot.src"
+              [alt]="shot.alt"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="instagram__overlay" aria-hidden="true">
+              <app-icon name="instagram" [size]="22" />
+            </span>
+            <span class="instagram__shot-label">{{ shot.title }}</span>
+          </a>
+        }
+      </div>
+    } @else if (media()) {
+      <div class="instagram__empty" appScrollReveal>
+        <p>{{ head().emptyText }}</p>
         <a
           class="btn btn--primary"
           [href]="settings().instagramUrl"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Follow Now
-          <app-icon name="arrow-up-right" [size]="16" />
+          {{ head().emptyLinkLabel || 'Follow now' }}
+          <app-icon name="arrow-up-right" [size]="15" />
         </a>
       </div>
-
-      @if (media()) {
-        <div class="instagram__shots" aria-hidden="true">
-          @for (image of shots(); track image.id) {
-            <app-media-frame [src]="image.imageUrl" alt="" ratio="1/1" />
-          }
-        </div>
-      }
-    </div>
+    }
   </div>
 </section>

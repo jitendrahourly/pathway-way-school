@@ -1,0 +1,141 @@
+@let d = data();
+
+<div class="fap" aria-hidden="true">
+  @switch (section()) {
+    @case ('banner') {
+      <div class="fap-banner">
+        @if (d.banner.imageUrl) {
+          <img class="fap-banner__image" [src]="d.banner.imageUrl" [alt]="d.banner.imageAlt || 'Facilities banner image'" />
+        }
+        <div class="fap-banner__scrim"></div>
+        <div class="fap-banner__copy">
+          <p class="fap-eyebrow">Facilities</p>
+          <h3>{{ d.banner.title || 'Facilities' }}</h3>
+          <p>{{ d.banner.subtitle || 'Campus facilities at Bright Way School.' }}</p>
+        </div>
+      </div>
+    }
+
+    @case ('intro') {
+      <div class="fap-intro">
+        <p class="fap-eyebrow">{{ d.intro.eyebrow || 'Facilities' }}</p>
+        <h3>{{ d.intro.title || 'Our facilities' }}</h3>
+        @for (paragraph of d.intro.paragraphs; track $index) {
+          <p>{{ paragraph }}</p>
+        } @empty {
+          <p class="fap-placeholder">Introductory paragraphs appear here.</p>
+        }
+        <p class="fap-note">
+          <app-icon name="image" [size]="14" />
+          {{ d.intro.note || 'Intro note appears here.' }}
+        </p>
+      </div>
+    }
+
+    @case ('stats') {
+      <div class="fap-stats">
+        @if (d.stats.length) {
+          @for (stat of d.stats; track $index) {
+            <div class="fap-stat">
+              <strong>{{ stat.value || '—' }}</strong>
+              <span>{{ stat.label || 'Stat label' }}</span>
+            </div>
+          }
+        } @else {
+          <p class="fap-placeholder">No statistics yet — add one below.</p>
+        }
+      </div>
+    }
+
+    @case ('nav') {
+      <div class="fap-nav">
+        @if (d.nav.label) {
+          <span class="fap-nav__label">{{ d.nav.label }}</span>
+        }
+        @if (d.nav.links.length) {
+          <div class="fap-nav__pills">
+            @for (link of d.nav.links; track $index) {
+              <span class="fap-nav__pill">
+                <app-icon [name]="link.icon" [size]="13" />
+                {{ link.label || 'Facility link' }}
+              </span>
+            }
+          </div>
+        } @else {
+          <p class="fap-placeholder">No facility links yet — add one below.</p>
+        }
+      </div>
+    }
+
+    @case ('headings') {
+      <div class="fap-headings">
+        <div class="fap-headings__block">
+          <p class="fap-eyebrow">{{ d.headings.gridEyebrow || 'Facilities' }}</p>
+          <h3>{{ d.headings.gridHeading || 'Facility grid heading' }}</h3>
+          <p class="fap-headings__note">
+            The facility cards below are pulled from the individual facility records.
+          </p>
+        </div>
+        <div class="fap-headings__block">
+          <h3>{{ d.headings.detailsHeading || 'Facility details heading' }}</h3>
+        </div>
+        <div class="fap-headings__block">
+          <h3>{{ d.headings.additionalHeading || 'Additional facilities heading' }}</h3>
+        </div>
+        <div class="fap-headings__stats">
+          <span class="fap-headings__stat">Statistics and facility navigation are edited in their own cards above.</span>
+        </div>
+      </div>
+    }
+
+    @case ('cta') {
+      <div class="fap-cta">
+        @if (d.cta.badge) {
+          <span class="fap-cta__badge">{{ d.cta.badge }}</span>
+        }
+        <h3>{{ d.cta.title || 'Call-to-action heading' }}</h3>
+        <p>{{ d.cta.text || 'Call-to-action supporting text appears here.' }}</p>
+        <div class="fap-cta__actions">
+          @if (d.cta.primaryLabel) {
+            <span class="fap-cta__btn fap-cta__btn--primary">{{ d.cta.primaryLabel }}</span>
+          }
+          @if (d.cta.secondaryLabel) {
+            <span class="fap-cta__btn fap-cta__btn--outline">{{ d.cta.secondaryLabel }}</span>
+          }
+        </div>
+        @if (!d.cta.primaryLabel && !d.cta.secondaryLabel) {
+          <p class="fap-placeholder">Button labels appear here.</p>
+        }
+      </div>
+    }
+
+    @case ('additional') {
+      <div class="fap-additional">
+        @if (d.additional.length) {
+          <div class="fap-additional__grid">
+            @for (facility of d.additional; track $index) {
+              <article class="fap-card" [class.fap-card--inactive]="!facility.isActive">
+                @if (facility.imageUrl) {
+                  <img [src]="facility.imageUrl" [alt]="facility.imageAlt || facility.title" />
+                } @else {
+                  <div class="fap-card__empty">
+                    <app-icon name="image" [size]="18" />
+                  </div>
+                }
+                <div class="fap-card__body">
+                  <h4>{{ facility.title || 'Untitled facility' }}</h4>
+                  <p>{{ facility.description || 'Facility description appears here.' }}</p>
+                </div>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="fap-empty">
+            <app-icon name="image" [size]="24" />
+            <span>No additional facilities yet — add one below.</span>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

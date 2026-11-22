@@ -1,0 +1,209 @@
+@let d = data();
+
+<div class="acp" aria-hidden="true">
+  @switch (section()) {
+    @case ('banner') {
+      <div class="acp-banner">
+        @if (d.banner.imageUrl) {
+          <img
+            class="acp-banner__image"
+            [src]="d.banner.imageUrl"
+            [alt]="d.banner.imageAlt || 'Academics banner image'"
+          />
+        }
+        <div class="acp-banner__scrim"></div>
+        <div class="acp-banner__copy">
+          <p class="acp-eyebrow">Academics</p>
+          <h3>{{ d.banner.title || 'Academics' }}</h3>
+          <p>{{ d.banner.subtitle || 'A strong academic foundation for lifelong success.' }}</p>
+        </div>
+      </div>
+    }
+
+    @case ('intro') {
+      <div class="acp-intro">
+        <div class="acp-intro__text">
+          <p class="acp-eyebrow">{{ d.intro.eyebrow || 'Academics' }}</p>
+          <h3>{{ d.intro.title || 'Our Academic Program' }}</h3>
+          @for (paragraph of d.intro.paragraphs; track $index) {
+            <p>{{ paragraph }}</p>
+          } @empty {
+            <p class="acp-placeholder">Introductory paragraphs appear here.</p>
+          }
+
+          @if (d.intro.quickStats.length) {
+            <div class="acp-stats">
+              @for (stat of d.intro.quickStats; track $index) {
+                <span class="acp-stat">
+                  <strong>{{ stat.num || '—' }}</strong>
+                  <small>{{ stat.label || 'Stat label' }}</small>
+                </span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="acp-intro__media">
+          @if (d.intro.imageUrl) {
+            <img [src]="d.intro.imageUrl" [alt]="d.intro.imageAlt || 'Academic program image'" />
+          } @else {
+            <div class="acp-media-empty">
+              <app-icon name="image" [size]="26" />
+              <span>No intro image</span>
+            </div>
+          }
+          @if (d.intro.badge) {
+            <span class="acp-floating-badge">
+              <app-icon name="graduation-cap" [size]="15" />
+              {{ d.intro.badge }}
+            </span>
+          }
+        </div>
+      </div>
+    }
+
+    @case ('stages') {
+      <div class="acp-stages">
+        <div class="acp-section-head">
+          <p class="acp-eyebrow">{{ d.stagesHeading.eyebrow || 'Levels of Study' }}</p>
+          <h3>{{ d.stagesHeading.title || 'Our Academic Stages' }}</h3>
+          <p>{{ d.stagesHeading.subtitle || 'Explore each developmental stage from early childhood to graduation.' }}</p>
+        </div>
+
+        @if (d.stages.length) {
+          <div class="acp-stages__grid">
+            @for (stage of d.stages; track $index) {
+              <article [class]="'acp-stage acp-stage--' + stage.accent">
+                <div class="acp-stage__top">
+                  <span>{{ stage.grades || 'Grades' }}</span>
+                  <span>{{ stage.ages || 'Ages' }}</span>
+                </div>
+                <div class="acp-stage__head">
+                  <span class="acp-stage__icon">
+                    <app-icon [name]="stage.icon" [size]="18" />
+                  </span>
+                  <div>
+                    <span class="acp-stage__tag">{{ stage.tag || 'Stage' }}</span>
+                    <h4>{{ stage.title || 'Untitled stage' }}</h4>
+                  </div>
+                </div>
+                <p class="acp-stage__desc">
+                  {{ stage.description || 'Stage description appears here.' }}
+                </p>
+                @if (stage.highlights.length) {
+                  <ul class="acp-ticks">
+                    @for (highlight of stage.highlights; track $index) {
+                      <li><app-icon name="check" [size]="12" />{{ highlight }}</li>
+                    }
+                  </ul>
+                }
+                <span class="acp-stage__btn">Explore {{ stage.title || 'stage' }}</span>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="acp-empty">
+            <app-icon name="graduation-cap" [size]="24" />
+            <span>No academic stages yet — add one below.</span>
+          </div>
+        }
+      </div>
+    }
+
+    @case ('cards') {
+      <div class="acp-glance">
+        <div class="acp-section-head">
+          <p class="acp-eyebrow">Academics at a glance</p>
+          <h3>Key academic facts</h3>
+        </div>
+        @if (d.cards.length) {
+          <div class="acp-glance__grid">
+            @for (card of d.cards; track $index) {
+              <article class="acp-glance__card">
+                <span class="acp-glance__icon"><app-icon [name]="card.icon" [size]="18" /></span>
+                <span class="acp-glance__label">{{ card.label || 'Metric label' }}</span>
+                <strong [class.is-pending]="card.status === 'pending'">
+                  {{ card.value || 'Value' }}
+                </strong>
+                <span class="acp-glance__note">{{ card.note }}</span>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="acp-empty">
+            <app-icon name="target" [size]="24" />
+            <span>No glance cards yet — add one below.</span>
+          </div>
+        }
+      </div>
+    }
+
+    @case ('sections') {
+      <div class="acp-sections">
+        @if (d.sections.length) {
+          @for (contentSection of d.sections; track $index) {
+            <article
+              class="acp-row"
+              [class.acp-row--media-left]="$index % 2 === 1 && !!contentSection.imageUrl"
+            >
+              <div class="acp-row__text">
+                @if (contentSection.status === 'pending') {
+                  <span class="acp-status">Awaiting confirmation</span>
+                }
+                <h4>{{ contentSection.title || 'Untitled section' }}</h4>
+                @for (paragraph of contentSection.paragraphs; track $index) {
+                  <p>{{ paragraph }}</p>
+                } @empty {
+                  <p class="acp-placeholder">Section paragraphs appear here.</p>
+                }
+                @if (contentSection.bullets.length) {
+                  <ul class="acp-ticks">
+                    @for (bullet of contentSection.bullets; track $index) {
+                      <li><app-icon name="check" [size]="12" />{{ bullet }}</li>
+                    }
+                  </ul>
+                }
+                @if (contentSection.note) {
+                  <p class="acp-note">
+                    <app-icon name="clock" [size]="13" />
+                    {{ contentSection.note }}
+                  </p>
+                }
+              </div>
+
+              @if (contentSection.imageUrl) {
+                <div class="acp-row__media">
+                  <img
+                    [src]="contentSection.imageUrl"
+                    [alt]="contentSection.imageAlt || 'Curriculum section image'"
+                  />
+                </div>
+              }
+            </article>
+          }
+        } @else {
+          <div class="acp-empty">
+            <app-icon name="menu" [size]="24" />
+            <span>No curriculum sections yet — add one below.</span>
+          </div>
+        }
+      </div>
+    }
+
+    @case ('cta') {
+      <div class="acp-cta">
+        <span class="acp-cta__badge">{{ d.cta.badge || 'Admissions Open' }}</span>
+        <h3>{{ d.cta.title || 'Join the Bright Way family' }}</h3>
+        <p>{{ d.cta.description || 'Admissions CTA description appears here.' }}</p>
+        <div class="acp-cta__actions">
+          <span class="acp-cta__btn acp-cta__btn--primary">
+            {{ d.cta.primaryButtonText || 'Apply for Admission' }}
+          </span>
+          <span class="acp-cta__btn acp-cta__btn--ghost">
+            {{ d.cta.secondaryButtonText || 'Contact Us' }}
+          </span>
+        </div>
+      </div>
+    }
+  }
+</div>

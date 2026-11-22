@@ -40,6 +40,13 @@ export class StorageService {
     return data.publicUrl;
   }
 
+  /** Object path inside a bucket for one of its public URLs, or null. */
+  publicPath(url: string, bucket = 'school-assets'): string | null {
+    const marker = `/storage/v1/object/public/${bucket}/`;
+    const index = url.indexOf(marker);
+    return index === -1 ? null : decodeURIComponent(url.slice(index + marker.length));
+  }
+
   async remove(bucket: string, paths: string | string[]): Promise<{ error: Error | null }> {
     this.loading.set(true);
     this.error.set(null);

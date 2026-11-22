@@ -1,52 +1,133 @@
-<section class="updates">
-  <div class="container updates__grid">
-    <div class="updates__col">
-      <div class="updates__head">
-        <span class="updates__icon"><app-icon name="megaphone" [size]="20" /></span>
-        <h2>Latest Announcements</h2>
-      </div>
+@let list = announcements();
+@let shots = gallery();
 
-      @if (announcements().length) {
-        <div class="updates__list">
-          @for (item of announcements(); track item.id) {
-            <app-announcement-card [announcement]="item" [compact]="true" />
-          }
-        </div>
-      } @else {
-        <div class="updates__empty">
-          <span class="updates__empty-icon"><app-icon name="megaphone" [size]="26" /></span>
-          <h3>No announcements published yet</h3>
-          <p>
-            Notices from the school office will appear here once they are confirmed and published.
-          </p>
-        </div>
+<section class="updates" aria-labelledby="home-updates-title">
+  <div class="container">
+    <header class="updates__head" appScrollReveal>
+      <div>
+        <p class="eyebrow">{{ head().eyebrow }}</p>
+        <h2 id="home-updates-title">{{ head().title }}</h2>
+        <p class="updates__intro">{{ head().text }}</p>
+      </div>
+      @if (head().linkLabel) {
+        <a class="updates__all" [routerLink]="head().linkUrl || '/announcements'">
+          {{ head().linkLabel }}
+          <app-icon name="arrow-right" [size]="15" />
+        </a>
       }
+    </header>
 
-      <a class="updates__link" routerLink="/announcements">
-        View All
-        <app-icon name="arrow-right" [size]="15" />
-      </a>
-    </div>
+    <div class="updates__layout" [class.updates__layout--solo]="!shots.length">
+      <div class="updates__news">
+        @if (list.length) {
+          @let featured = list[0];
+          <a
+            class="featured"
+            [routerLink]="['/announcements', featured.id]"
+            appScrollReveal
+          >
+            <div class="featured__media">
+              @if (featured.imageUrl) {
+                <img
+                  [src]="featured.imageUrl"
+                  [alt]="featured.imageAlt ?? featured.title"
+                  loading="lazy"
+                  decoding="async"
+                />
+              } @else {
+                <span class="featured__media-empty">
+                  <app-icon name="megaphone" [size]="30" />
+                </span>
+              }
+              <span class="featured__category">{{ category(featured) }}</span>
+            </div>
 
-    <div class="updates__col updates__col--gallery">
-      <div class="updates__head">
-        <span class="updates__icon"><app-icon name="image" [size]="20" /></span>
-        <h2>Gallery Highlights</h2>
-      </div>
-
-      <div class="updates__gallery">
-        @for (image of gallery(); track image.id) {
-          <a class="shot" routerLink="/gallery" [attr.aria-label]="'View gallery: ' + image.title">
-            <app-media-frame [src]="image.imageUrl" [alt]="image.imageAlt" ratio="1/1" />
-            <span class="shot__label">{{ image.title }}</span>
+            <div class="featured__body">
+              <p class="featured__date">{{ date(featured) }}</p>
+              <h3>{{ featured.title }}</h3>
+              <p class="featured__summary">{{ featured.summary }}</p>
+              <span class="featured__link">
+                Read update
+                <app-icon name="arrow-right" [size]="15" />
+              </span>
+            </div>
           </a>
+
+          @if (list.length > 1) {
+            <div class="updates__list">
+              @for (item of list.slice(1); track item.id; let i = $index) {
+                <a
+                  class="update-row"
+                  [routerLink]="['/announcements', item.id]"
+                  appScrollReveal
+                  [revealDelay]="i * 80"
+                >
+                  <span class="update-row__icon">
+                    <app-icon name="megaphone" [size]="20" />
+                  </span>
+                  <span class="update-row__body">
+                    <span class="update-row__meta">
+                      {{ category(item) }} · {{ date(item) }}
+                    </span>
+                    <strong>{{ item.title }}</strong>
+                    <span class="update-row__summary">{{ item.summary }}</span>
+                  </span>
+                  <span class="update-row__arrow" aria-hidden="true">
+                    <app-icon name="arrow-up-right" [size]="16" />
+                  </span>
+                </a>
+              }
+            </div>
+          }
+        } @else {
+          <div class="updates__empty" appScrollReveal>
+            <span class="updates__empty-icon"><app-icon name="megaphone" [size]="30" /></span>
+            <h3>{{ head().emptyTitle }}</h3>
+            <p>{{ head().emptyText }}</p>
+            @if (head().emptyLinkLabel) {
+              <a class="updates__all" [routerLink]="head().linkUrl || '/announcements'">
+                {{ head().emptyLinkLabel }}
+                <app-icon name="arrow-right" [size]="15" />
+              </a>
+            }
+          </div>
         }
       </div>
 
-      <a class="updates__link" routerLink="/gallery">
-        View Gallery
-        <app-icon name="arrow-right" [size]="15" />
-      </a>
+      @if (shots.length) {
+        <aside class="updates__gallery" appScrollReveal [revealDelay]="120">
+          <header class="updates__gallery-head">
+            <div>
+              <p class="updates__gallery-eyebrow">{{ head().galleryEyebrow }}</p>
+              <h3>{{ head().galleryTitle }}</h3>
+            </div>
+            @if (head().galleryLinkLabel) {
+              <a class="updates__gallery-link" routerLink="/gallery">
+                {{ head().galleryLinkLabel }}
+                <app-icon name="arrow-right" [size]="14" />
+              </a>
+            }
+          </header>
+
+          <div class="updates__shots">
+            @for (image of shots; track image.id) {
+              <a
+                class="shot"
+                routerLink="/gallery"
+                [attr.aria-label]="'View gallery: ' + image.title"
+              >
+                <app-media-frame [src]="image.imageUrl" [alt]="image.imageAlt" ratio="1/1" />
+                <span class="shot__label">{{ image.title }}</span>
+              </a>
+            }
+          </div>
+
+          <div class="updates__gallery-note">
+            <app-icon name="image" [size]="18" />
+            <span>{{ head().galleryNote }}</span>
+          </div>
+        </aside>
+      }
     </div>
   </div>
 </section>

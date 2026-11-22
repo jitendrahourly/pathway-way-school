@@ -25,7 +25,9 @@ const ACCEPTED = ['image/jpeg', 'image/png', 'image/webp'];
         </div>
       } @else if (previewDataUrl()) {
         <div class="upload-area__preview-wrap">
-          <img [src]="previewDataUrl()" alt="Selected image preview" class="upload-area__preview" />
+          <a class="upload-area__preview-link" [href]="previewDataUrl()" target="_blank" rel="noopener" title="View full size">
+            <img [src]="previewDataUrl()" alt="Selected image preview" class="upload-area__preview" />
+          </a>
           <span class="upload-area__badge">Pending Save</span>
         </div>
       } @else if (removePending()) {
@@ -36,7 +38,9 @@ const ACCEPTED = ['image/jpeg', 'image/png', 'image/webp'];
         </div>
       } @else if (value()) {
         <div class="upload-area__preview-wrap">
-          <img [src]="value()" alt="Current image" class="upload-area__preview" />
+          <a class="upload-area__preview-link" [href]="value()" target="_blank" rel="noopener" title="View full size">
+            <img [src]="value()" alt="Current image" class="upload-area__preview" />
+          </a>
           <span class="upload-area__badge upload-area__badge--current">Current Image</span>
         </div>
       } @else {
@@ -107,6 +111,11 @@ const ACCEPTED = ['image/jpeg', 'image/png', 'image/webp'];
       box-shadow: 0 4px 14px rgba(48, 32, 93, 0.06);
     }
 
+    .upload-area__preview-link {
+      display: block;
+      cursor: zoom-in;
+    }
+
     .upload-area__preview {
       display: block;
       width: 100%;
@@ -114,6 +123,10 @@ const ACCEPTED = ['image/jpeg', 'image/png', 'image/webp'];
       object-fit: cover;
       object-position: center;
       transition: transform 0.25s ease;
+    }
+
+    .upload-area__preview-link:hover .upload-area__preview {
+      transform: scale(1.015);
     }
 
     .upload-area__badge {

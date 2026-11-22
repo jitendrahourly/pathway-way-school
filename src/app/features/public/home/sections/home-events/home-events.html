@@ -1,0 +1,55 @@
+@let items = events();
+
+@if (items.length) {
+  <section class="home-events" aria-labelledby="home-events-title">
+    <div class="container">
+      <header class="home-events__head" appScrollReveal>
+        <div>
+          <p class="eyebrow">{{ head().eyebrow }}</p>
+          <h2 id="home-events-title">{{ head().title }}</h2>
+        </div>
+        @if (head().linkLabel) {
+          <a class="home-events__all" [routerLink]="head().linkUrl || '/school-life'">
+            {{ head().linkLabel }}
+            <app-icon name="arrow-right" [size]="15" />
+          </a>
+        }
+      </header>
+
+      <div class="home-events__grid">
+        @for (event of items; track event.title; let i = $index) {
+          <article class="event-card" appScrollReveal [revealDelay]="i * 100">
+            <a
+              class="event-card__media"
+              [routerLink]="event.link || '/school-life'"
+              [attr.aria-label]="'View details for ' + event.title"
+            >
+              <img
+                [src]="event.imageUrl"
+                [alt]="event.imageAlt || event.title + ' at Bright Way School'"
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="event-card__scrim" aria-hidden="true"></span>
+              <span class="event-card__date">
+                <app-icon name="calendar" [size]="14" />
+                {{ event.date }}
+              </span>
+            </a>
+
+            <div class="event-card__body">
+              <h3>{{ event.title }}</h3>
+              <p>{{ event.description }}</p>
+              @if (event.link) {
+                <a class="event-card__link" [routerLink]="event.link">
+                  View details
+                  <app-icon name="arrow-right" [size]="14" />
+                </a>
+              }
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+}

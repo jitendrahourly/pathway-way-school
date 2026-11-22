@@ -20,6 +20,9 @@ import { ContentService } from '../../../core/services/content.service';
 
 const SCROLL_STORAGE_KEY = 'admin-page-content:scroll';
 
+/** Superseded slugs whose old records must not resurface as custom rows. */
+const RETIRED_SLUGS: ReadonlySet<string> = new Set(['events']);
+
 interface PageContentRow {
   readonly slug: string;
   readonly title: string;
@@ -104,7 +107,10 @@ export class PageContentList implements OnInit {
         ...Object.keys(CONTENT_PAGES),
       ]);
       const custom = records
-        .filter((record) => !knownSlugs.has(record.page_slug))
+        .filter(
+          (record) =>
+            !knownSlugs.has(record.page_slug) && !RETIRED_SLUGS.has(record.page_slug),
+        )
         .map((record) =>
           this.toRow(record.page_slug, record.page_slug, 'content', record),
         );

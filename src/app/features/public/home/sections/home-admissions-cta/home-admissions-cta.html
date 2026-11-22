@@ -1,0 +1,58 @@
+@let data = cta();
+
+@if (data) {
+  <section class="home-admissions-cta" aria-labelledby="home-admissions-title">
+    <div class="container">
+      <div class="home-admissions-cta__card" appScrollReveal>
+        <span class="home-admissions-cta__orb" aria-hidden="true"></span>
+        <span class="home-admissions-cta__ring" aria-hidden="true"></span>
+
+        <div class="home-admissions-cta__body">
+          <span class="home-admissions-cta__badge">{{ data.badge || 'Admissions Open' }}</span>
+          <h2 id="home-admissions-title">{{ data.title || 'Join the Bright Way family' }}</h2>
+          <p class="home-admissions-cta__text">{{ data.text }}</p>
+
+          <div class="home-admissions-cta__actions">
+            <a
+              class="btn btn--primary"
+              [routerLink]="data.primaryLink || '/admissions/enquiry'"
+            >
+              {{ data.primaryLabel || 'Apply for Admission' }}
+              <app-icon name="arrow-right" [size]="16" />
+            </a>
+            <a
+              class="btn btn--outline"
+              [routerLink]="data.secondaryLink || '/contact'"
+            >
+              {{ data.secondaryLabel || 'Contact Us' }}
+            </a>
+          </div>
+
+          <p class="home-admissions-cta__phone">
+            <app-icon name="phone" [size]="15" />
+            <span>{{ data.phoneLabel || 'Speak to the school office:' }}</span>
+            <a [href]="'tel:' + settings().phone">{{ settings().phone }}</a>
+          </p>
+        </div>
+
+        <div class="home-admissions-cta__media">
+          <img
+            [src]="image()"
+            alt="Students at Bright Way School"
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="home-admissions-cta__media-scrim" aria-hidden="true"></span>
+          <div class="home-admissions-cta__media-card">
+            @if (data.mediaTitle) {
+              <strong>{{ data.mediaTitle }}</strong>
+            }
+            @if (data.mediaText) {
+              <span>{{ data.mediaText }}</span>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+}

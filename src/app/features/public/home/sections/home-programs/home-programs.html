@@ -1,0 +1,52 @@
+@let cards = programs();
+
+@if (cards.length) {
+  <section class="home-programs" aria-labelledby="home-programs-title">
+    <div class="container">
+      <header class="home-programs__head" appScrollReveal>
+        <div>
+          <p class="eyebrow">{{ head().eyebrow }}</p>
+          <h2 id="home-programs-title">{{ head().title }}</h2>
+        </div>
+        @if (head().linkLabel) {
+          <a class="home-programs__all" [routerLink]="head().linkUrl || '/academics'">
+            {{ head().linkLabel }}
+            <app-icon name="arrow-right" [size]="15" />
+          </a>
+        }
+      </header>
+
+      <div class="home-programs__grid">
+        @for (program of cards; track program.title; let i = $index) {
+          <a
+            class="program"
+            [routerLink]="program.link || '/academics'"
+            appScrollReveal
+            [revealDelay]="i * 90"
+          >
+            <img
+              class="program__photo"
+              [src]="program.imageUrl"
+              [alt]="program.imageAlt || program.title + ' at Bright Way School'"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="program__scrim" aria-hidden="true"></span>
+
+            <span class="program__icon">
+              <app-icon [name]="program.icon" [size]="20" />
+            </span>
+            <div class="program__body">
+              <h3>{{ program.title }}</h3>
+              <p>{{ program.description }}</p>
+              <span class="program__link">
+                Explore
+                <app-icon name="arrow-right" [size]="14" />
+              </span>
+            </div>
+          </a>
+        }
+      </div>
+    </div>
+  </section>
+}

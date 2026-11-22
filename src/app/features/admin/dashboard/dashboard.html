@@ -24,11 +24,66 @@
         <span class="admin-dashboard__stat-label">Gallery Images</span>
         <span class="admin-dashboard__stat-value">{{ totalGalleryImages() }}</span>
       </article>
+    </div>
+
+    <section class="admin-dashboard__panel admin-dashboard__panel--wide">
+      <h3>Quick Actions</h3>
+      <div class="admin-dashboard__quick-actions">
+        <a class="admin-dashboard__quick-action" routerLink="/admin/page-content/home/main">
+          <span>Edit Home</span>
+        </a>
+        <a class="admin-dashboard__quick-action" routerLink="/admin/page-content">
+          <span>Page Content</span>
+        </a>
+        <a class="admin-dashboard__quick-action" routerLink="/admin/announcements">
+          <span>Announcements</span>
+        </a>
+        <a class="admin-dashboard__quick-action" routerLink="/admin/gallery">
+          <span>Gallery</span>
+        </a>
+        <a class="admin-dashboard__quick-action" routerLink="/admin/page-content/about-management/edit">
+          <span>Management</span>
+        </a>
+        <a class="admin-dashboard__quick-action" routerLink="/admin/settings">
+          <span>Site Settings</span>
+        </a>
+      </div>
+    </section>
+
+    <div class="admin-dashboard__stats admin-dashboard__stats--content">
       <article class="admin-dashboard__stat">
-        <span class="admin-dashboard__stat-label">Facilities</span>
-        <span class="admin-dashboard__stat-value">{{ totalFacilities() }}</span>
+        <span class="admin-dashboard__stat-label">Page Content Rows</span>
+        <span class="admin-dashboard__stat-value">{{ totalPageContents() }}</span>
+      </article>
+      <article class="admin-dashboard__stat">
+        <span class="admin-dashboard__stat-label">Published Pages</span>
+        <span class="admin-dashboard__stat-value">{{ publishedPageContents() }}</span>
+      </article>
+      <article class="admin-dashboard__stat">
+        <span class="admin-dashboard__stat-label">Draft Pages</span>
+        <span class="admin-dashboard__stat-value">{{ draftPageContents() }}</span>
+      </article>
+      <article class="admin-dashboard__stat">
+        <span class="admin-dashboard__stat-label">Using Defaults</span>
+        <span class="admin-dashboard__stat-value">{{ defaultPageCount() }}</span>
       </article>
     </div>
+
+    <section class="admin-dashboard__panel admin-dashboard__panel--wide">
+      <h3>Recently Updated Pages</h3>
+      @if (recentlyUpdatedPages().length === 0) {
+        <p class="admin-dashboard__empty">No page content saved yet.</p>
+      } @else {
+        <ul class="admin-dashboard__list">
+          @for (item of recentlyUpdatedPages(); track item.page_slug) {
+            <li class="admin-dashboard__list-item">
+              <span>{{ item.page_slug }}</span>
+              <a class="admin-dashboard__badge" [routerLink]="editLink(item.page_slug)">Edit</a>
+            </li>
+          }
+        </ul>
+      }
+    </section>
 
     <div class="admin-dashboard__recent">
       <section class="admin-dashboard__panel">
@@ -67,23 +122,6 @@
         }
       </section>
 
-      <section class="admin-dashboard__panel">
-        <h3>Recent Facilities</h3>
-        @if (recentFacilities().length === 0) {
-          <p class="admin-dashboard__empty">No facilities yet.</p>
-        } @else {
-          <ul class="admin-dashboard__list">
-            @for (item of recentFacilities(); track item.id) {
-              <li class="admin-dashboard__list-item">
-                <span>{{ item.title }}</span>
-                <span class="admin-dashboard__badge" [class.admin-dashboard__badge--published]="item.is_published">
-                  {{ item.is_published ? 'Published' : 'Draft' }}
-                </span>
-              </li>
-            }
-          </ul>
-        }
-      </section>
     </div>
   }
 </section>

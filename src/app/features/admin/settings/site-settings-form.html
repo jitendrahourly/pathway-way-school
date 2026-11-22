@@ -1,131 +1,204 @@
-<section class="ann-form">
+<section class="ann-form editor-compact">
   <header class="ann-form__header">
     <div>
       <p class="ann-form__eyebrow">Settings</p>
       <h1>Site Settings</h1>
+      <p class="ann-form__subtitle">
+        Edit site-wide details just as visitors see them. Expand a section to update it — each panel
+        mirrors where the information appears on the public site.
+      </p>
     </div>
   </header>
 
   @if (loading()) {
     <div class="ann-form__state">Loading…</div>
   } @else {
-    <form class="ann-form__card" [formGroup]="form" (ngSubmit)="submit()" novalidate>
-      <p class="field__hint">
-        These details are used in the site header, the footer and the Contact page.
-      </p>
+    <form class="ann-form__card ann-form__card--stacked" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      @let identityStatus = status('settings-identity');
+      @let contactStatus = status('settings-contact');
+      @let socialStatus = status('settings-social');
+      @let locationStatus = status('settings-location');
 
-      <div class="field field--full">
-        <label for="schoolName">School name *</label>
-        <input id="schoolName" type="text" formControlName="schoolName" placeholder="Bright Way School" />
-        @if (form.controls.schoolName.touched && form.controls.schoolName.invalid) {
-          <p class="field__error">School name is required.</p>
-        }
-      </div>
+      <!-- 1. School Identity -->
+      <app-editor-section
+        sectionId="settings-identity"
+        step="01"
+        title="School Identity"
+        badge="Header &amp; Footer"
+        description="The school name shown in the site header and footer."
+        [status]="identityStatus.label"
+        [statusLive]="identityStatus.live"
+        [expanded]="isSectionOpen('settings-identity')"
+        (toggle)="toggleSection('settings-identity')"
+      >
+        <app-settings-preview [section]="'identity'" [data]="settingsPreview()" />
 
-      <div class="ann-form__row">
-        <div class="field">
-          <label for="phone">Phone *</label>
-          <input id="phone" type="tel" formControlName="phone" placeholder="080-26396720" />
-          @if (form.controls.phone.touched && form.controls.phone.invalid) {
-            <p class="field__error">Phone number is required.</p>
-          }
+        <div class="section-card__body">
+          <div class="field field--full">
+            <label for="schoolName">School name *</label>
+            <input id="schoolName" type="text" formControlName="schoolName" placeholder="Bright Way School" />
+            @if (form.controls.schoolName.touched && form.controls.schoolName.invalid) {
+              <p class="field__error">School name is required.</p>
+            }
+          </div>
         </div>
+      </app-editor-section>
 
-        <div class="field">
-          <label for="email">Email *</label>
-          <input id="email" type="email" formControlName="email" placeholder="school@example.com" />
-          @if (form.controls.email.touched && form.controls.email.invalid) {
-            <p class="field__error">Enter a valid email address.</p>
-          }
+      <!-- 2. Contact Details -->
+      <app-editor-section
+        sectionId="settings-contact"
+        step="02"
+        title="Contact Details"
+        badge="Contact Page"
+        description="The phone, email and address shown on the Contact page and footer."
+        [status]="contactStatus.label"
+        [statusLive]="contactStatus.live"
+        [expanded]="isSectionOpen('settings-contact')"
+        (toggle)="toggleSection('settings-contact')"
+      >
+        <app-settings-preview [section]="'contact'" [data]="settingsPreview()" />
+
+        <div class="section-card__body">
+          <div class="ann-form__row">
+            <div class="field">
+              <label for="phone">Phone *</label>
+              <input id="phone" type="tel" formControlName="phone" placeholder="080-26396720" />
+              @if (form.controls.phone.touched && form.controls.phone.invalid) {
+                <p class="field__error">Phone number is required.</p>
+              }
+            </div>
+
+            <div class="field">
+              <label for="email">Email *</label>
+              <input id="email" type="email" formControlName="email" placeholder="school@example.com" />
+              @if (form.controls.email.touched && form.controls.email.invalid) {
+                <p class="field__error">Enter a valid email address.</p>
+              }
+            </div>
+          </div>
+
+          <div class="field field--full">
+            <label for="address">Address *</label>
+            <textarea
+              id="address"
+              class="description-textarea"
+              rows="3"
+              formControlName="address"
+              placeholder="School address"
+            ></textarea>
+            @if (form.controls.address.touched && form.controls.address.invalid) {
+              <p class="field__error">Address is required.</p>
+            }
+          </div>
         </div>
-      </div>
+      </app-editor-section>
 
-      <div class="field field--full">
-        <label for="address">Address *</label>
-        <textarea
-          id="address"
-          class="description-textarea"
-          rows="3"
-          formControlName="address"
-          placeholder="School address"
-        ></textarea>
-        @if (form.controls.address.touched && form.controls.address.invalid) {
-          <p class="field__error">Address is required.</p>
-        }
-      </div>
+      <!-- 3. Social Links -->
+      <app-editor-section
+        sectionId="settings-social"
+        step="03"
+        title="Social Links"
+        badge="Header &amp; Footer"
+        description="The social media links shown in the site header and footer."
+        [status]="socialStatus.label"
+        [statusLive]="socialStatus.live"
+        [expanded]="isSectionOpen('settings-social')"
+        (toggle)="toggleSection('settings-social')"
+      >
+        <app-settings-preview [section]="'social'" [data]="settingsPreview()" />
 
-      <div class="ann-form__row">
-        <div class="field">
-          <label for="instagramHandle">Instagram handle</label>
-          <input
-            id="instagramHandle"
-            type="text"
-            formControlName="instagramHandle"
-            placeholder="@bright_way_school_bhcs"
-          />
-          <p class="field__hint">Shown on the Contact page, for example @bright_way_school_bhcs.</p>
+        <div class="section-card__body">
+          <div class="ann-form__row">
+            <div class="field">
+              <label for="instagramHandle">Instagram handle</label>
+              <input
+                id="instagramHandle"
+                type="text"
+                formControlName="instagramHandle"
+                placeholder="@bright_way_school_bhcs"
+              />
+              <p class="field__hint">Shown on the Contact page, for example @bright_way_school_bhcs.</p>
+            </div>
+
+            <div class="field">
+              <label for="instagramUrl">Instagram URL</label>
+              <input
+                id="instagramUrl"
+                type="url"
+                formControlName="instagramUrl"
+                placeholder="https://www.instagram.com/bright_way_school_bhcs/"
+              />
+              @if (form.controls.instagramUrl.touched && form.controls.instagramUrl.invalid) {
+                <p class="field__error">Enter a full URL starting with http:// or https://.</p>
+              }
+            </div>
+          </div>
+
+          <div class="ann-form__row">
+            <div class="field">
+              <label for="facebookUrl">Facebook URL</label>
+              <input
+                id="facebookUrl"
+                type="url"
+                formControlName="facebookUrl"
+                placeholder="https://www.facebook.com/..."
+              />
+              <p class="field__hint">Shown as a Facebook icon in the header and footer.</p>
+              @if (form.controls.facebookUrl.touched && form.controls.facebookUrl.invalid) {
+                <p class="field__error">Enter a full URL starting with http:// or https://.</p>
+              }
+            </div>
+
+            <div class="field">
+              <label for="youtubeUrl">YouTube URL</label>
+              <input
+                id="youtubeUrl"
+                type="url"
+                formControlName="youtubeUrl"
+                placeholder="https://www.youtube.com/@..."
+              />
+              <p class="field__hint">Shown as a YouTube icon in the header and footer.</p>
+              @if (form.controls.youtubeUrl.touched && form.controls.youtubeUrl.invalid) {
+                <p class="field__error">Enter a full URL starting with http:// or https://.</p>
+              }
+            </div>
+          </div>
         </div>
+      </app-editor-section>
 
-        <div class="field">
-          <label for="instagramUrl">Instagram URL</label>
-          <input
-            id="instagramUrl"
-            type="url"
-            formControlName="instagramUrl"
-            placeholder="https://www.instagram.com/bright_way_school_bhcs/"
-          />
-          @if (form.controls.instagramUrl.touched && form.controls.instagramUrl.invalid) {
-            <p class="field__error">Enter a full URL starting with http:// or https://.</p>
-          }
+      <!-- 4. Location -->
+      <app-editor-section
+        sectionId="settings-location"
+        step="04"
+        title="Location"
+        badge="Contact Page Map"
+        description="The map link used on the Contact page."
+        [status]="locationStatus.label"
+        [statusLive]="locationStatus.live"
+        [expanded]="isSectionOpen('settings-location')"
+        (toggle)="toggleSection('settings-location')"
+      >
+        <app-settings-preview [section]="'location'" [data]="settingsPreview()" />
+
+        <div class="section-card__body">
+          <div class="field field--full">
+            <label for="mapsUrl">Map link</label>
+            <input
+              id="mapsUrl"
+              type="url"
+              formControlName="mapsUrl"
+              placeholder="https://www.google.com/maps?q=...&amp;output=embed"
+            />
+            <p class="field__hint">
+              Used for the map on the Contact page. Paste the Google Maps embed link, which ends with
+              &amp;output=embed.
+            </p>
+            @if (form.controls.mapsUrl.touched && form.controls.mapsUrl.invalid) {
+              <p class="field__error">Enter a full URL starting with http:// or https://.</p>
+            }
+          </div>
         </div>
-      </div>
-
-      <div class="ann-form__row">
-        <div class="field">
-          <label for="facebookUrl">Facebook URL</label>
-          <input
-            id="facebookUrl"
-            type="url"
-            formControlName="facebookUrl"
-            placeholder="https://www.facebook.com/..."
-          />
-          <p class="field__hint">Shown as a Facebook icon in the header and footer.</p>
-          @if (form.controls.facebookUrl.touched && form.controls.facebookUrl.invalid) {
-            <p class="field__error">Enter a full URL starting with http:// or https://.</p>
-          }
-        </div>
-
-        <div class="field">
-          <label for="youtubeUrl">YouTube URL</label>
-          <input
-            id="youtubeUrl"
-            type="url"
-            formControlName="youtubeUrl"
-            placeholder="https://www.youtube.com/@..."
-          />
-          <p class="field__hint">Shown as a YouTube icon in the header and footer.</p>
-          @if (form.controls.youtubeUrl.touched && form.controls.youtubeUrl.invalid) {
-            <p class="field__error">Enter a full URL starting with http:// or https://.</p>
-          }
-        </div>
-      </div>
-
-      <div class="field field--full">
-        <label for="mapsUrl">Map link</label>
-        <input
-          id="mapsUrl"
-          type="url"
-          formControlName="mapsUrl"
-          placeholder="https://www.google.com/maps?q=...&amp;output=embed"
-        />
-        <p class="field__hint">
-          Used for the map on the Contact page. Paste the Google Maps embed link, which ends with
-          &amp;output=embed.
-        </p>
-        @if (form.controls.mapsUrl.touched && form.controls.mapsUrl.invalid) {
-          <p class="field__error">Enter a full URL starting with http:// or https://.</p>
-        }
-      </div>
+      </app-editor-section>
 
       @if (error()) {
         <div class="ann-form__error" role="alert">{{ error() }}</div>

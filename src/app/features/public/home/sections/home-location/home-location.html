@@ -1,0 +1,92 @@
+@let visitNote = note();
+@let mapSource = mapUrl();
+
+<section class="home-location" aria-labelledby="home-location-title">
+  <div class="container">
+    <header class="home-location__head" appScrollReveal>
+      <div>
+        <p class="eyebrow">{{ head().eyebrow }}</p>
+        <h2 id="home-location-title">{{ head().title }}</h2>
+      </div>
+      @if (visitNote) {
+        <p class="home-location__note">{{ visitNote }}</p>
+      }
+    </header>
+
+    <div class="home-location__layout">
+      <div class="home-location__map" appScrollReveal>
+        @if (mapSource) {
+          <iframe
+            [src]="mapSource"
+            title="Bright Way School location on Google Maps"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+          ></iframe>
+        } @else {
+          <div class="home-location__map-empty">
+            <app-icon name="map-pin" [size]="32" />
+            <span>{{ head().mapEmptyText }}</span>
+          </div>
+        }
+
+        @if (settings().mapsUrl) {
+          <a
+            class="home-location__directions"
+            [href]="settings().mapsUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <app-icon name="map-pin" [size]="15" />
+            {{ head().directionsLabel }}
+            <app-icon name="arrow-up-right" [size]="14" />
+          </a>
+        }
+      </div>
+
+      <aside class="home-location__card" appScrollReveal [revealDelay]="100">
+        <div class="home-location__card-head">
+          <span class="home-location__card-icon">
+            <app-icon name="map-pin" [size]="20" />
+          </span>
+          <div class="home-location__card-copy">
+            <strong>{{ settings().schoolName }}</strong>
+            <span>{{ settings().managementName }}</span>
+          </div>
+        </div>
+
+        <ul class="home-location__details">
+          <li>
+            <span class="home-location__detail-icon"><app-icon name="map-pin" [size]="17" /></span>
+            <div>
+              <span class="home-location__label">Address</span>
+              <p>{{ settings().address }}</p>
+            </div>
+          </li>
+          <li>
+            <span class="home-location__detail-icon"><app-icon name="phone" [size]="17" /></span>
+            <div>
+              <span class="home-location__label">Phone</span>
+              <a [href]="'tel:' + settings().phone">{{ settings().phone }}</a>
+            </div>
+          </li>
+          <li>
+            <span class="home-location__detail-icon"><app-icon name="mail" [size]="17" /></span>
+            <div>
+              <span class="home-location__label">Email</span>
+              <a [href]="'mailto:' + settings().email">{{ settings().email }}</a>
+            </div>
+          </li>
+        </ul>
+
+        <a
+          class="btn btn--purple home-location__cta"
+          [routerLink]="head().cardCtaLink || '/contact'"
+        >
+          {{ head().cardCtaLabel || 'Contact the school' }}
+          <app-icon name="arrow-right" [size]="15" />
+        </a>
+      </aside>
+    </div>
+  </div>
+</section>

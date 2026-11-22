@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FacilitiesContentService } from '../../../core/services/facilities-content.service';
+import { FacilitiesService } from '../../../core/services/facilities.service';
 import { FacilityCard } from '../../../shared/components/facility-card/facility-card';
 import { MediaFrame } from '../../../shared/components/media-frame/media-frame';
 import { PageBanner } from '../../../shared/components/page-banner/page-banner';
@@ -16,26 +17,19 @@ import { UiIcon } from '../../../shared/components/ui-icon/ui-icon';
 })
 export class Facilities implements OnInit {
   private readonly service = inject(FacilitiesContentService);
+  private readonly facilitiesService = inject(FacilitiesService);
 
   protected readonly content = this.service.content;
   protected readonly additional = this.service.additional;
 
-  protected readonly stats = [
-    { value: 'K – 10', label: 'Spacious Classrooms' },
-    { value: '5,000+', label: 'Library Volumes' },
-    { value: '1:1', label: 'Computer Workstations' },
-    { value: 'Open', label: 'Sports Grounds' },
-  ] as const;
-
   protected readonly facilities = computed(() =>
     this.service.facilities().map((facility, index) => ({
       ...facility,
-      label: String(index + 1).padStart(2, '0'),
       reversed: index % 2 === 1,
     })),
   );
 
-  protected subpageUrl(facilityId: string): string {
+  protected subpageUrl(facility: { id: string; subpageUrl?: string }): string {
     const map: Record<string, string> = {
       'classrooms': '/facilities/classrooms',
       'library': '/facilities/library',
@@ -43,10 +37,11 @@ export class Facilities implements OnInit {
       'playground': '/facilities/sports',
       'science-laboratory': '/facilities/other',
     };
-    return map[facilityId] ?? '/facilities';
+    return facility.subpageUrl || map[facility.id] || '/facilities';
   }
 
   ngOnInit(): void {
     void this.service.load();
+    void this.facilitiesService.load();
   }
 }

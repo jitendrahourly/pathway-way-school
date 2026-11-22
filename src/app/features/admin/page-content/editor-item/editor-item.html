@@ -1,0 +1,40 @@
+<div class="editor-item">
+  <div class="editor-item__head">
+    <button
+      type="button"
+      class="editor-item__toggle"
+      [attr.aria-expanded]="expanded()"
+      (click)="toggle.emit()"
+    >
+      <span class="editor-item__chevron" aria-hidden="true"></span>
+      @if (hasThumb()) {
+        <span class="editor-item__thumb">
+          @if (thumbSrc()) {
+            <img [src]="thumbSrc()" alt="" />
+          } @else {
+            <app-icon [name]="icon()" [size]="14" />
+          }
+        </span>
+      }
+      <span class="editor-item__title">{{ title() || 'Untitled' }}</span>
+      @if (meta()) {
+        <span class="editor-item__meta">{{ meta() }}</span>
+      }
+    </button>
+
+    <button
+      type="button"
+      class="editor-item__remove"
+      (click)="remove.emit()"
+      [attr.aria-label]="removeLabel()"
+      [title]="removeLabel()"
+    >
+      <app-icon name="close" [size]="15" />
+      <span>{{ removeLabel() }}</span>
+    </button>
+  </div>
+
+  <div class="editor-item__fields" [class.editor-item__fields--closed]="!expanded()">
+    <ng-content />
+  </div>
+</div>

@@ -1,14 +1,14 @@
 <app-page-banner
-  title="School Life & Events"
-  subtitle="Learning, celebrating, and thriving beyond the classroom"
-  imageUrl="/images/gallery/gallery-01.jpg"
-  imageAlt="Bright Way School students marching in uniform at the annual sports day"
+  [title]="content().banner.title"
+  [subtitle]="content().banner.subtitle"
+  [imageUrl]="content().banner.imageUrl"
+  [imageAlt]="content().banner.imageAlt"
 />
 
 <section class="school-life">
   <div class="container">
     <div class="school-life__stats-strip">
-      @for (stat of stats; track stat.label) {
+      @for (stat of content().stats; track $index) {
         <div class="school-life__stat-card">
           <strong class="stat-value">{{ stat.value }}</strong>
           <span class="stat-label">{{ stat.label }}</span>
@@ -17,17 +17,15 @@
     </div>
 
     <div class="intro">
-      <p class="eyebrow">Beyond the Classroom</p>
-      <h2>Life at Bright Way School</h2>
-      <p class="school-life__text">
-        Education at Bright Way School is a vibrant journey that combines academic rigor with lively co-curricular
-        activities, competitive sports, artistic expression, and meaningful community celebrations. We nurture well-rounded
-        students grounded in discipline, empathy, and leadership.
-      </p>
+      <p class="eyebrow">{{ content().intro.eyebrow }}</p>
+      <h2>{{ content().intro.title }}</h2>
+      @for (paragraph of content().intro.paragraphs; track $index) {
+        <p class="school-life__text">{{ paragraph }}</p>
+      }
     </div>
 
     <div class="sections">
-      @for (section of sections; track section.id) {
+      @for (section of cards(); track $index) {
         <article
           class="section-card"
           appScrollReveal
@@ -46,7 +44,7 @@
             <p>{{ section.text }}</p>
 
             <div class="section-card__pills">
-              @for (highlight of section.highlights; track highlight) {
+              @for (highlight of section.highlights; track $index) {
                 <span class="highlight-pill">{{ highlight }}</span>
               }
             </div>
@@ -64,19 +62,16 @@
 
     <div class="school-life__cta">
       <div class="school-life__cta-content">
-        <p class="eyebrow eyebrow--light">Join Our Community</p>
-        <h2>Experience School Life at Bright Way</h2>
-        <p>
-          Discover how our events, activities, and faculty mentorship inspire students to reach their full potential.
-          Schedule a visit or submit an admissions enquiry today.
-        </p>
+        <p class="eyebrow eyebrow--light">{{ content().cta.eyebrow }}</p>
+        <h2>{{ content().cta.title }}</h2>
+        <p>{{ content().cta.text }}</p>
         <div class="cta-actions">
           <a routerLink="/admissions/enquiry" class="btn btn--primary">
-            <span>Enquire for Admissions</span>
+            <span>{{ content().cta.primaryLabel }}</span>
             <app-icon name="arrow-right" [size]="16" />
           </a>
           <a routerLink="/gallery" class="btn btn--ghost">
-            <span>View Campus Gallery</span>
+            <span>{{ content().cta.secondaryLabel }}</span>
             <app-icon name="image" [size]="16" />
           </a>
         </div>

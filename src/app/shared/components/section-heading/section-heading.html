@@ -8,6 +8,9 @@
         <p class="eyebrow">{{ label }}</p>
       }
       <h2>{{ title() }}</h2>
+      @if (subtitle(); as sub) {
+        <p class="heading__subtitle">{{ sub }}</p>
+      }
     </div>
   </div>
 

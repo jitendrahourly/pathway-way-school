@@ -8,6 +8,12 @@
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr);
   min-height: 100vh;
+  /* Keep the grid from becoming a scroll container so the sticky sidebar
+     stays pinned to the viewport while the main column scrolls. */
+  overflow: visible;
+}
+
+.admin-layout__main {
   overflow-x: hidden;
 }
 

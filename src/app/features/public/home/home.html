@@ -1,6 +1,57 @@
-<app-home-hero />
-<app-home-highlights />
-<app-home-about />
-<app-home-facilities />
-<app-home-updates />
-<app-home-instagram />
+@if (show().hero) {
+  <app-home-hero />
+}
+@if (show().highlights) {
+  <app-home-highlights />
+}
+@if (show().stats) {
+  <app-home-stats />
+}
+@if (show().about) {
+  <app-home-about />
+}
+@if (show().programs) {
+  <app-home-programs />
+}
+@if (show().why) {
+  <app-home-why />
+}
+@if (show().facilities) {
+  <app-home-facilities />
+}
+@if (show().gallery) {
+  <app-home-gallery-preview />
+}
+@if (show().video) {
+  <app-home-video-tour />
+}
+@if (show().achievements) {
+  <app-home-achievements />
+}
+@if (show().affiliations) {
+  <app-home-affiliations />
+}
+@if (show().testimonials) {
+  <app-home-testimonials />
+}
+@if (show().events) {
+  <app-home-events />
+}
+@if (show().updates) {
+  <app-home-updates />
+}
+@if (show().faqs) {
+  <app-home-faqs />
+}
+@if (show().admissionsCta) {
+  <app-home-admissions-cta />
+}
+@if (show().location) {
+  <app-home-location />
+}
+@if (show().newsletter) {
+  <app-home-newsletter />
+}
+@if (show().instagram) {
+  <app-home-instagram />
+}

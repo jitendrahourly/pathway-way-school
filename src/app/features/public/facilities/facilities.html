@@ -22,41 +22,33 @@
     </div>
 
     <!-- Quick Stats Strip -->
-    <div class="facilities__stats-strip">
-      @for (stat of stats; track stat.label) {
-        <div class="facilities__stat-card">
-          <strong class="stat-value">{{ stat.value }}</strong>
-          <span class="stat-label">{{ stat.label }}</span>
-        </div>
-      }
-    </div>
+    @if (page.stats.length) {
+      <div class="facilities__stats-strip">
+        @for (stat of page.stats; track $index) {
+          <div class="facilities__stat-card">
+            <strong class="stat-value">{{ stat.value }}</strong>
+            <span class="stat-label">{{ stat.label }}</span>
+          </div>
+        }
+      </div>
+    }
 
     <!-- Facilities Subpages Quick Navigation -->
-    <nav class="facilities__quick-nav" aria-label="Explore individual facilities">
-      <span class="quick-nav__label">Explore Facilities:</span>
-      <div class="quick-nav__pills">
-        <a routerLink="/facilities/classrooms" class="quick-nav__pill">
-          <app-icon name="book-open" [size]="15" />
-          <span>Classrooms</span>
-        </a>
-        <a routerLink="/facilities/library" class="quick-nav__pill">
-          <app-icon name="book-open" [size]="15" />
-          <span>Library</span>
-        </a>
-        <a routerLink="/facilities/computer-lab" class="quick-nav__pill">
-          <app-icon name="monitor" [size]="15" />
-          <span>Computer Lab</span>
-        </a>
-        <a routerLink="/facilities/sports" class="quick-nav__pill">
-          <app-icon name="trophy" [size]="15" />
-          <span>Sports Facilities</span>
-        </a>
-        <a routerLink="/facilities/other" class="quick-nav__pill">
-          <app-icon name="flask" [size]="15" />
-          <span>Science & Campus</span>
-        </a>
-      </div>
-    </nav>
+    @if (page.exploreLinks.length) {
+      <nav class="facilities__quick-nav" aria-label="Explore individual facilities">
+        @if (page.exploreLabel) {
+          <span class="quick-nav__label">{{ page.exploreLabel }}</span>
+        }
+        <div class="quick-nav__pills">
+          @for (link of page.exploreLinks; track $index) {
+            <a [routerLink]="link.href" class="quick-nav__pill">
+              <app-icon [name]="link.icon" [size]="15" />
+              <span>{{ link.label }}</span>
+            </a>
+          }
+        </div>
+      </nav>
+    }
 
     <section class="block">
       <app-section-heading [eyebrow]="page.gridEyebrow" [title]="page.gridHeading" />
@@ -77,18 +69,33 @@
             [id]="facility.id"
             [class.detail--reverse]="facility.reversed"
           >
-            <app-media-frame
-              class="detail__media"
-              [src]="facility.imageUrl"
-              [alt]="facility.imageAlt"
-              ratio="4/3"
-            />
+            <figure class="detail__media">
+              <app-media-frame
+                [src]="facility.imageUrl"
+                [alt]="facility.imageAlt"
+                ratio="4/3"
+              />
+              @if (facility.caption) {
+                <figcaption class="detail__caption">{{ facility.caption }}</figcaption>
+              }
+            </figure>
 
             <div class="detail__body">
-              <p class="detail__index">{{ facility.label }}</p>
               <h3>{{ facility.title }}</h3>
               <p class="detail__text">{{ facility.description }}</p>
-              <a [routerLink]="subpageUrl(facility.id)" class="detail__link">
+
+              @if (facility.highlights?.length) {
+                <ul class="detail__highlights">
+                  @for (highlight of facility.highlights; track highlight) {
+                    <li class="detail__highlight">
+                      <app-icon name="check" [size]="15" />
+                      <span>{{ highlight }}</span>
+                    </li>
+                  }
+                </ul>
+              }
+
+              <a [routerLink]="subpageUrl(facility)" class="detail__link">
                 <span>Explore {{ facility.title }} in detail</span>
                 <app-icon name="arrow-right" [size]="15" />
               </a>
@@ -113,21 +120,23 @@
     <div class="facilities__cta">
       <div class="facilities-cta-card">
         <div class="facilities-cta-card__content">
-          <span class="facilities-cta-card__badge">Campus Visits & Tours</span>
-          <h2>Experience Our Campus Firsthand</h2>
-          <p>
-            We invite prospective parents and students to visit Bright Way School. Walk through our
-            well-ventilated classrooms, explore our science and computer laboratories, tour the library,
-            and see our play areas in action.
-          </p>
+          @if (page.cta.badge) {
+            <span class="facilities-cta-card__badge">{{ page.cta.badge }}</span>
+          }
+          <h2>{{ page.cta.title }}</h2>
+          <p>{{ page.cta.text }}</p>
           <div class="facilities-cta-card__actions">
-            <a routerLink="/contact" class="btn btn--primary">
-              <span>Schedule a Campus Visit</span>
-              <app-icon name="arrow-right" [size]="16" />
-            </a>
-            <a routerLink="/admissions/enquiry" class="btn btn--outline">
-              <span>Admissions Enquiry</span>
-            </a>
+            @if (page.cta.primaryLabel) {
+              <a [routerLink]="page.cta.primaryHref || '/contact'" class="btn btn--primary">
+                <span>{{ page.cta.primaryLabel }}</span>
+                <app-icon name="arrow-right" [size]="16" />
+              </a>
+            }
+            @if (page.cta.secondaryLabel) {
+              <a [routerLink]="page.cta.secondaryHref || '/admissions/enquiry'" class="btn btn--outline">
+                <span>{{ page.cta.secondaryLabel }}</span>
+              </a>
+            }
           </div>
         </div>
       </div>

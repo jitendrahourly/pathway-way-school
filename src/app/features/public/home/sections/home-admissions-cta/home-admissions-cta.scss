@@ -1,0 +1,208 @@
+@use 'mixins' as mx;
+
+:host {
+  display: block;
+}
+
+.home-admissions-cta {
+  padding-block: clamp(3rem, 6vw, 5rem);
+  background: var(--bw-white);
+}
+
+.home-admissions-cta__card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+  min-height: 420px;
+  overflow: hidden;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 88% 8%, rgba(232, 121, 39, 0.32), transparent 34%),
+    linear-gradient(135deg, #241747 0%, #30205d 58%, #4b2f7d 100%);
+  box-shadow: 0 30px 70px rgba(36, 24, 70, 0.24);
+}
+
+.home-admissions-cta__orb {
+  position: absolute;
+  top: -120px;
+  left: 32%;
+  z-index: 0;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08), transparent 68%);
+}
+
+.home-admissions-cta__ring {
+  position: absolute;
+  left: -110px;
+  bottom: -170px;
+  z-index: 0;
+  width: 380px;
+  height: 380px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 38px rgba(255, 255, 255, 0.028),
+    0 0 0 76px rgba(255, 255, 255, 0.016);
+}
+
+.home-admissions-cta__body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(2rem, 4vw, 3.5rem);
+}
+
+.home-admissions-cta__badge {
+  display: inline-flex;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  color: #f6a55f;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.home-admissions-cta__body h2 {
+  max-width: 18ch;
+  margin: 0.9rem 0 0.7rem;
+  color: var(--bw-white);
+  font-size: clamp(1.9rem, 3.6vw, 2.8rem);
+  line-height: 1.12;
+}
+
+.home-admissions-cta__text {
+  max-width: 46ch;
+  margin: 0 0 1.6rem;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+.home-admissions-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.home-admissions-cta__actions .btn--outline {
+  padding: 0.9rem 1.45rem;
+}
+
+.home-admissions-cta__phone {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1.4rem 0 0;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.8rem;
+}
+
+.home-admissions-cta__phone app-icon {
+  color: #f6a55f;
+}
+
+.home-admissions-cta__phone a {
+  color: var(--bw-white);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.home-admissions-cta__phone a:hover {
+  text-decoration: underline;
+}
+
+.home-admissions-cta__media {
+  position: relative;
+  overflow: hidden;
+}
+
+.home-admissions-cta__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s var(--bw-ease);
+}
+
+.home-admissions-cta__card:hover .home-admissions-cta__media img {
+  transform: scale(1.04);
+}
+
+.home-admissions-cta__media-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, #30205d 0%, rgba(48, 32, 93, 0.45) 28%, transparent 62%),
+    linear-gradient(0deg, rgba(20, 12, 44, 0.52) 0%, transparent 46%);
+}
+
+.home-admissions-cta__media-card {
+  position: absolute;
+  left: 1.4rem;
+  bottom: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 12px;
+  color: var(--bw-white);
+  background: rgba(20, 12, 44, 0.46);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.home-admissions-cta__media-card strong {
+  font-size: 0.86rem;
+}
+
+.home-admissions-cta__media-card span {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.72rem;
+}
+
+@include mx.down(900px) {
+  .home-admissions-cta__card {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .home-admissions-cta__media {
+    min-height: 240px;
+    order: -1;
+  }
+
+  .home-admissions-cta__media-scrim {
+    background:
+      linear-gradient(0deg, #30205d 0%, rgba(48, 32, 93, 0.3) 38%, transparent 78%);
+  }
+}
+
+@include mx.down(560px) {
+  .home-admissions-cta__card {
+    border-radius: 20px;
+  }
+
+  .home-admissions-cta__body {
+    padding: 1.6rem 1.35rem 1.8rem;
+  }
+
+  .home-admissions-cta__actions {
+    width: 100%;
+  }
+
+  .home-admissions-cta__actions .btn {
+    width: 100%;
+  }
+
+  .home-admissions-cta__media {
+    min-height: 200px;
+  }
+}

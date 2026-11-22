@@ -1,0 +1,100 @@
+@let d = data();
+
+<div class="adp" aria-hidden="true">
+  @switch (section()) {
+    @case ('banner') {
+      <div class="adp-banner">
+        @if (d.banner.imageUrl) {
+          <img
+            class="adp-banner__image"
+            [src]="d.banner.imageUrl"
+            [alt]="d.banner.imageAlt || 'Admissions banner image'"
+          />
+        }
+        <div class="adp-banner__scrim"></div>
+        <div class="adp-banner__copy">
+          <p class="adp-eyebrow">Admissions</p>
+          <h3>{{ d.banner.title || 'Admissions' }}</h3>
+          <p>{{ d.banner.subtitle || 'Admissions information for the coming academic year.' }}</p>
+        </div>
+      </div>
+    }
+
+    @case ('intro') {
+      <div class="adp-intro">
+        <p class="adp-eyebrow">{{ d.intro.eyebrow || 'Admissions' }}</p>
+        <h3>{{ d.intro.title || 'Admissions overview' }}</h3>
+        @for (paragraph of d.intro.paragraphs; track $index) {
+          <p>{{ paragraph }}</p>
+        } @empty {
+          <p class="adp-placeholder">Introductory paragraphs appear here.</p>
+        }
+        <p class="adp-note">
+          <app-icon name="clock" [size]="14" />
+          {{ d.intro.note || 'Admissions note appears here.' }}
+        </p>
+      </div>
+    }
+
+    @case ('sections') {
+      <div class="adp-sections">
+        @if (d.sections.length) {
+          <div class="adp-pending-grid">
+            @for (section of d.sections; track $index) {
+              <article class="adp-pending-card">
+                <p class="adp-pending-card__eyebrow">Awaiting confirmation</p>
+                <h4>{{ section.title || 'Untitled section' }}</h4>
+                <p>{{ section.message || 'Section message appears here.' }}</p>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="adp-empty">
+            <app-icon name="menu" [size]="24" />
+            <span>No information sections yet — add one below.</span>
+          </div>
+        }
+      </div>
+    }
+
+    @case ('contact') {
+      <div class="adp-contact">
+        <div class="adp-contact__head">
+          <h3>{{ d.contact.title || 'Contact the Admissions Office' }}</h3>
+          <p>{{ d.contact.intro || 'Introductory text for the contact block.' }}</p>
+        </div>
+
+        <div class="adp-contact__grid">
+          <div class="adp-contact__card">
+            <span class="adp-contact__icon"><app-icon name="phone" [size]="16" /></span>
+            <div>
+              <span class="adp-contact__label">Phone</span>
+              <span class="adp-contact__value">School phone number</span>
+            </div>
+          </div>
+          <div class="adp-contact__card">
+            <span class="adp-contact__icon"><app-icon name="mail" [size]="16" /></span>
+            <div>
+              <span class="adp-contact__label">Email</span>
+              <span class="adp-contact__value">School email address</span>
+            </div>
+          </div>
+          <div class="adp-contact__card">
+            <span class="adp-contact__icon"><app-icon name="map-pin" [size]="16" /></span>
+            <div>
+              <span class="adp-contact__label">Address</span>
+              <span class="adp-contact__value">School address</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="adp-contact__note">{{ d.contact.note || 'Contact note appears here.' }}</p>
+
+        <div class="adp-contact__actions">
+          <span class="adp-contact__btn adp-contact__btn--primary">Call Now</span>
+          <span class="adp-contact__btn adp-contact__btn--purple">Email the Office</span>
+        </div>
+      </div>
+    }
+  }
+</div>

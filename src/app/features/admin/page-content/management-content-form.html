@@ -1,186 +1,328 @@
-<section class="ann-form">
+<section class="ann-form editor-compact">
   <header class="ann-form__header">
     <div>
       <p class="ann-form__eyebrow">Content</p>
       <h1>Edit Management Page Content</h1>
-      <p class="ann-form__sub">Manage the banner, principal message, facts and faculty shown on /about/management.</p>
+      <p class="ann-form__subtitle">
+        Edit this page just as visitors see it — each card below mirrors the live layout, with a preview above the fields.
+      </p>
     </div>
-    <div class="ann-form__actions">
-      <a class="btn btn--ghost" href="/about/management" target="_blank" rel="noopener">Preview page</a>
-      <a class="btn btn--ghost" routerLink="/admin/page-content">Back to list</a>
+    <div class="ann-form__header-actions">
+      <a class="btn-top-action btn-top-action--back" routerLink="/admin/page-content">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        <span>Back to list</span>
+      </a>
+      <a class="btn-top-action btn-top-action--preview" href="/about/management" target="_blank" rel="noopener">
+        <app-icon name="external-link" [size]="18" />
+        <span>Preview page</span>
+      </a>
     </div>
   </header>
 
   @if (loading()) {
     <div class="ann-form__state">Loading…</div>
   } @else {
-    <form class="ann-form__card" [formGroup]="form" (ngSubmit)="submit()" novalidate>
-      <h2 class="ann-form__section-title">Banner</h2>
-      <div formGroupName="banner">
-        <div class="ann-form__row">
-          <div class="field">
-            <label for="management-banner-title">Title</label>
-            <input id="management-banner-title" type="text" formControlName="title" />
-          </div>
-          <div class="field">
-            <label for="management-banner-subtitle">Subtitle</label>
-            <input id="management-banner-subtitle" type="text" formControlName="subtitle" />
-          </div>
-        </div>
-        <div class="field field--full">
-          <label>Background Image</label>
-          <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
-        </div>
-        <div class="field">
-          <label for="management-banner-alt">Image Alt Text</label>
-          <input id="management-banner-alt" type="text" formControlName="imageAlt" />
-        </div>
-      </div>
+    <form class="ann-form__card ann-form__card--stacked" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <!-- 1. Hero Banner Card -->
+      <app-editor-section
+        sectionId="mg-banner"
+        step="01"
+        title="Hero Banner"
+        badge="Page Header"
+        description="The top banner image, title and subtitle displayed at the head of the Management page."
+        [expanded]="isSectionOpen('mg-banner')"
+        (toggle)="toggleSection('mg-banner')"
+      >
+        <app-management-preview [section]="'banner'" [data]="managementPreview()" />
 
-      <h2 class="ann-form__section-title">Management Introduction</h2>
-      <div class="field field--full">
-        <label for="management-paragraphs">Paragraphs (one per line)</label>
-        <textarea id="management-paragraphs" rows="4" formControlName="paragraphs"></textarea>
-      </div>
+        <div class="section-card__body" formGroupName="banner">
+          <div class="ann-form__row">
+            <div class="field">
+              <label for="management-banner-title">
+                <span>Banner Title</span>
+                <span class="field__required">*</span>
+              </label>
+              <input id="management-banner-title" type="text" formControlName="title" placeholder="e.g. Management" />
+              <span class="field__hint">Main headline rendered across the top banner.</span>
+            </div>
 
-      <h2 class="ann-form__section-title">Principal's Message</h2>
-      <div formGroupName="principal">
-        <div class="ann-form__row">
-          <div class="field">
-            <label for="management-principal-name">Name</label>
-            <input id="management-principal-name" type="text" formControlName="name" />
+            <div class="field">
+              <label for="management-banner-subtitle">
+                <span>Banner Subtitle</span>
+              </label>
+              <input id="management-banner-subtitle" type="text" formControlName="subtitle" placeholder="e.g. Guided by experience" />
+              <span class="field__hint">Supporting tagline directly below the main title.</span>
+            </div>
           </div>
-          <div class="field">
-            <label for="management-principal-role">Role</label>
-            <input id="management-principal-role" type="text" formControlName="role" />
-          </div>
-        </div>
-        <div class="field field--full">
-          <label for="management-principal-message">Message</label>
-          <textarea id="management-principal-message" rows="3" formControlName="message"></textarea>
-        </div>
-        <div class="field field--full">
-          <label for="management-principal-secondary">Message (continued)</label>
-          <textarea
-            id="management-principal-secondary"
-            rows="3"
-            formControlName="messageSecondary"
-          ></textarea>
-        </div>
-        <div class="field field--full">
-          <label>Portrait</label>
-          <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
-        </div>
-      </div>
 
-      <h2 class="ann-form__section-title">Management Facts</h2>
-      <div formArrayName="facts">
-        @for (fact of facts.controls; track $index) {
-          <div class="ann-form__array-item" [formGroupName]="$index">
-            <div class="ann-form__row">
-              <div class="field">
-                <label [for]="'management-fact-icon-' + $index">Icon</label>
-                <input
-                  [id]="'management-fact-icon-' + $index"
-                  type="text"
-                  formControlName="icon"
-                  placeholder="e.g. calendar, users, check"
-                />
-              </div>
-              <div class="field">
-                <label [for]="'management-fact-label-' + $index">Label</label>
-                <input
-                  [id]="'management-fact-label-' + $index"
-                  type="text"
-                  formControlName="label"
-                />
-              </div>
+          <div class="field field--full">
+            <label>
+              <span>Banner Background Image</span>
+            </label>
+            <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
+            <span class="field__hint">Recommended landscape resolution: 1920×600 or 16:9 ratio.</span>
+          </div>
+
+          <div class="field field--full">
+            <label for="management-banner-alt">
+              <span>Image Alt Text</span>
+            </label>
+            <input id="management-banner-alt" type="text" formControlName="imageAlt" placeholder="e.g. Management team" />
+            <span class="field__hint">Describe the image for accessibility and search engines.</span>
+          </div>
+        </div>
+      </app-editor-section>
+
+      <!-- 2. Management Introduction Card -->
+      <app-editor-section
+        sectionId="mg-intro"
+        step="02"
+        title="Management Introduction"
+        badge="Governance"
+        description="The introductory paragraphs about the school's management."
+        [expanded]="isSectionOpen('mg-intro')"
+        (toggle)="toggleSection('mg-intro')"
+      >
+        <app-management-preview [section]="'faculty'" [data]="managementPreview()" />
+
+        <div class="section-card__body">
+          <div class="field field--full">
+            <label for="management-paragraphs">
+              <span class="label-with-badge">
+                <span>Paragraphs</span>
+                <span class="badge-pill">One paragraph per line</span>
+              </span>
+            </label>
+            <textarea
+              id="management-paragraphs"
+              rows="4"
+              class="description-textarea"
+              formControlName="paragraphs"
+              placeholder="Enter paragraphs about the management. Press Enter between paragraphs..."
+            ></textarea>
+            <span class="field__hint">Each line is formatted as a distinct paragraph on the live page.</span>
+          </div>
+        </div>
+      </app-editor-section>
+
+      <!-- 3. Principal's Message Card -->
+      <app-editor-section
+        sectionId="mg-principal"
+        step="03"
+        title="Principal's Message"
+        badge="Leadership"
+        description="The principal's portrait, name, role and message."
+        [expanded]="isSectionOpen('mg-principal')"
+        (toggle)="toggleSection('mg-principal')"
+      >
+        <app-management-preview [section]="'principal'" [data]="managementPreview()" />
+
+        <div class="section-card__body" formGroupName="principal">
+          <div class="ann-form__row">
+            <div class="field">
+              <label for="management-principal-name">
+                <span>Name</span>
+                <span class="field__required">*</span>
+              </label>
+              <input id="management-principal-name" type="text" formControlName="name" placeholder="e.g. Principal name" />
             </div>
             <div class="field">
-              <label [for]="'management-fact-value-' + $index">Value</label>
-              <input
-                [id]="'management-fact-value-' + $index"
-                type="text"
-                formControlName="value"
-              />
+              <label for="management-principal-role">
+                <span>Role</span>
+              </label>
+              <input id="management-principal-role" type="text" formControlName="role" placeholder="e.g. Principal" />
             </div>
-            <button type="button" class="btn btn--ghost" (click)="removeFact($index)">
-              Remove fact
-            </button>
           </div>
-        }
-      </div>
-      <button type="button" class="btn btn--ghost" (click)="addFact()">+ Add fact</button>
 
-      <h2 class="ann-form__section-title">Faculty</h2>
-      <div class="field field--full">
-        <label for="management-faculty-intro">Faculty Introduction</label>
-        <textarea id="management-faculty-intro" rows="3" formControlName="facultyIntro"></textarea>
-      </div>
-
-      <div formArrayName="faculty">
-        @for (member of faculty.controls; track $index) {
-          <div class="ann-form__array-item" [formGroupName]="$index">
-            <div class="ann-form__row">
-              <div class="field">
-                <label [for]="'management-faculty-name-' + $index">Name</label>
-                <input
-                  [id]="'management-faculty-name-' + $index"
-                  type="text"
-                  formControlName="name"
-                />
-              </div>
-              <div class="field">
-                <label [for]="'management-faculty-role-' + $index">Role</label>
-                <input
-                  [id]="'management-faculty-role-' + $index"
-                  type="text"
-                  formControlName="role"
-                />
-              </div>
-            </div>
-            <div class="ann-form__row">
-              <div class="field">
-                <label [for]="'management-faculty-subject-' + $index">Subject</label>
-                <input
-                  [id]="'management-faculty-subject-' + $index"
-                  type="text"
-                  formControlName="subject"
-                />
-              </div>
-              <div class="field">
-                <label [for]="'management-faculty-qualification-' + $index">Qualification</label>
-                <input
-                  [id]="'management-faculty-qualification-' + $index"
-                  type="text"
-                  formControlName="qualification"
-                />
-              </div>
-            </div>
-            <div class="field">
-              <label [for]="'management-faculty-experience-' + $index">Experience</label>
-              <input
-                [id]="'management-faculty-experience-' + $index"
-                type="text"
-                formControlName="experience"
-              />
-            </div>
-            <div class="field field--full">
-              <label>Faculty Image</label>
-              <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
-            </div>
-            <button type="button" class="btn btn--ghost" (click)="removeFaculty($index)">
-              Remove faculty member
-            </button>
+          <div class="field field--full">
+            <label for="management-principal-message">
+              <span>Message</span>
+            </label>
+            <textarea
+              id="management-principal-message"
+              rows="3"
+              class="description-textarea"
+              formControlName="message"
+              placeholder="Principal's message..."
+            ></textarea>
           </div>
-        }
-      </div>
-      <button type="button" class="btn btn--ghost" (click)="addFaculty()">+ Add faculty member</button>
 
-      <div class="field field--full">
-        <label for="management-faculty-note">Faculty Note</label>
-        <input id="management-faculty-note" type="text" formControlName="facultyNote" />
-      </div>
+          <div class="field field--full">
+            <label for="management-principal-secondary">
+              <span>Message (continued)</span>
+            </label>
+            <textarea
+              id="management-principal-secondary"
+              rows="3"
+              class="description-textarea"
+              formControlName="messageSecondary"
+              placeholder="Continued message..."
+            ></textarea>
+          </div>
+
+          <div class="field field--full">
+            <label>
+              <span>Portrait</span>
+            </label>
+            <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
+            <span class="field__hint">Portrait photograph of the principal.</span>
+          </div>
+        </div>
+      </app-editor-section>
+
+      <!-- 4. School Facts Card -->
+      <app-editor-section
+        sectionId="mg-facts"
+        step="04"
+        title="School Facts"
+        count="{{ facts.length }} Facts"
+        description="The fact cards shown at the top of the management page."
+        [expanded]="isSectionOpen('mg-facts')"
+        (toggle)="toggleSection('mg-facts')"
+      >
+        <app-management-preview [section]="'facts'" [data]="managementPreview()" />
+
+        <div class="section-card__body">
+          <div formArrayName="facts" class="editor-list">
+            @for (fact of facts.controls; track $index) {
+              <app-editor-item
+                [title]="fact.get('label')?.value || 'Untitled fact'"
+                [meta]="fact.get('value')?.value || ''"
+                [thumbIcon]="fact.get('icon')?.value || 'check'"
+                [expanded]="isItemOpen('facts', $index)"
+                (toggle)="toggleItem('facts', $index)"
+                (remove)="removeFact($index)"
+                removeLabel="Remove fact"
+              >
+                <div class="editor-item__group" [formGroupName]="$index">
+                  <div class="ann-form__row">
+                    <div class="field">
+                      <label [for]="'management-fact-icon-' + $index">Icon</label>
+                      <input
+                        [id]="'management-fact-icon-' + $index"
+                        type="text"
+                        formControlName="icon"
+                        placeholder="e.g. calendar, users, check"
+                      />
+                    </div>
+                    <div class="field">
+                      <label [for]="'management-fact-label-' + $index">Label</label>
+                      <input
+                        [id]="'management-fact-label-' + $index"
+                        type="text"
+                        formControlName="label"
+                      />
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label [for]="'management-fact-value-' + $index">Value</label>
+                    <input
+                      [id]="'management-fact-value-' + $index"
+                      type="text"
+                      formControlName="value"
+                    />
+                  </div>
+                </div>
+              </app-editor-item>
+            }
+          </div>
+          <button type="button" class="btn btn--ghost" (click)="addFact()">+ Add fact</button>
+        </div>
+      </app-editor-section>
+
+      <!-- 5. Faculty Card -->
+      <app-editor-section
+        sectionId="mg-faculty"
+        step="05"
+        title="Faculty"
+        count="{{ faculty.length }} Members"
+        description="The faculty cards shown on the management page."
+        [expanded]="isSectionOpen('mg-faculty')"
+        (toggle)="toggleSection('mg-faculty')"
+      >
+        <app-management-preview [section]="'faculty'" [data]="managementPreview()" />
+
+        <div class="section-card__body">
+          <div class="field field--full">
+            <label for="management-faculty-intro">Faculty Introduction</label>
+            <textarea id="management-faculty-intro" rows="3" class="description-textarea" formControlName="facultyIntro"></textarea>
+          </div>
+
+          <div formArrayName="faculty" class="editor-list">
+            @for (member of faculty.controls; track $index) {
+              <app-editor-item
+                [title]="member.get('name')?.value || 'Untitled member'"
+                [meta]="member.get('role')?.value || member.get('subject')?.value || ''"
+                [thumbSrc]="member.get('imageUrl')?.value || ''"
+                [thumbIcon]="member.get('imageUrl')?.value ? '' : 'users'"
+                [expanded]="isItemOpen('faculty', $index)"
+                (toggle)="toggleItem('faculty', $index)"
+                (remove)="removeFaculty($index)"
+                removeLabel="Remove member"
+              >
+                <div class="editor-item__group" [formGroupName]="$index">
+                  <div class="ann-form__row">
+                    <div class="field">
+                      <label [for]="'management-faculty-name-' + $index">Name</label>
+                      <input
+                        [id]="'management-faculty-name-' + $index"
+                        type="text"
+                        formControlName="name"
+                      />
+                    </div>
+                    <div class="field">
+                      <label [for]="'management-faculty-role-' + $index">Role</label>
+                      <input
+                        [id]="'management-faculty-role-' + $index"
+                        type="text"
+                        formControlName="role"
+                      />
+                    </div>
+                  </div>
+                  <div class="ann-form__row">
+                    <div class="field">
+                      <label [for]="'management-faculty-subject-' + $index">Subject</label>
+                      <input
+                        [id]="'management-faculty-subject-' + $index"
+                        type="text"
+                        formControlName="subject"
+                      />
+                    </div>
+                    <div class="field">
+                      <label [for]="'management-faculty-qualification-' + $index">Qualification</label>
+                      <input
+                        [id]="'management-faculty-qualification-' + $index"
+                        type="text"
+                        formControlName="qualification"
+                      />
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label [for]="'management-faculty-experience-' + $index">Experience</label>
+                    <input
+                      [id]="'management-faculty-experience-' + $index"
+                      type="text"
+                      formControlName="experience"
+                    />
+                  </div>
+                  <div class="field field--full">
+                    <label>Faculty Image</label>
+                    <app-image-upload-field formControlName="imageUrl"></app-image-upload-field>
+                  </div>
+                </div>
+              </app-editor-item>
+            }
+          </div>
+          <button type="button" class="btn btn--ghost" (click)="addFaculty()">+ Add faculty member</button>
+
+          <div class="field field--full">
+            <label for="management-faculty-note">Faculty Note</label>
+            <input id="management-faculty-note" type="text" formControlName="facultyNote" />
+          </div>
+        </div>
+      </app-editor-section>
 
       @if (error()) {
         <div class="ann-form__error" role="alert">{{ error() }}</div>

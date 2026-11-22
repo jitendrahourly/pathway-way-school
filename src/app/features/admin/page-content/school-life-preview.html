@@ -1,0 +1,92 @@
+@let d = data();
+
+<div class="slp" aria-hidden="true">
+  @switch (section()) {
+    @case ('banner') {
+      <div class="slp-banner">
+        @if (d.banner.imageUrl) {
+          <img class="slp-banner__image" [src]="d.banner.imageUrl" [alt]="d.banner.imageAlt || 'School life banner image'" />
+        }
+        <div class="slp-banner__scrim"></div>
+        <div class="slp-banner__copy">
+          <p class="slp-eyebrow">School Life</p>
+          <h3>{{ d.banner.title || 'School Life' }}</h3>
+          <p>{{ d.banner.subtitle || 'Life at Bright Way School.' }}</p>
+        </div>
+      </div>
+    }
+
+    @case ('stats') {
+      <div class="slp-stats">
+        @if (d.stats.length) {
+          <div class="slp-stats__strip">
+            @for (stat of d.stats; track $index) {
+              <div class="slp-stats__card">
+                <strong>{{ stat.value || '—' }}</strong>
+                <span>{{ stat.label || 'Label' }}</span>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="slp-empty">
+            <app-icon name="target" [size]="24" />
+            <span>No stats yet — add one below.</span>
+          </div>
+        }
+      </div>
+    }
+
+    @case ('intro') {
+      <div class="slp-intro">
+        <p class="slp-eyebrow">{{ d.intro.eyebrow || 'School Life' }}</p>
+        <h3>{{ d.intro.title || 'Life at Bright Way School' }}</h3>
+        @for (paragraph of d.intro.paragraphs; track $index) {
+          <p>{{ paragraph }}</p>
+        } @empty {
+          <p class="slp-placeholder">Introductory paragraphs appear here.</p>
+        }
+      </div>
+    }
+
+    @case ('cards') {
+      <div class="slp-cards">
+        @if (d.cards.length) {
+          <div class="slp-cards__grid">
+            @for (card of d.cards; track $index) {
+              <article class="slp-card">
+                <span class="slp-card__icon"><app-icon [name]="card.icon" [size]="18" /></span>
+                <span class="slp-card__tag">{{ card.tag || 'Tag' }}</span>
+                <h4>{{ card.title || 'Untitled card' }}</h4>
+                <p>{{ card.text || 'Card description appears here.' }}</p>
+                @if (card.highlights.length) {
+                  <ul class="slp-card__highlights">
+                    @for (highlight of card.highlights; track $index) {
+                      <li><app-icon name="check" [size]="12" />{{ highlight }}</li>
+                    }
+                  </ul>
+                }
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="slp-empty">
+            <app-icon name="menu" [size]="24" />
+            <span>No activity cards yet — add one below.</span>
+          </div>
+        }
+      </div>
+    }
+
+    @case ('cta') {
+      <div class="slp-cta">
+        <p class="slp-cta__eyebrow">{{ d.cta.eyebrow || 'Visit us' }}</p>
+        <h3>{{ d.cta.title || 'See Bright Way School for yourself.' }}</h3>
+        <p>{{ d.cta.text || 'CTA description appears here.' }}</p>
+        <div class="slp-cta__actions">
+          <span class="slp-cta__btn slp-cta__btn--primary">{{ d.cta.primaryLabel || 'Admissions' }}</span>
+          <span class="slp-cta__btn slp-cta__btn--ghost">{{ d.cta.secondaryLabel || 'Contact us' }}</span>
+        </div>
+      </div>
+    }
+  }
+</div>

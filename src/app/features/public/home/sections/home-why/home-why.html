@@ -1,0 +1,45 @@
+@let items = points();
+
+@if (items.length) {
+  <section class="home-why" aria-labelledby="home-why-title">
+    <div class="container home-why__layout">
+      <div class="home-why__media" appScrollReveal>
+        <span class="home-why__ring" aria-hidden="true"></span>
+        <app-media-frame
+          class="home-why__photo"
+          [src]="image()"
+          [alt]="imageAlt()"
+          ratio="3/4"
+        />
+
+        <div class="home-why__media-card">
+          <span class="home-why__media-icon"><app-icon name="heart" [size]="20" /></span>
+          <div>
+            <strong>{{ media().title }}</strong>
+            <span>{{ media().text }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="home-why__body">
+        <header class="home-why__head" appScrollReveal>
+          <p class="eyebrow">{{ head().eyebrow }}</p>
+          <h2 id="home-why-title">{{ head().title }}</h2>
+          <p class="home-why__intro">{{ head().text }}</p>
+        </header>
+
+        <div class="home-why__grid">
+          @for (point of items; track point.title; let i = $index) {
+            <article class="why-card" appScrollReveal [revealDelay]="i * 80">
+              <span class="why-card__icon">
+                <app-icon [name]="point.icon" [size]="20" />
+              </span>
+              <h3>{{ point.title }}</h3>
+              <p>{{ point.description }}</p>
+            </article>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+}

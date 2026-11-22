@@ -1,39 +1,115 @@
-@let hero = content().hero;
+@let items = slides();
+@let current = index();
+@let copy = hero();
 
-<section class="hero">
-  <div class="hero__media">
-    @if (!imageFailed()) {
-      <img
-        [src]="hero.imageUrl"
-        [alt]="hero.imageAlt"
-        [style.object-position]="hero.imagePosition"
-        fetchpriority="high"
-        decoding="async"
-        (error)="imageFailed.set(true)"
-      />
+<section
+  class="hero"
+  role="region"
+  aria-roledescription="carousel"
+  aria-label="Bright Way School highlights"
+  (mouseenter)="pause()"
+  (mouseleave)="resume()"
+  (focusin)="pause()"
+  (focusout)="onFocusOut($event)"
+>
+  <div class="hero__slides">
+    @for (slide of items; track slide.src; let i = $index) {
+      <div
+        class="hero__slide"
+        [class.is-active]="i === current"
+        [attr.aria-hidden]="i === current ? null : 'true'"
+      >
+        <img
+          [src]="slide.src"
+          [alt]="i === current ? slide.alt : ''"
+          [style.object-position]="slide.position"
+          [attr.loading]="i === 0 ? 'eager' : 'lazy'"
+          [attr.fetchpriority]="i === 0 ? 'high' : null"
+          decoding="async"
+        />
+      </div>
     }
   </div>
 
-  <div class="hero__scene" aria-hidden="true">
-    <app-educational-hero-3d />
-  </div>
+  <div class="hero__scrim" aria-hidden="true"></div>
+  <span class="hero__orb hero__orb--one" aria-hidden="true"></span>
+  <span class="hero__orb hero__orb--two" aria-hidden="true"></span>
 
-  <div class="container hero__container">
+  <div class="container hero__inner">
     <div class="hero__content">
-      <p class="hero__eyebrow">{{ hero.eyebrow }}</p>
-      <h1>
-        {{ hero.titleLead }}
-        <span>{{ hero.titleAccent }}</span>
+      <p class="hero__eyebrow">
+        <span class="hero__eyebrow-line" aria-hidden="true"></span>
+        {{ copy.eyebrow }}
+      </p>
+
+      <h1 class="hero__title">
+        <span class="hero__title-lead">{{ copy.titleLead }}</span>
+        <span class="hero__title-accent">{{ copy.titleAccent }}</span>
       </h1>
-      <p class="hero__sub">{{ hero.subtitle }}</p>
+
+      <p class="hero__sub">{{ copy.subtitle }}</p>
 
       <div class="hero__actions">
-        <a class="btn btn--primary" routerLink="/about">
-          Know More
+        <a
+          class="btn btn--primary hero__btn"
+          [routerLink]="copy.primaryLink || '/admissions/enquiry'"
+        >
+          {{ copy.primaryLabel || 'Apply for Admission' }}
           <app-icon name="arrow-right" [size]="16" />
         </a>
-        <a class="btn btn--outline" routerLink="/admissions">Admissions</a>
+        <a class="hero__ghost" [routerLink]="copy.secondaryLink || '/about'">
+          <span>{{ copy.secondaryLabel || 'Discover our school' }}</span>
+          <app-icon name="arrow-up-right" [size]="16" />
+        </a>
       </div>
+
+      <ul class="hero__trust" aria-label="School at a glance">
+        <li>
+          <app-icon name="check" [size]="15" />
+          {{ settings().recognition }}
+        </li>
+        @if (copy.trustPrimary) {
+          <li>
+            <app-icon name="graduation-cap" [size]="15" />
+            {{ copy.trustPrimary }}
+          </li>
+        }
+        @if (copy.trustSecondary) {
+          <li>
+            <app-icon name="check" [size]="15" />
+            {{ copy.trustSecondary }}
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="container hero__bar">
+    <div class="hero__dots" role="group" aria-label="Choose a hero slide">
+      @for (slide of items; track slide.src; let i = $index) {
+        <button
+          type="button"
+          class="hero__dot"
+          [class.is-active]="i === current"
+          [attr.aria-label]="label(i)"
+          [attr.aria-current]="i === current ? 'true' : null"
+          (click)="goTo(i)"
+        >
+          <span class="hero__dot-fill" aria-hidden="true"></span>
+        </button>
+      }
+    </div>
+
+    <div class="hero__controls">
+      <span class="hero__counter" aria-hidden="true">
+        {{ pad(current + 1) }}<em>/{{ pad(items.length) }}</em>
+      </span>
+      <button type="button" class="hero__arrow" aria-label="Previous slide" (click)="previous()">
+        <app-icon name="chevron-left" [size]="20" />
+      </button>
+      <button type="button" class="hero__arrow" aria-label="Next slide" (click)="next()">
+        <app-icon name="chevron-right" [size]="20" />
+      </button>
     </div>
   </div>
 </section>

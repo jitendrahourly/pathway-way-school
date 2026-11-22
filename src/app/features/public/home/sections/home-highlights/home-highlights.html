@@ -1,11 +1,17 @@
-<section class="highlights" aria-label="School highlights">
+<section class="highlights" aria-labelledby="home-highlights-title">
   <div class="container">
-    <ul class="highlights__grid">
-      @for (item of content().highlights; track item.title) {
-        <li class="highlight">
-          <span class="highlight__icon"><app-icon [name]="item.icon" [size]="24" /></span>
-          <h2>{{ item.title }}</h2>
-          <p>{{ item.description }}</p>
+    <h2 id="home-highlights-title" class="visually-hidden">School highlights</h2>
+
+    <ul class="highlights__grid" aria-label="School highlights">
+      @for (item of content().highlights; track item.title; let i = $index) {
+        <li class="highlight" appScrollReveal [revealDelay]="i * 80">
+          <span class="highlight__icon">
+            <app-icon [name]="item.icon" [size]="20" />
+          </span>
+          <div class="highlight__body">
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.description }}</p>
+          </div>
         </li>
       }
     </ul>

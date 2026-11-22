@@ -1,0 +1,198 @@
+<section class="ann-form fac-form">
+  <header class="ann-form__header">
+    <div>
+      <p class="ann-form__eyebrow">Content</p>
+      <h1>{{ isEdit() ? 'Edit Facility' : 'Add Facility' }}</h1>
+    </div>
+    <a class="btn btn--ghost" routerLink="/admin/facilities">Back to list</a>
+  </header>
+
+  @if (loading()) {
+    <div class="ann-form__state">Loading…</div>
+  } @else {
+    <div class="fac-layout">
+      <form
+        class="ann-form__card fac-form__card fac-layout__editor"
+        [formGroup]="form"
+        (ngSubmit)="submit()"
+        novalidate
+      >
+        <div class="fac-form__row">
+          <div class="field">
+            <label for="title">Title *</label>
+            <input id="title" type="text" formControlName="title" placeholder="e.g. Science Lab" />
+            @if (form.controls.title.touched && form.controls.title.invalid) {
+              <p class="field__error">Title is required.</p>
+            }
+          </div>
+
+          <div class="field">
+            <label for="display_order">Display Order</label>
+            <input id="display_order" type="number" formControlName="display_order" min="0" />
+            <span class="field__hint">Lower numbers appear first.</span>
+          </div>
+        </div>
+
+        <div class="field field--full">
+          <label for="description">Description</label>
+          <textarea
+            id="description"
+            class="description-textarea"
+            rows="3"
+            formControlName="description"
+            placeholder="One short sentence for the facility card."
+          ></textarea>
+        </div>
+
+        <label class="fac-toggle">
+          <input class="fac-toggle__input" type="checkbox" formControlName="is_published" />
+          <span class="fac-toggle__track" aria-hidden="true">
+            <span class="fac-toggle__thumb"></span>
+          </span>
+          <span class="fac-toggle__text">
+            <strong>Published</strong>
+            <small>Visible on the public website.</small>
+          </span>
+        </label>
+
+        <div class="field field--full">
+          <label>Image</label>
+          <div class="upload-area">
+            @if (previewUrl()) {
+              <img [src]="previewUrl()" alt="Selected image preview" class="upload-area__preview" />
+            } @else if (existingImageUrl()) {
+              <img [src]="existingImageUrl()" alt="Current image" class="upload-area__preview" />
+            } @else {
+              <div class="upload-area__placeholder">
+                <span class="upload-area__icon" aria-hidden="true">↑</span>
+                <strong>Drag and drop an image or choose a file</strong>
+                <span>JPEG, PNG or WebP, max 5 MB</span>
+              </div>
+            }
+
+            <div class="upload-area__actions">
+              <label class="btn btn--purple upload-area__button">
+                {{ previewUrl() || existingImageUrl() ? 'Replace image' : 'Choose image' }}
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  (change)="onFileChange($event)"
+                  hidden
+                />
+              </label>
+              @if (previewUrl()) {
+                <button type="button" class="btn btn--ghost" (click)="clearSelectedImage()">
+                  Remove selection
+                </button>
+              }
+              @if (existingImageUrl() && !previewUrl()) {
+                <button type="button" class="btn btn--ghost" (click)="markRemoveImage()">
+                  Remove image
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="fac-form__row fac-form__row--even">
+          <div class="field">
+            <label for="image_alt">Image Alt Text</label>
+            <input
+              id="image_alt"
+              type="text"
+              formControlName="image_alt"
+              placeholder="e.g. Students reading in the library"
+            />
+            <span class="field__hint">Read by screen readers. Falls back to the facility title.</span>
+          </div>
+
+          <div class="field">
+            <label for="caption">Image Caption</label>
+            <input
+              id="caption"
+              type="text"
+              formControlName="caption"
+              placeholder="e.g. Reading time in the library"
+            />
+            <span class="field__hint">Shown beneath the photo. Leave empty to hide.</span>
+          </div>
+        </div>
+
+        <div class="fac-group">
+          <div class="fac-group__head">
+            <span class="fac-group__title">Highlights</span>
+            <span class="field__hint">Up to three key features shown as a bullet list. Leave a row empty to skip it.</span>
+          </div>
+          <div class="fac-highlights">
+            <input
+              type="text"
+              formControlName="highlight_1"
+              placeholder="Highlight 1 — e.g. Quiet study seating"
+            />
+            <input
+              type="text"
+              formControlName="highlight_2"
+              placeholder="Highlight 2 — e.g. 5,000+ volumes"
+            />
+            <input
+              type="text"
+              formControlName="highlight_3"
+              placeholder="Highlight 3 — e.g. Regular class visits"
+            />
+          </div>
+        </div>
+
+        <div class="field field--full">
+          <label for="subpage_url">Explore Link</label>
+          <input
+            id="subpage_url"
+            type="text"
+            formControlName="subpage_url"
+            placeholder="e.g. /facilities/library"
+          />
+          <span class="field__hint">
+            Target of the "Explore … in detail" link. Leave empty to use the default sub-page.
+          </span>
+        </div>
+
+        @if (error()) {
+          <div class="ann-form__error" role="alert">{{ error() }}</div>
+        }
+
+        <div class="ann-form__actions fac-form__actions">
+          <button type="button" class="btn btn--ghost" (click)="cancel()" [disabled]="saving()">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn--primary" [disabled]="form.invalid || saving()">
+            {{ saving() ? 'Saving…' : (isEdit() ? 'Save changes' : 'Create') }}
+          </button>
+        </div>
+      </form>
+
+      <aside class="fac-layout__preview" aria-label="Live preview">
+        <div class="fac-preview">
+          <header class="fac-preview__head">
+            <h2 class="fac-preview__title">
+              <span class="fac-preview__dot" aria-hidden="true"></span>
+              Live Preview
+            </h2>
+            <span
+              class="fac-preview__badge"
+              [class.fac-preview__badge--draft]="!previewData().isPublished"
+            >
+              {{ previewData().isPublished ? 'Published' : 'Draft' }}
+            </span>
+          </header>
+
+          <div class="fac-preview__body">
+            <app-facility-preview [data]="previewData()" />
+          </div>
+
+          <p class="fac-preview__note">
+            Preview only — unsaved changes show here and are not visible on the public site until you save.
+          </p>
+        </div>
+      </aside>
+    </div>
+  }
+</section>

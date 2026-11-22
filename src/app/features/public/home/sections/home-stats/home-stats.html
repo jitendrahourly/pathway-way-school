@@ -1,0 +1,30 @@
+@let items = stats();
+
+@if (items.length) {
+  <section class="home-stats" aria-labelledby="home-stats-title">
+    <span class="home-stats__glow" aria-hidden="true"></span>
+    <span class="home-stats__ring" aria-hidden="true"></span>
+
+    <div class="container">
+      <div class="home-stats__head" appScrollReveal>
+        <div>
+          <p class="home-stats__eyebrow">{{ head().eyebrow }}</p>
+          <h2 id="home-stats-title">{{ head().title }}</h2>
+        </div>
+        <p class="home-stats__note">{{ head().text }}</p>
+      </div>
+
+      <div class="home-stats__grid">
+        @for (stat of items; track stat.label; let i = $index) {
+          <div class="home-stats__card" appScrollReveal [revealDelay]="i * 90">
+            <span class="home-stats__icon">
+              <app-icon [name]="stat.icon" [size]="20" />
+            </span>
+            <strong class="home-stats__value">{{ display(i, stat) }}</strong>
+            <span class="home-stats__label">{{ stat.label }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+}

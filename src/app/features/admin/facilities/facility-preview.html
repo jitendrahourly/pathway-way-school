@@ -1,0 +1,51 @@
+@let title = data().title;
+
+<article class="detail">
+  <figure class="detail__media">
+    @if (data().imageUrl; as imageUrl) {
+      <app-media-frame [src]="imageUrl" [alt]="data().imageAlt || title" ratio="4/3" />
+    } @else {
+      <div class="detail__placeholder">
+        <span class="detail__placeholder-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="4" width="18" height="16" rx="2" />
+            <circle cx="8.5" cy="9.5" r="1.5" />
+            <path d="M21 16.5l-4.5-4.5-4 4-2-2L3 19" />
+          </svg>
+        </span>
+        <span class="detail__placeholder-label">No image selected</span>
+        <span class="detail__placeholder-hint">Choose an image to preview it here.</span>
+      </div>
+    }
+
+    @if (data().caption) {
+      <figcaption class="detail__caption">{{ data().caption }}</figcaption>
+    }
+  </figure>
+
+  <div class="detail__body">
+    <h3>{{ title || 'Facility title' }}</h3>
+
+    @if (data().description) {
+      <p class="detail__text">{{ data().description }}</p>
+    } @else {
+      <p class="detail__text detail__text--empty">Facility description will appear here.</p>
+    }
+
+    @if (data().highlights.length) {
+      <ul class="detail__highlights">
+        @for (highlight of data().highlights; track $index) {
+          <li class="detail__highlight">
+            <app-icon name="check" [size]="15" />
+            <span>{{ highlight }}</span>
+          </li>
+        }
+      </ul>
+    }
+
+    <span class="detail__link">
+      <span>Explore {{ title || 'this facility' }} in detail</span>
+      <app-icon name="arrow-right" [size]="15" />
+    </span>
+  </div>
+</article>

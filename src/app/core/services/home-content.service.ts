@@ -17,7 +17,40 @@ export class HomeContentService {
   async load(): Promise<void> {
     const saved = await this.pageContents.load<Partial<HomeContent>>('home');
     if (saved) {
-      this.state.set(mergeWithSeed(HOME_CONTENT, saved));
+      this.state.set(this.migrate(mergeWithSeed(HOME_CONTENT, saved), saved));
     }
+  }
+
+  /**
+   * Records saved before section headings were editable stored the facilities,
+   * gallery and announcements intros as top-level strings. Those values are
+   * carried into their new heading slots so no saved copy is lost.
+   */
+  private migrate(content: HomeContent, saved: Partial<HomeContent>): HomeContent {
+    const savedHeadings = (saved as Record<string, unknown>)['headings'] as
+      | Record<string, { text?: string }>
+      | undefined;
+
+    const text = (key: keyof HomeContent['headings'], legacy: string): string =>
+      savedHeadings?.[key]?.text ?? legacy;
+
+    return {
+      ...content,
+      headings: {
+        ...content.headings,
+        facilities: {
+          ...content.headings.facilities,
+          text: text('facilities', content.facilitiesIntro),
+        },
+        gallery: {
+          ...content.headings.gallery,
+          text: text('gallery', content.galleryIntro),
+        },
+        updates: {
+          ...content.headings.updates,
+          text: text('updates', content.announcementsIntro),
+        },
+      },
+    };
   }
 }

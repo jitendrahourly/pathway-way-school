@@ -110,6 +110,19 @@ export interface FacilityRecord {
   title: string;
   description: string | null;
   image_url: string | null;
+  image_alt?: string | null;
+  /** Optional short photo caption shown beneath the image. */
+  caption?: string | null;
+  /** Optional key features shown as bullet highlights. */
+  highlights?: string[] | null;
+  /** Optional longer description for the detail view. */
+  detailed_description?: string | null;
+  /** Optional call-to-action button label. */
+  button_label?: string | null;
+  /** Optional call-to-action button link. */
+  button_link?: string | null;
+  /** Optional sub-page target for the "Explore … in detail" link. */
+  subpage_url?: string | null;
   display_order: number;
   is_published: boolean;
   created_at?: string;

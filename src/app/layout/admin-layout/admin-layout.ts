@@ -30,6 +30,7 @@ export class AdminLayout {
     { label: 'Announcements', path: '/admin/announcements', icon: 'megaphone' },
     { label: 'Gallery', path: '/admin/gallery', icon: 'image' },
     { label: 'Facilities', path: '/admin/facilities', icon: 'building' },
+    { label: 'Contact Requests', path: '/admin/contact-messages', icon: 'mail' },
     { label: 'Site Settings', path: '/admin/settings', icon: 'settings' },
   ];
 
@@ -63,6 +64,7 @@ export class AdminLayout {
       page: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM14 2v6h6',
       megaphone: 'M3 11l18-5v12L3 13v-2zm0 2v4a2 2 0 0 0 2 2h2',
       image: 'M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5zm4 6l3 3 4-5 5 7H5l2-5z',
+      mail: 'M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm16 2l-8 5-8-5',
       building: 'M3 21V7l9-4 9 4v14M9 21V12h6v9',
       settings: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm8.5-3a6.5 6.5 0 0 0-.1-1.1l2-1.5-2-3.4-2.4 1a6.4 6.4 0 0 0-1.9-1.1L15.5 2h-4l-.6 2.4a6.4 6.4 0 0 0-1.9 1.1l-2.4-1-2 3.4 2 1.5a6.5 6.5 0 0 0 0 2.2l-2 1.5 2 3.4 2.4-1a6.4 6.4 0 0 0 1.9 1.1L11.5 22h4l.6-2.4a6.4 6.4 0 0 0 1.9-1.1l2.4 1 2-3.4-2-1.5c.1-.4.1-.7.1-1.1z',
       logout: 'M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9',

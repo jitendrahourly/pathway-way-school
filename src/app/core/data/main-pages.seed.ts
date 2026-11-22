@@ -5,6 +5,7 @@ import { ADMISSIONS_CONTENT } from './admissions.seed';
 import { CONTACT_CONTENT } from './contact.seed';
 import { FACILITIES_CONTENT } from './facilities.seed';
 import { GALLERY_CONTENT } from './gallery.seed';
+import { SCHOOL_LIFE_CONTENT } from './school-life.seed';
 import { HOME_CONTENT } from './site.seed';
 
 export interface MainPageSeed {
@@ -25,6 +26,7 @@ export const MAIN_PAGES: readonly MainPageSeed[] = [
   { slug: 'admissions', title: 'Admissions', content: ADMISSIONS_CONTENT },
   { slug: 'contact', title: 'Contact Us', content: CONTACT_CONTENT },
   { slug: 'facilities', title: 'Facilities', content: FACILITIES_CONTENT },
+  { slug: 'school-life', title: 'School Life', content: SCHOOL_LIFE_CONTENT },
   { slug: 'gallery', title: 'Gallery', content: GALLERY_CONTENT },
   { slug: 'announcements', title: 'Announcements', content: ANNOUNCEMENTS_CONTENT },
 ];

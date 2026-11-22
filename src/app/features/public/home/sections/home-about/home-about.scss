@@ -5,64 +5,223 @@
 }
 
 .about {
-  padding-block: clamp(3.5rem, 6vw, 5rem) clamp(2.5rem, 5vw, 4rem);
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(3.5rem, 7vw, 6rem);
+  background: var(--bw-white);
+}
+
+.about__shape {
+  position: absolute;
+  top: 8%;
+  left: -140px;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(48, 32, 93, 0.07), transparent 68%);
+  pointer-events: none;
 }
 
 .about__grid {
   display: grid;
-  grid-template-columns: 1.02fr 1fr;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
   align-items: center;
-  gap: clamp(2rem, 4.5vw, 3.5rem);
+  gap: clamp(2.5rem, 6vw, 5rem);
 }
 
+/* Layered photography */
 .about__media {
   position: relative;
-  border-radius: var(--bw-radius-lg);
+  padding: 0 0 3.25rem 0;
 }
 
-.about__photo {
-  border-radius: var(--bw-radius-lg);
+.about__main {
+  width: 88%;
+  overflow: hidden;
+  border-radius: 22px;
   box-shadow: var(--bw-shadow-md);
+}
+
+.about__accent {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 42%;
+  overflow: hidden;
+  border: 6px solid var(--bw-white);
+  border-radius: 18px;
+  box-shadow: var(--bw-shadow-lg);
+  transition: transform 0.35s var(--bw-ease);
+}
+
+.about__media:hover .about__accent {
+  transform: translateY(-6px);
 }
 
 .about__badge {
   position: absolute;
-  right: -14px;
-  bottom: -18px;
-  padding: 0.85rem 1.15rem;
-  border-radius: 12px;
-  background: var(--bw-orange);
-  color: var(--bw-white);
-  font-family: var(--bw-font-display);
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  box-shadow: 0 14px 30px rgba(232, 121, 39, 0.32);
+  left: 0;
+  bottom: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  max-width: 220px;
+  padding: 0.9rem 1.15rem;
+  border-left: 4px solid var(--bw-orange);
+  border-radius: 0 14px 14px 0;
+  background: var(--bw-white);
+  box-shadow: 0 14px 34px rgba(36, 24, 70, 0.16);
 }
 
+.about__badge strong {
+  color: var(--bw-purple);
+  font-family: var(--bw-font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.about__badge span {
+  color: var(--bw-body);
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+.about__dots {
+  position: absolute;
+  top: -18px;
+  right: 6%;
+  width: 92px;
+  height: 92px;
+  background-image: radial-gradient(rgba(232, 121, 39, 0.38) 1.5px, transparent 1.5px);
+  background-size: 12px 12px;
+  pointer-events: none;
+}
+
+/* Copy */
 .about__body h2 {
+  max-width: 18ch;
   margin: 0 0 1rem;
   color: var(--bw-purple);
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
 }
 
 .about__text {
-  margin: 0 0 1.7rem;
-  font-size: 0.98rem;
-  line-height: 1.8;
+  max-width: 56ch;
+  margin: 0 0 1.6rem;
   color: var(--bw-body);
+  font-size: 0.97rem;
+  line-height: 1.8;
 }
 
-@include mx.down(880px) {
+.about__facts {
+  display: grid;
+  gap: 0.85rem;
+  margin-bottom: 1.8rem;
+}
+
+.about__facts li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.about__fact-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: 11px;
+  color: var(--bw-orange-dark);
+  background: var(--bw-orange-soft);
+}
+
+.about__facts strong {
+  display: block;
+  color: var(--bw-purple);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.about__facts li > div span {
+  display: block;
+  color: var(--bw-muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.about__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+.about__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--bw-purple);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition:
+    color 0.2s var(--bw-ease),
+    border-color 0.2s var(--bw-ease);
+}
+
+.about__link:hover {
+  color: var(--bw-orange-dark);
+  border-color: var(--bw-orange);
+}
+
+@include mx.down(980px) {
   .about__grid {
     grid-template-columns: 1fr;
+    gap: 2.5rem;
   }
 
   .about__media {
-    max-width: 560px;
+    width: min(100%, 640px);
+    margin-inline: auto;
+  }
+
+  .about__body {
+    max-width: 640px;
+  }
+}
+
+@include mx.down(560px) {
+  .about__media {
+    padding-bottom: 2.2rem;
+  }
+
+  .about__main {
+    width: 100%;
+    border-radius: 16px;
+  }
+
+  .about__accent {
+    width: 38%;
+    border-width: 4px;
+    border-radius: 12px;
   }
 
   .about__badge {
-    right: 16px;
-    bottom: -16px;
+    bottom: -0.5rem;
+    padding: 0.7rem 0.9rem;
+  }
+
+  .about__badge strong {
+    font-size: 0.95rem;
+  }
+
+  .about__badge span {
+    font-size: 0.66rem;
+  }
+
+  .about__dots {
+    display: none;
   }
 }

@@ -1,0 +1,26 @@
+@let affiliations = content().affiliations;
+
+@if (affiliations.length) {
+  <section class="home-affiliations" aria-label="Affiliations and recognition">
+    <div class="container home-affiliations__inner" appScrollReveal>
+      @if (content().headings.affiliations.eyebrow) {
+        <p class="home-affiliations__label">{{ content().headings.affiliations.eyebrow }}</p>
+      }
+
+      <ul class="home-affiliations__row">
+        @for (item of affiliations; track item.label) {
+          <li class="affiliation">
+            <span class="affiliation__icon">
+              <app-icon [name]="item.icon" [size]="16" />
+            </span>
+            {{ item.label }}
+          </li>
+        }
+      </ul>
+
+      @if (content().headings.affiliations.text) {
+        <p class="home-affiliations__since">{{ content().headings.affiliations.text }}</p>
+      }
+    </div>
+  </section>
+}

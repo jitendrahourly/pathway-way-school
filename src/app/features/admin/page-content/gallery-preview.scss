@@ -1,0 +1,203 @@
+:host {
+  display: block;
+  padding: 1.35rem 1.5rem;
+  border-bottom: 1px solid var(--bw-line);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(48, 32, 93, 0.05), transparent 42%),
+    linear-gradient(180deg, #f7f5fc 0%, #f4f5f9 100%);
+}
+
+.gap {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--bw-body);
+}
+
+.gap h3,
+.gap h4,
+.gap p {
+  margin: 0;
+}
+
+.gap h3 {
+  font-family: var(--bw-font-display);
+  color: var(--bw-purple);
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+.gap-eyebrow {
+  margin-bottom: 0.3rem !important;
+  color: var(--bw-orange-dark);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.gap-placeholder {
+  color: var(--bw-muted);
+  font-style: italic;
+}
+
+/* --- Banner --------------------------------------------------------------- */
+.gap-banner {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 190px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #30205d 0%, #5b3d8f 100%);
+  box-shadow: 0 14px 30px rgba(48, 32, 93, 0.2);
+}
+
+.gap-banner__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gap-banner__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(32, 20, 62, 0.86) 0%, rgba(32, 20, 62, 0.35) 60%, rgba(32, 20, 62, 0.15) 100%);
+}
+
+.gap-banner__copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.25rem 1.4rem;
+  max-width: 75%;
+}
+
+.gap-banner__copy .gap-eyebrow {
+  color: #f4b47a;
+}
+
+.gap-banner__copy h3 {
+  color: var(--bw-white);
+  font-size: 1.45rem;
+}
+
+.gap-banner__copy p:last-child {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.76rem;
+}
+
+/* --- Intro ---------------------------------------------------------------- */
+.gap-intro {
+  padding: 1.35rem 1.5rem;
+  border: 1px solid rgba(48, 32, 93, 0.08);
+  border-radius: 16px;
+  background: var(--bw-white);
+}
+
+.gap-intro p {
+  margin-top: 0.4rem;
+  font-size: 0.76rem;
+}
+
+.gap-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.65rem !important;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: var(--bw-orange-soft);
+  color: var(--bw-orange-dark);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+/* --- Controls ------------------------------------------------------------- */
+.gap-controls {
+  padding: 1.25rem;
+  border: 1px solid rgba(48, 32, 93, 0.08);
+  border-radius: 16px;
+  background: linear-gradient(180deg, #faf9fe 0%, #ffffff 100%);
+}
+
+.gap-controls__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 0.85rem;
+}
+
+.gap-chip {
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--bw-line);
+  border-radius: 999px;
+  background: var(--bw-white);
+  color: var(--bw-body);
+  font-size: 0.64rem;
+  font-weight: 600;
+}
+
+.gap-chip--active {
+  background: var(--bw-purple);
+  color: var(--bw-white);
+  border-color: var(--bw-purple);
+}
+
+.gap-controls__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+
+.gap-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  aspect-ratio: 4 / 3;
+  border: 1.5px dashed var(--bw-line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--bw-muted);
+  font-size: 0.6rem;
+}
+
+.gap-controls__empty {
+  padding: 0.85rem;
+  border: 1.5px dashed var(--bw-line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.6);
+  text-align: center;
+}
+
+.gap-controls__empty h4 {
+  font-size: 0.8rem;
+  margin-bottom: 0.25rem;
+}
+
+.gap-controls__empty p {
+  font-size: 0.7rem;
+  margin-bottom: 0.45rem !important;
+}
+
+.gap-controls__reset {
+  display: inline-flex;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background: var(--bw-orange-soft);
+  color: var(--bw-orange-dark);
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  .gap-controls__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

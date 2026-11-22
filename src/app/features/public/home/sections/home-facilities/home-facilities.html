@@ -1,21 +1,55 @@
-<section class="facilities">
+@let items = facilities();
+
+<section class="facilities" aria-labelledby="home-facilities-title">
   <div class="container">
-    <header class="facilities__head">
-      <h2>Our Facilities</h2>
-      <p>{{ content().facilitiesIntro }}</p>
+    <header class="facilities__head" appScrollReveal>
+      <div>
+        <p class="eyebrow">{{ content().headings.facilities.eyebrow }}</p>
+        <h2 id="home-facilities-title">{{ content().headings.facilities.title }}</h2>
+      </div>
+      <div class="facilities__intro">
+        <p>{{ content().headings.facilities.text }}</p>
+        @if (content().headings.facilities.linkLabel) {
+          <a
+            class="facilities__all"
+            [routerLink]="content().headings.facilities.linkUrl || '/facilities'"
+          >
+            {{ content().headings.facilities.linkLabel }}
+            <app-icon name="arrow-right" [size]="15" />
+          </a>
+        }
+      </div>
     </header>
 
-    <div class="facilities__grid">
-      @for (facility of facilities(); track facility.id) {
-        <app-facility-card appScrollReveal [revealDelay]="$index * 80" [facility]="facility" />
-      }
-    </div>
-
-    <div class="facilities__cta">
-      <a class="btn btn--purple" routerLink="/facilities">
-        View All Facilities
-        <app-icon name="arrow-right" [size]="16" />
-      </a>
-    </div>
+    @if (items.length) {
+      <div class="facilities__grid" [class.facilities__grid--flow]="items.length > 4">
+        @for (facility of items; track facility.id; let i = $index) {
+          <a
+            class="facility-tile"
+            routerLink="/facilities"
+            appScrollReveal
+            [revealDelay]="i * 80"
+            [attr.aria-label]="'Explore ' + facility.title"
+          >
+            <img
+              [src]="facility.imageUrl"
+              [alt]="facility.imageAlt"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="facility-tile__scrim" aria-hidden="true"></span>
+            <span class="facility-tile__content">
+              <span class="facility-tile__label">Facility</span>
+              <h3>{{ facility.title }}</h3>
+              <p>{{ facility.description }}</p>
+              <span class="facility-tile__link">
+                Explore
+                <app-icon name="arrow-up-right" [size]="14" />
+              </span>
+            </span>
+          </a>
+        }
+      </div>
+    }
   </div>
 </section>

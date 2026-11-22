@@ -1,0 +1,135 @@
+@let d = data();
+
+<div class="mgp" aria-hidden="true">
+  @switch (section()) {
+    @case ('banner') {
+      <div class="mgp-hero">
+        <div class="mgp-hero__copy">
+          <p class="mgp-eyebrow"><span class="mgp-eyebrow__line"></span> About Us · Management</p>
+          <h3>{{ d.banner.title || 'Management' }}</h3>
+          <p>{{ d.banner.subtitle || 'Guided by experience.' }}</p>
+        </div>
+        <div class="mgp-hero__visual">
+          @if (d.banner.imageUrl) {
+            <img [src]="d.banner.imageUrl" [alt]="d.banner.imageAlt || 'Management banner image'" />
+          } @else {
+            <div class="mgp-media-empty">
+              <app-icon name="image" [size]="28" />
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    @case ('principal') {
+      <div class="mgp-principal">
+        <div class="mgp-principal__media">
+          @if (d.principal.imageUrl) {
+            <img class="mgp-portrait" [src]="d.principal.imageUrl" [alt]="d.principal.name + ', ' + d.principal.role" />
+          } @else {
+            <div class="mgp-portrait mgp-portrait--initials">
+              {{ d.principal.name ? d.principal.name.charAt(0) : 'P' }}
+            </div>
+          }
+          <div class="mgp-principal__caption">
+            <span>{{ d.principal.role || 'Principal' }}</span>
+            <strong>{{ d.principal.name || 'Principal name' }}</strong>
+          </div>
+        </div>
+        <div class="mgp-principal__body">
+          <p class="mgp-eyebrow mgp-eyebrow--dark">Principal's Message</p>
+          <blockquote class="mgp-quote">
+            <span class="mgp-quote__mark">“</span>
+            <p>{{ d.principal.message || 'Principal message appears here.' }}</p>
+            @if (d.principal.messageSecondary) {
+              <p>{{ d.principal.messageSecondary }}</p>
+            }
+          </blockquote>
+          <div class="mgp-signature">
+            <span class="mgp-signature__line"></span>
+            <div>
+              <p class="mgp-signature__name">{{ d.principal.name || 'Principal name' }}</p>
+              <p class="mgp-signature__role">{{ d.principal.role || 'Principal' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    @case ('facts') {
+      <div class="mgp-facts">
+        @if (d.facts.length) {
+          <div class="mgp-facts__grid">
+            @for (fact of d.facts; track $index) {
+              <article class="mgp-fact">
+                <span class="mgp-fact__icon"><app-icon [name]="fact.icon" [size]="16" /></span>
+                <div>
+                  <p class="mgp-fact__label">{{ fact.label || 'Label' }}</p>
+                  <p class="mgp-fact__value">{{ fact.value || 'Value' }}</p>
+                </div>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="mgp-empty">
+            <app-icon name="target" [size]="24" />
+            <span>No facts yet — add one below.</span>
+          </div>
+        }
+      </div>
+    }
+
+    @case ('faculty') {
+      <div class="mgp-faculty">
+        @if (d.paragraphs.length) {
+          <div class="mgp-governance">
+            @for (paragraph of d.paragraphs; track $index) {
+              <p>{{ paragraph }}</p>
+            }
+          </div>
+        }
+
+        <p class="mgp-faculty__intro">{{ d.facultyIntro || 'Faculty introduction appears here.' }}</p>
+
+        @if (d.faculty.length) {
+          <div class="mgp-faculty__grid">
+            @for (member of d.faculty; track $index) {
+              <article class="mgp-card">
+                <div class="mgp-card__media">
+                  @if (member.imageUrl) {
+                    <img class="mgp-portrait" [src]="member.imageUrl" [alt]="member.name + ', ' + member.role" />
+                  } @else {
+                    <div class="mgp-portrait mgp-portrait--initials">
+                      {{ member.name ? member.name.charAt(0) : 'F' }}
+                    </div>
+                  }
+                  <span class="mgp-card__badge">{{ member.role || 'Role' }}</span>
+                </div>
+                <div class="mgp-card__body">
+                  <h4>{{ member.name || 'Faculty name' }}</h4>
+                  <p class="mgp-card__subject">{{ member.subject || 'Subject' }}</p>
+                  <div class="mgp-card__meta">
+                    <span>{{ member.qualification || 'Qualification' }}</span>
+                    <span>{{ member.experience || 'Experience' }}</span>
+                  </div>
+                </div>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="mgp-empty">
+            <app-icon name="users" [size]="24" />
+            <span>No faculty members yet — add one below.</span>
+          </div>
+        }
+
+        @if (d.facultyNote) {
+          <p class="mgp-note">
+            <app-icon name="image" [size]="14" />
+            {{ d.facultyNote }}
+          </p>
+        }
+      </div>
+    }
+  }
+</div>

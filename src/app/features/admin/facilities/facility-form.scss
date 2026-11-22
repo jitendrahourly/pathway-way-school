@@ -1,0 +1,366 @@
+@use '../announcements/announcement-form.scss';
+
+/* ---------------------------------------------------------------------------
+   Compact facility editor.
+   Reuses the shared announcement form styling, then trims spacing and lays the
+   fields out in a tighter two-column arrangement.
+   --------------------------------------------------------------------------- */
+
+.fac-form {
+  max-width: 1360px;
+}
+
+/* Editor + live preview split ------------------------------------------- */
+.fac-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.fac-layout__editor {
+  min-width: 0;
+}
+
+.fac-layout__preview {
+  min-width: 0;
+  align-self: start;
+  position: sticky;
+  top: 5.5rem;
+}
+
+.fac-preview {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem 1rem;
+  background: var(--bw-white);
+  border: 1px solid var(--bw-line);
+  border-radius: 16px;
+  box-shadow: var(--bw-shadow-sm);
+}
+
+.fac-preview__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--bw-line);
+}
+
+.fac-preview__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bw-purple);
+}
+
+.fac-preview__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--bw-orange);
+  box-shadow: 0 0 0 3px rgba(232, 121, 39, 0.18);
+}
+
+.fac-preview__badge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #1f7a44;
+  background: rgba(34, 160, 90, 0.12);
+  border: 1px solid rgba(34, 160, 90, 0.28);
+}
+
+.fac-preview__badge--draft {
+  color: #9a5a12;
+  background: rgba(232, 121, 39, 0.12);
+  border-color: rgba(232, 121, 39, 0.3);
+}
+
+.fac-preview__body {
+  padding: 0.35rem 0.15rem;
+}
+
+.fac-preview__note {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--bw-muted);
+}
+
+.fac-form__card {
+  gap: 0.85rem;
+  padding: 1.15rem 1.3rem;
+}
+
+.fac-form__row {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: start;
+}
+
+.fac-form__row--even {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* Compact fields ---------------------------------------------------------- */
+.fac-form .field {
+  gap: 0.3rem;
+}
+
+.fac-form .field label {
+  font-size: 0.82rem;
+}
+
+.fac-form .field input,
+.fac-form .field select {
+  height: 38px;
+  border-radius: 10px;
+}
+
+.fac-form .field textarea {
+  width: 100%;
+  border: 1px solid var(--bw-line);
+  border-radius: 10px;
+  font: inherit;
+  color: var(--bw-ink);
+  background: var(--bw-white);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fac-form .field textarea:focus {
+  outline: none;
+  border-color: var(--bw-purple);
+  box-shadow: 0 0 0 3px rgba(48, 32, 93, 0.1);
+}
+
+/* Compact, consistent input/placeholder typography ----------------------- */
+.fac-form .field input,
+.fac-form .field textarea,
+.fac-highlights input {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  font-family: inherit;
+}
+
+.fac-form .field input::placeholder,
+.fac-form .field textarea::placeholder,
+.fac-highlights input::placeholder {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  font-family: inherit;
+  color: var(--bw-muted);
+  opacity: 0.85;
+}
+
+.fac-form .description-textarea {
+  height: 84px;
+  min-height: 84px;
+  max-height: 150px;
+}
+
+.fac-form .field__hint {
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+.fac-form .field__error {
+  font-size: 0.74rem;
+}
+
+/* Compact publication toggle --------------------------------------------- */
+.fac-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: fit-content;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--bw-line);
+  border-radius: 10px;
+  background: var(--bw-white);
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fac-toggle:hover {
+  border-color: rgba(48, 32, 93, 0.28);
+}
+
+.fac-toggle__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.fac-toggle__track {
+  position: relative;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 20px;
+  border-radius: 999px;
+  background: #d8d3e6;
+  transition: background 0.2s ease;
+}
+
+.fac-toggle__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bw-white);
+  box-shadow: 0 1px 2px rgba(31, 22, 60, 0.35);
+  transition: transform 0.2s ease;
+}
+
+.fac-toggle__input:checked + .fac-toggle__track {
+  background: var(--bw-orange);
+}
+
+.fac-toggle__input:checked + .fac-toggle__track .fac-toggle__thumb {
+  transform: translateX(14px);
+}
+
+.fac-toggle__input:focus-visible + .fac-toggle__track {
+  box-shadow: 0 0 0 3px rgba(232, 121, 39, 0.3);
+}
+
+.fac-toggle__text {
+  display: grid;
+}
+
+.fac-toggle__text strong {
+  font-size: 0.84rem;
+  color: var(--bw-purple);
+}
+
+.fac-toggle__text small {
+  font-size: 0.72rem;
+  color: var(--bw-muted);
+}
+
+/* Compact image upload ---------------------------------------------------- */
+.fac-form .upload-area {
+  min-height: 0;
+  padding: 0.65rem 0.7rem;
+  gap: 0.6rem 0.85rem;
+  border-radius: 12px;
+}
+
+.fac-form .upload-area__preview {
+  flex: 1 1 200px;
+  width: auto;
+  max-height: 132px;
+  border-radius: 10px;
+}
+
+.fac-form .upload-area__actions {
+  gap: 0.4rem;
+}
+
+.fac-form .upload-area .btn {
+  height: 34px;
+  padding: 0 0.85rem;
+  font-size: 0.82rem;
+}
+
+/* Highlights group -------------------------------------------------------- */
+.fac-group {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--bw-line);
+  border-radius: 12px;
+  background: var(--bw-bg);
+}
+
+.fac-group__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.6rem;
+}
+
+.fac-group__title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--bw-ink);
+}
+
+.fac-highlights {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.fac-highlights input {
+  width: 100%;
+  height: 38px;
+  padding: 0 0.85rem;
+  border: 1px solid var(--bw-line);
+  border-radius: 10px;
+  font: inherit;
+  color: var(--bw-ink);
+  background: var(--bw-white);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fac-highlights input:focus {
+  outline: none;
+  border-color: var(--bw-purple);
+  box-shadow: 0 0 0 3px rgba(48, 32, 93, 0.1);
+}
+
+/* Bottom action area ------------------------------------------------------ */
+.fac-form__actions {
+  margin-top: 0.15rem;
+  padding: 0.7rem 0 0.15rem;
+}
+
+/* Responsive -------------------------------------------------------------- */
+@media (min-width: 760px) {
+  .fac-highlights {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Tablet: give the form a little more room than the preview. */
+@media (max-width: 1200px) {
+  .fac-layout {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  }
+}
+
+/* Mobile / small tablet: stack the form first, then the preview. */
+@media (max-width: 980px) {
+  .fac-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .fac-layout__preview {
+    position: static;
+  }
+}
+
+@media (max-width: 720px) {
+  .fac-form__row,
+  .fac-form__row--even {
+    grid-template-columns: 1fr;
+  }
+
+  .fac-form__card {
+    padding: 1rem;
+  }
+}

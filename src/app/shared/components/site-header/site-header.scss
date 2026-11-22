@@ -369,10 +369,14 @@
     font-size: 0.72rem;
   }
 
+  .topbar__info a {
+    flex: none;
+  }
+
   .topbar__info a span {
-    max-width: 22ch;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    max-width: none;
+    overflow: visible;
+    text-overflow: clip;
   }
 
   .topbar__email {

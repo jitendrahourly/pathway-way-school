@@ -1,0 +1,137 @@
+@let d = data();
+
+<div class="abp" aria-hidden="true">
+  @switch (section()) {
+    @case ('banner') {
+      <div class="abp-hero">
+        <div class="abp-hero__copy">
+          <p class="abp-eyebrow"><span class="abp-eyebrow__line"></span> About Us</p>
+          <h3>{{ d.banner.title || 'About Bright Way School' }}</h3>
+          <p class="abp-hero__subtitle">
+            {{ d.banner.subtitle || 'A legacy of quality education since 1981.' }}
+          </p>
+          @if (d.story.paragraphs[0]) {
+            <p class="abp-hero__lead">{{ d.story.paragraphs[0] }}</p>
+          }
+          <div class="abp-hero__actions">
+            <span class="abp-btn abp-btn--primary">Discover our story</span>
+            <span class="abp-btn abp-btn--ghost">Explore our school</span>
+          </div>
+          <div class="abp-hero__stats">
+            <span><strong>1981</strong>Established</span>
+            <span><strong>K – 10</strong>Classes offered</span>
+            <span><strong>45+</strong>Years of service</span>
+          </div>
+        </div>
+
+        <div class="abp-hero__visual">
+          @if (d.banner.imageUrl) {
+            <img [src]="d.banner.imageUrl" [alt]="d.banner.imageAlt || 'About banner image'" />
+          } @else {
+            <div class="abp-media-empty">
+              <app-icon name="image" [size]="28" />
+              <span>No banner image</span>
+            </div>
+          }
+          <div class="abp-hero__stamp">
+            <span class="abp-hero__stamp-icon"><app-icon name="graduation-cap" [size]="16" /></span>
+            <span>
+              <strong>Bright Way School</strong>
+              <small>{{ d.story.eyebrow || 'About Us' }}</small>
+            </span>
+          </div>
+        </div>
+      </div>
+    }
+
+    @case ('story') {
+      <div class="abp-story">
+        <span class="abp-story__mark">“</span>
+        <div class="abp-story__copy">
+          <p class="abp-eyebrow">{{ d.story.eyebrow || 'About Us' }}</p>
+          <h3>{{ d.story.title || 'Our Story' }}</h3>
+          @for (paragraph of d.story.paragraphs; track $index) {
+            <p [class.abp-story__lead]="$first">{{ paragraph }}</p>
+          } @empty {
+            <p class="abp-placeholder">
+              Story paragraphs will appear here. Add one paragraph per line below.
+            </p>
+          }
+        </div>
+      </div>
+    }
+
+    @case ('pillars') {
+      <div class="abp-pillars">
+        <div class="abp-section-head">
+          <p class="abp-eyebrow">What guides us</p>
+          <h3>Vision, mission and values</h3>
+        </div>
+        @if (d.pillars.length) {
+          <div class="abp-pillars__grid">
+            @for (pillar of d.pillars; track $index) {
+              <article class="abp-pillar">
+                <span class="abp-pillar__icon">
+                  <app-icon [name]="pillar.icon" [size]="18" />
+                </span>
+                <h4>{{ pillar.title || 'Untitled pillar' }}</h4>
+                <p>{{ pillar.text || 'Pillar description appears here.' }}</p>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="abp-empty">
+            <app-icon name="target" [size]="24" />
+            <span>No pillars yet — add one below to see it here.</span>
+          </div>
+        }
+      </div>
+    }
+
+    @case ('photo') {
+      @if (d.photo.url) {
+        <figure class="abp-photo">
+          <img [src]="d.photo.url" [alt]="d.photo.alt || 'Campus showcase photo'" />
+        </figure>
+      } @else {
+        <div class="abp-photo abp-photo--empty">
+          <app-icon name="image" [size]="28" />
+          <span>No showcase photo selected</span>
+        </div>
+      }
+    }
+
+    @case ('sections') {
+      <div class="abp-chapters">
+        @if (d.sections.length) {
+          <div class="abp-toc">
+            <span class="abp-toc__label">On this page</span>
+            @for (chapter of d.sections; track $index) {
+              <span class="abp-toc__link">{{ chapter.title || 'Untitled section' }}</span>
+            }
+          </div>
+          <div class="abp-chapters__list">
+            @for (chapter of d.sections; track $index) {
+              <article class="abp-chapter">
+                <span class="abp-chapter__num">{{ ($index + 1).toString().padStart(2, '0') }}</span>
+                <div class="abp-chapter__body">
+                  <h4>{{ chapter.title || 'Untitled section' }}</h4>
+                  @for (paragraph of chapter.paragraphs; track $index) {
+                    <p>{{ paragraph }}</p>
+                  } @empty {
+                    <p class="abp-placeholder">Section paragraphs appear here.</p>
+                  }
+                </div>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="abp-empty">
+            <app-icon name="menu" [size]="24" />
+            <span>No page sections yet — add one below to build the table of contents.</span>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

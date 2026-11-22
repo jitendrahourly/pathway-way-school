@@ -1,0 +1,141 @@
+/* ---------------------------------------------------------------------------
+   Facility live preview.
+   Mirrors the public facilities "detail" block so the administrator sees the
+   same image crop, typography, highlight list, caption and Explore button.
+   The panel is narrower than a public page, so the block is stacked (the same
+   arrangement the public page uses on smaller screens).
+   --------------------------------------------------------------------------- */
+
+:host {
+  display: block;
+}
+
+.detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.detail__media {
+  order: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  max-width: 560px;
+  margin: 0;
+
+  app-media-frame {
+    border-radius: var(--bw-radius);
+    overflow: hidden;
+    box-shadow: var(--bw-shadow-sm);
+  }
+}
+
+.detail__caption {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  font-style: italic;
+  color: var(--bw-muted);
+  text-align: center;
+}
+
+.detail__body {
+  max-width: 560px;
+}
+
+.detail h3 {
+  margin: 0 0 0.6rem;
+  color: var(--bw-purple);
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+}
+
+.detail__text {
+  margin: 0;
+  font-size: 0.96rem;
+  line-height: 1.75;
+  color: var(--bw-body);
+}
+
+.detail__text--empty {
+  color: var(--bw-muted);
+  font-style: italic;
+}
+
+.detail__highlights {
+  list-style: none;
+  margin: 1.15rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.detail__highlight {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--bw-body);
+
+  app-icon {
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    color: var(--bw-orange);
+  }
+}
+
+.detail__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 1.15rem;
+  padding: 0.6rem 1.15rem;
+  border-radius: 10px;
+  background: var(--bw-purple-soft);
+  border: 1px solid rgba(48, 32, 93, 0.1);
+  color: var(--bw-purple);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: default;
+
+  app-icon {
+    color: var(--bw-orange);
+  }
+}
+
+/* Missing-image state ----------------------------------------------------- */
+.detail__placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  aspect-ratio: 4 / 3;
+  padding: 1rem;
+  border-radius: var(--bw-radius);
+  border: 1px dashed var(--bw-line);
+  background: var(--bw-bg);
+  color: var(--bw-muted);
+  text-align: center;
+}
+
+.detail__placeholder-icon {
+  display: inline-flex;
+  color: rgba(48, 32, 93, 0.35);
+}
+
+.detail__placeholder-icon svg {
+  width: 30px;
+  height: 30px;
+}
+
+.detail__placeholder-label {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--bw-body);
+}
+
+.detail__placeholder-hint {
+  font-size: 0.74rem;
+}

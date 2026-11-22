@@ -1,0 +1,258 @@
+@let d = data();
+
+<div class="cpp" aria-hidden="true">
+  @switch (section()) {
+    @case ('banner') {
+      <div class="cpp-banner">
+        @if (d.imageUrl && !d.isAcademic) {
+          <img class="cpp-banner__image" [src]="d.imageUrl" [alt]="d.imageAlt || d.title" />
+        }
+        <div class="cpp-banner__scrim"></div>
+        <div class="cpp-banner__copy">
+          <p class="cpp-eyebrow">{{ d.family === 'academics-' ? 'Academics' : d.family === 'school-life-' ? 'School Life' : d.family === 'facilities-' ? 'Facilities' : 'Page' }}</p>
+          <h3>{{ d.title || 'Page title' }}</h3>
+          <p>{{ d.subtitle || 'Page subtitle appears here.' }}</p>
+        </div>
+      </div>
+    }
+
+    @case ('intro') {
+      <div class="cpp-intro">
+        <div class="cpp-intro__media">
+          <div class="cpp-intro__frame">
+            @if (d.imageUrl) {
+              <img [src]="d.imageUrl" [alt]="d.imageAlt || d.title" />
+            } @else {
+              <div class="cpp-media-empty">
+                <app-icon name="image" [size]="24" />
+              </div>
+            }
+            @if (d.isAcademic && d.mediaBadge) {
+              <span class="cpp-intro__badge">
+                <app-icon name="graduation-cap" [size]="14" />
+                {{ d.mediaBadge }}
+              </span>
+            }
+          </div>
+
+          @if (d.hasPageBlocks && d.stage) {
+            <div class="cpp-stage">
+              <div class="cpp-stage__head">
+                <div>
+                  <span class="cpp-stage__tag">{{ d.stage.tag || 'Stage' }}</span>
+                  <h4>{{ d.stage.title || 'Stage title' }}</h4>
+                </div>
+                <span class="cpp-stage__badge">{{ d.stage.gradesBadge || 'Grades' }}</span>
+              </div>
+              @if (d.stage.facts.length) {
+                <div class="cpp-stage__facts">
+                  @for (fact of d.stage.facts; track $index) {
+                    <div class="cpp-stage__fact">
+                      <span class="cpp-stage__fact-icon">
+                        <app-icon [name]="fact.icon" [size]="14" />
+                      </span>
+                      <div>
+                        <span class="cpp-stage__fact-label">{{ fact.label }}</span>
+                        <strong>{{ fact.value }}</strong>
+                      </div>
+                    </div>
+                  }
+                </div>
+              }
+              <span class="cpp-stage__cta">{{ d.stage.ctaLabel || 'Explore' }}</span>
+            </div>
+          }
+        </div>
+
+        <div class="cpp-intro__body">
+          @if (d.hasPageBlocks) {
+            <span class="cpp-intro__eyebrow">{{ d.overviewEyebrow || 'Overview' }}</span>
+          }
+          @for (paragraph of d.paragraphs; track $index) {
+            <p [class.cpp-intro__lead]="$index === 0">{{ paragraph }}</p>
+          } @empty {
+            <p class="cpp-placeholder">Introductory paragraphs appear here.</p>
+          }
+          @if (d.bullets.length) {
+            <div class="cpp-highlights">
+              <h4>{{ d.highlightsTitle || 'Highlights' }}</h4>
+              <ul class="cpp-bullets">
+                @for (bullet of d.bullets; track $index) {
+                  <li>
+                    <span class="cpp-bullet-icon"><app-icon name="check" [size]="13" /></span>
+                    <span>{{ bullet }}</span>
+                  </li>
+                }
+              </ul>
+            </div>
+          }
+          @if (d.note) {
+            <p class="cpp-note">
+              <app-icon name="clock" [size]="13" />
+              {{ d.note }}
+            </p>
+          }
+        </div>
+      </div>
+    }
+
+    @case ('stage') {
+      @if (d.hasPageBlocks && d.stage) {
+        <div class="cpp-stage-card">
+          <div class="cpp-stage-card__head">
+            <div>
+              <span class="cpp-stage-card__tag">{{ d.stage.tag || 'Stage' }}</span>
+              <h3>{{ d.stage.title || 'Stage title' }}</h3>
+            </div>
+            <span class="cpp-stage-card__badge">{{ d.stage.gradesBadge || 'Grades' }}</span>
+          </div>
+          @if (d.stage.facts.length) {
+            <div class="cpp-stage-card__facts">
+              @for (fact of d.stage.facts; track $index) {
+                <div class="cpp-stage-card__fact">
+                  <app-icon [name]="fact.icon" [size]="14" />
+                  <div>
+                    <span>{{ fact.label }}</span>
+                    <strong>{{ fact.value }}</strong>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+          <span class="cpp-stage-card__cta">{{ d.stage.ctaLabel || 'Explore' }}</span>
+        </div>
+      } @else {
+        <div class="cpp-empty">
+          <app-icon name="graduation-cap" [size]="24" />
+          <span>Stage summary card is shown only for Academic, School Life and Facilities subpages.</span>
+        </div>
+      }
+    }
+
+    @case ('headings') {
+      @if (d.hasPageBlocks) {
+        <div class="cpp-headings">
+          <div class="cpp-headings__item">
+            <span class="cpp-headings__label">Overview eyebrow</span>
+            <strong>{{ d.overviewEyebrow || 'Overview' }}</strong>
+          </div>
+          <div class="cpp-headings__item">
+            <span class="cpp-headings__label">Highlights heading</span>
+            <strong>{{ d.highlightsTitle || 'Highlights' }}</strong>
+          </div>
+          <div class="cpp-headings__item">
+            <span class="cpp-headings__label">Sections eyebrow</span>
+            <strong>{{ d.sectionsEyebrow || 'Sections' }}</strong>
+          </div>
+          <div class="cpp-headings__item">
+            <span class="cpp-headings__label">Sections title</span>
+            <strong>{{ d.sectionsTitle || 'Sections' }}</strong>
+          </div>
+          <div class="cpp-headings__item">
+            <span class="cpp-headings__label">FAQs eyebrow</span>
+            <strong>{{ d.faqsEyebrow || 'FAQs' }}</strong>
+          </div>
+          <div class="cpp-headings__item">
+            <span class="cpp-headings__label">FAQs title</span>
+            <strong>{{ d.faqsTitle || 'FAQs' }}</strong>
+          </div>
+          @if (d.faqsSubtitle) {
+            <div class="cpp-headings__item">
+              <span class="cpp-headings__label">FAQs subtitle</span>
+              <strong>{{ d.faqsSubtitle }}</strong>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="cpp-empty">
+          <app-icon name="menu" [size]="24" />
+          <span>Page headings are shown only for Academic, School Life and Facilities subpages.</span>
+        </div>
+      }
+    }
+
+    @case ('sections') {
+      @if (d.sections.length) {
+        <div class="cpp-sections">
+          @for (section of d.sections; track $index) {
+            <article class="cpp-section-card">
+              <div class="cpp-section-card__head">
+                <span class="cpp-section-card__indicator"></span>
+                <h4>{{ section.title || 'Untitled section' }}</h4>
+              </div>
+              @for (paragraph of section.paragraphs; track $index) {
+                <p>{{ paragraph }}</p>
+              } @empty {
+                <p class="cpp-placeholder">Section paragraphs appear here.</p>
+              }
+              @if (section.bullets.length) {
+                <ul class="cpp-bullets cpp-bullets--cards">
+                  @for (bullet of section.bullets; track $index) {
+                    <li>
+                      <span class="cpp-bullet-icon"><app-icon name="check" [size]="13" /></span>
+                      <span>{{ bullet }}</span>
+                    </li>
+                  }
+                </ul>
+              }
+            </article>
+          }
+        </div>
+      } @else {
+        <div class="cpp-empty">
+          <app-icon name="menu" [size]="24" />
+          <span>No content sections yet — add one below.</span>
+        </div>
+      }
+    }
+
+    @case ('faqs') {
+      @if (d.faqs.length) {
+        <div class="cpp-faqs">
+          <div class="cpp-faqs__head">
+            <span class="cpp-faqs__eyebrow">{{ d.faqsEyebrow || 'FAQs' }}</span>
+            <h4>{{ d.faqsTitle || 'Frequently asked questions' }}</h4>
+            @if (d.faqsSubtitle) {
+              <p>{{ d.faqsSubtitle }}</p>
+            }
+          </div>
+          <div class="cpp-faqs__list">
+            @for (faq of d.faqs; track $index) {
+              <article class="cpp-faq">
+                <span class="cpp-faq__num">Q{{ $index + 1 }}</span>
+                <div>
+                  <strong>{{ faq.question || 'Question' }}</strong>
+                  <p>{{ faq.answer || 'Answer appears here.' }}</p>
+                </div>
+              </article>
+            }
+          </div>
+        </div>
+      } @else {
+        <div class="cpp-empty">
+          <app-icon name="menu" [size]="24" />
+          <span>No FAQs yet — add one below.</span>
+        </div>
+      }
+    }
+
+    @case ('cta') {
+      @if (d.hasPageBlocks && d.cta) {
+        <div class="cpp-cta">
+          <span class="cpp-cta__tag">{{ d.cta.tag || 'CTA' }}</span>
+          <h3>{{ d.cta.title || 'Call to action' }}</h3>
+          <p>{{ d.cta.text || 'CTA description appears here.' }}</p>
+          <div class="cpp-cta__actions">
+            <span class="cpp-cta__btn cpp-cta__btn--primary">{{ d.cta.primaryLabel || 'Primary' }}</span>
+            <span class="cpp-cta__btn cpp-cta__btn--ghost">{{ d.cta.secondaryLabel || 'Secondary' }}</span>
+          </div>
+        </div>
+      } @else {
+        <div class="cpp-empty">
+          <app-icon name="megaphone" [size]="24" />
+          <span>Call to action is shown only for Academic, School Life and Facilities subpages.</span>
+        </div>
+      }
+    }
+  }
+</div>

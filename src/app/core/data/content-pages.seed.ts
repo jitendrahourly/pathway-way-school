@@ -4,6 +4,28 @@ export interface ContentPageSection {
   readonly bullets?: readonly string[];
 }
 
+export interface ContentPageStageFact {
+  readonly label: string;
+  readonly value: string;
+  readonly icon: string;
+}
+
+export interface ContentPageStage {
+  readonly tag: string;
+  readonly title: string;
+  readonly gradesBadge: string;
+  readonly ctaLabel: string;
+  readonly facts: readonly ContentPageStageFact[];
+}
+
+export interface ContentPageCta {
+  readonly tag: string;
+  readonly title: string;
+  readonly text: string;
+  readonly primaryLabel: string;
+  readonly secondaryLabel: string;
+}
+
 export interface ContentPageData {
   readonly title: string;
   readonly subtitle: string;
@@ -14,7 +36,115 @@ export interface ContentPageData {
   readonly sections?: readonly ContentPageSection[];
   readonly note?: string;
   readonly faqs?: readonly { readonly question: string; readonly answer: string }[];
+  readonly overviewEyebrow?: string;
+  readonly highlightsTitle?: string;
+  readonly sectionsEyebrow?: string;
+  readonly sectionsTitle?: string;
+  readonly faqsEyebrow?: string;
+  readonly faqsTitle?: string;
+  readonly faqsSubtitle?: string;
+  readonly mediaBadge?: string;
+  /** `null` records a deliberate removal of the stage card. */
+  readonly stage?: ContentPageStage | null;
+  /** `null` records a deliberate removal of the call to action. */
+  readonly cta?: ContentPageCta | null;
 }
+
+export interface ContentPageCopy {
+  readonly mediaBadge: string;
+  readonly overviewEyebrow: string;
+  readonly highlightsTitle: string;
+  readonly sectionsEyebrow: string;
+  readonly sectionsTitle: string;
+  readonly faqsEyebrow: string;
+  readonly faqsTitle: string;
+  readonly faqsSubtitle: string;
+}
+
+/**
+ * Headings used by every content page. The academic, School Life and Facilities
+ * families override the ones that differ, and the public page falls back to
+ * these values when an editor leaves a heading blank.
+ */
+export const CONTENT_PAGE_COPY: ContentPageCopy = {
+  mediaBadge: '',
+  overviewEyebrow: '',
+  highlightsTitle: 'Highlights',
+  sectionsEyebrow: 'Programme Details',
+  sectionsTitle: 'More About This Programme',
+  faqsEyebrow: 'Common Questions',
+  faqsTitle: 'Frequently Asked Questions',
+  faqsSubtitle: 'Answers to common queries about curriculum, routines, and admissions.',
+};
+
+/** Headings shared by the four academic level pages. */
+export const ACADEMIC_PAGE_COPY: ContentPageCopy = {
+  ...CONTENT_PAGE_COPY,
+  mediaBadge: 'Bright Way School · Estd. 1981',
+  overviewEyebrow: 'Academic Stage Overview',
+  highlightsTitle: 'Key Programme Highlights',
+  sectionsEyebrow: 'Curriculum & Methodology',
+  sectionsTitle: 'In-Depth Programme Structure',
+};
+
+/** Headings shared by the School Life sub-pages. */
+export const SCHOOL_LIFE_PAGE_COPY: ContentPageCopy = {
+  ...CONTENT_PAGE_COPY,
+  overviewEyebrow: 'School Life at Bright Way',
+};
+
+/** Headings shared by the Facilities sub-pages. */
+export const FACILITIES_PAGE_COPY: ContentPageCopy = {
+  ...CONTENT_PAGE_COPY,
+  overviewEyebrow: 'Campus Infrastructure & Learning Spaces',
+};
+
+/** Labels shared by the stage summary card on every academic level. */
+export const ACADEMIC_STAGE_COPY = {
+  tag: 'Stage Summary',
+  title: 'Quick Stage Facts',
+  ctaLabel: 'Enquire for Admissions',
+} as const;
+
+/** Labels shared by the at-a-glance card on every School Life sub-page. */
+export const SCHOOL_LIFE_STAGE_COPY = {
+  tag: 'School Life At a Glance',
+  ctaLabel: 'Explore All School Life',
+} as const;
+
+/** Labels shared by the at-a-glance card on every Facilities sub-page. */
+export const FACILITIES_STAGE_COPY = {
+  tag: 'Campus Infrastructure',
+  ctaLabel: 'Explore All Facilities',
+} as const;
+
+/** Admissions call to action shared by the four academic level pages. */
+export const ACADEMIC_CTA_COPY: ContentPageCta = {
+  tag: 'Admissions Enquiries',
+  // Each academic page seeds its own heading; this one is only the editor placeholder.
+  title: 'Interested in Enrolling for This Level?',
+  text: 'Admissions are open for the academic year. Contact our admissions office to schedule a campus visit, meet our faculty, or receive an admission application.',
+  primaryLabel: 'Submit Admission Enquiry',
+  secondaryLabel: 'View All Academic Levels',
+};
+
+/** Call to action shared by the School Life sub-pages. */
+export const SCHOOL_LIFE_CTA_COPY: ContentPageCta = {
+  tag: 'Explore School Life',
+  title: "There's More to Discover at Bright Way School",
+  text: 'From sporting competitions to cultural performances and student clubs, school life at Bright Way is rich and rewarding. Browse all areas of school life below.',
+  primaryLabel: 'All School Life Areas',
+  secondaryLabel: 'Contact the School',
+};
+
+/** Call to action shared by the Facilities sub-pages. */
+export const FACILITIES_CTA_COPY: ContentPageCta = {
+  tag: 'Campus Visit & Tour',
+  title: 'Experience Our Campus Firsthand',
+  text: 'We invite parents and prospective students to tour our classrooms, laboratories, library, and sports grounds. Schedule a visit with our admissions office today.',
+  primaryLabel: 'Schedule a Campus Visit',
+  secondaryLabel: 'View All Facilities',
+};
 
 const EVENTS_SEED: ContentPageData = {
   title: 'Events & Celebrations',
@@ -335,6 +465,23 @@ export const CONTENT_PAGES: Record<string, ContentPageData> = {
       'Warm, secure, hygienic classrooms with dedicated activity and reading corners',
     ],
     note: 'Kindergarten hours are gently paced with structured activity-rest rhythms. Teachers maintain continuous communication with parents to support every child\'s milestone progress.',
+    ...ACADEMIC_PAGE_COPY,
+    stage: {
+      ...ACADEMIC_STAGE_COPY,
+      gradesBadge: 'Pre-KG · LKG · UKG',
+      facts: [
+        { label: 'Classes Offered', value: 'Pre-KG, LKG & UKG', icon: 'book-open' },
+        { label: 'Age Group', value: '3 to 5.5 Years', icon: 'users' },
+        { label: 'School Hours', value: '8:45 AM – 12:30 PM (Mon–Fri)', icon: 'clock' },
+        { label: 'Teacher-Student Ratio', value: '15:1 (Individual Care)', icon: 'heart' },
+        { label: 'Learning Pedagogy', value: 'Play-Way & Hands-on Discovery', icon: 'eye' },
+        { label: 'Board / Affiliation', value: 'Karnataka State Educational Board', icon: 'graduation-cap' },
+      ],
+    },
+    cta: {
+      ...ACADEMIC_CTA_COPY,
+      title: 'Interested in Enrolling for Kindergarten?',
+    },
     sections: [
       {
         title: 'Our Early Learning Approach',
@@ -415,6 +562,23 @@ export const CONTENT_PAGES: Record<string, ContentPageData> = {
       'Continuous, constructive assessment designed to encourage mastery without undue stress',
     ],
     note: 'Primary school hours balance academic rigor with creative expression, library exploration, and outdoor play. Regular assessments provide constructive feedback on academic and personal growth.',
+    ...ACADEMIC_PAGE_COPY,
+    stage: {
+      ...ACADEMIC_STAGE_COPY,
+      gradesBadge: 'Grades 1 to 5',
+      facts: [
+        { label: 'Classes Offered', value: 'Class 1 to Class 5', icon: 'book-open' },
+        { label: 'Age Group', value: '6 to 10 Years', icon: 'users' },
+        { label: 'School Hours', value: '8:30 AM – 3:15 PM (Mon–Fri)', icon: 'clock' },
+        { label: 'Class Strength', value: '25 – 30 Students per Section', icon: 'users' },
+        { label: 'Languages Offered', value: 'English (Medium), Kannada, Hindi', icon: 'trophy' },
+        { label: 'Curriculum', value: 'Karnataka State Educational Board', icon: 'graduation-cap' },
+      ],
+    },
+    cta: {
+      ...ACADEMIC_CTA_COPY,
+      title: 'Interested in Enrolling for Primary School?',
+    },
     sections: [
       {
         title: 'Core Academic Curriculum',
@@ -491,6 +655,23 @@ export const CONTENT_PAGES: Record<string, ContentPageData> = {
       'Emphasis on study skills, time management, personal discipline, and social awareness',
     ],
     note: 'Middle school students are encouraged to take initiative in school clubs, house councils, and science exhibitions, cultivating self-discipline and leadership skills.',
+    ...ACADEMIC_PAGE_COPY,
+    stage: {
+      ...ACADEMIC_STAGE_COPY,
+      gradesBadge: 'Grades 6 to 8',
+      facts: [
+        { label: 'Classes Offered', value: 'Class 6 to Class 8', icon: 'book-open' },
+        { label: 'Age Group', value: '11 to 13 Years', icon: 'users' },
+        { label: 'School Hours', value: '8:30 AM – 3:30 PM (Mon–Fri)', icon: 'clock' },
+        { label: 'Laboratories', value: 'Composite Science & Computer Labs', icon: 'flask' },
+        { label: 'Evaluation System', value: 'Continuous & Comprehensive (CCE)', icon: 'target' },
+        { label: 'Curriculum', value: 'Karnataka State Board Syllabus', icon: 'graduation-cap' },
+      ],
+    },
+    cta: {
+      ...ACADEMIC_CTA_COPY,
+      title: 'Interested in Enrolling for Middle School?',
+    },
     sections: [
       {
         title: 'Academic Structure & Advanced Disciplines',
@@ -569,6 +750,23 @@ export const CONTENT_PAGES: Record<string, ContentPageData> = {
       'Leadership roles through Student Prefect Council, House Captaincy, and community initiatives',
     ],
     note: 'High school students undergo structured preparatory examinations, diagnostic reviews, and personal mentoring to ensure maximum confidence and top results in board examinations.',
+    ...ACADEMIC_PAGE_COPY,
+    stage: {
+      ...ACADEMIC_STAGE_COPY,
+      gradesBadge: 'Grades 9 & 10 (SSLC)',
+      facts: [
+        { label: 'Classes Offered', value: 'Class 9 & Class 10 (SSLC)', icon: 'book-open' },
+        { label: 'Age Group', value: '14 to 16 Years', icon: 'users' },
+        { label: 'School Hours', value: '8:30 AM – 4:00 PM (Special Batches)', icon: 'clock' },
+        { label: 'Board Examination', value: 'KSEAB (Karnataka State Board)', icon: 'graduation-cap' },
+        { label: 'Academic Track Record', value: 'Consistent 100% SSLC Pass Results', icon: 'trophy' },
+        { label: 'Student Support', value: 'Remedial Coaching & Mock Exams', icon: 'target' },
+      ],
+    },
+    cta: {
+      ...ACADEMIC_CTA_COPY,
+      title: 'Interested in Enrolling for High School?',
+    },
     sections: [
       {
         title: 'Secondary Curriculum & Core Subjects',
@@ -631,8 +829,24 @@ export const CONTENT_PAGES: Record<string, ContentPageData> = {
       },
     ],
   },
-  events: EVENTS_SEED,
-  'school-life-events': EVENTS_SEED,
+  'school-life-events': {
+    ...EVENTS_SEED,
+    ...SCHOOL_LIFE_PAGE_COPY,
+    stage: {
+      ...SCHOOL_LIFE_STAGE_COPY,
+      title: 'Events & Celebrations',
+      gradesBadge: 'Annual Calendar',
+      facts: [
+        { label: 'Flagship Celebration', value: 'Annual Day & Cultural Night', icon: 'trophy' },
+        { label: 'National Ceremonies', value: 'Independence & Republic Days', icon: 'calendar' },
+        { label: 'Cultural Festivals', value: 'Diwali, Dasara, Eid, Rajyotsava', icon: 'heart' },
+        { label: 'Student Involvement', value: '100% Student Participation', icon: 'users' },
+        { label: 'Parent Engagement', value: 'Parents Invited to Major Events', icon: 'eye' },
+        { label: 'Academic Showcases', value: 'Annual Science & Art Exhibition', icon: 'book-open' },
+      ],
+    },
+    cta: SCHOOL_LIFE_CTA_COPY,
+  },
   'school-life-student-activities': {
     title: 'Student Activities',
     subtitle: 'Learning Through Participation',
@@ -653,6 +867,21 @@ export const CONTENT_PAGES: Record<string, ContentPageData> = {
       'Leadership roles — class monitors, assembly anchors, house captains',
       'Community awareness and social service initiatives',
     ],
+    ...SCHOOL_LIFE_PAGE_COPY,
+    stage: {
+      ...SCHOOL_LIFE_STAGE_COPY,
+      title: 'Student Life & Growth',
+      gradesBadge: 'Grades 1 – 10',
+      facts: [
+        { label: 'Daily Routine', value: 'Morning Assembly & Speeches', icon: 'users' },
+        { label: 'House System', value: '4 Competitive Houses', icon: 'trophy' },
+        { label: 'Literary Contests', value: 'Debates, Elocution & Quizzes', icon: 'book-open' },
+        { label: 'Student Leadership', value: 'Captains, Prefects & Monitors', icon: 'target' },
+        { label: 'Project Work', value: 'Hands-on Science & Social Models', icon: 'flask' },
+        { label: 'Skill Building', value: 'Communication & Teamwork', icon: 'check' },
+      ],
+    },
+    cta: SCHOOL_LIFE_CTA_COPY,
     sections: [
       {
         title: 'Morning Assembly',
@@ -711,6 +940,21 @@ export const CONTENT_PAGES: Record<string, ContentPageData> = {
       'Swimming awareness and water safety activities',
       'Annual sports awards for outstanding athletes',
     ],
+    ...SCHOOL_LIFE_PAGE_COPY,
+    stage: {
+      ...SCHOOL_LIFE_STAGE_COPY,
+      title: 'Physical Education & Games',
+      gradesBadge: 'All Classes',
+      facts: [
+        { label: 'Outdoor Sports', value: 'Football, Volleyball, Kho-Kho', icon: 'trophy' },
+        { label: 'Athletics & Track', value: 'Sprints, Relays & Jumps', icon: 'target' },
+        { label: 'Curriculum Status', value: 'Structured Weekly PE Periods', icon: 'clock' },
+        { label: 'Mind & Wellness', value: 'Morning Yoga & Stretching', icon: 'heart' },
+        { label: 'Competitions', value: 'Inter-House & District Meets', icon: 'users' },
+        { label: 'Annual Sports Day', value: 'Full-Day Inter-House Meet', icon: 'calendar' },
+      ],
+    },
+    cta: SCHOOL_LIFE_CTA_COPY,
     sections: [
       {
         title: 'Physical Education Programme',
@@ -780,6 +1024,21 @@ export const CONTENT_PAGES: Record<string, ContentPageData> = {
       'Annual Day performances showcasing dance, drama, and music',
       'Art exhibitions for parents and the school community',
     ],
+    ...SCHOOL_LIFE_PAGE_COPY,
+    stage: {
+      ...SCHOOL_LIFE_STAGE_COPY,
+      title: 'Creative Arts & Culture',
+      gradesBadge: 'Expression & Pride',
+      facts: [
+        { label: 'Visual Arts', value: 'Drawing, Painting & Crafts', icon: 'image' },
+        { label: 'Performing Arts', value: 'Classical, Folk Dance & Drama', icon: 'heart' },
+        { label: 'Music Education', value: 'Vocal Training & Group Choirs', icon: 'users' },
+        { label: 'Stage Opportunities', value: 'Annual Day Performances', icon: 'trophy' },
+        { label: 'Exhibitions', value: 'Student Artwork Showcases', icon: 'eye' },
+        { label: 'Weekly Periods', value: 'Integrated in School Timetable', icon: 'clock' },
+      ],
+    },
+    cta: SCHOOL_LIFE_CTA_COPY,
     sections: [
       {
         title: 'Visual Arts Programme',
@@ -846,6 +1105,21 @@ export const CONTENT_PAGES: Record<string, ContentPageData> = {
       'Health & Wellness Club — nutrition awareness and mindful living',
       'Cultural & Heritage Club — exploring India\'s traditions, history, and regional arts',
     ],
+    ...SCHOOL_LIFE_PAGE_COPY,
+    stage: {
+      ...SCHOOL_LIFE_STAGE_COPY,
+      title: 'Student Clubs & Societies',
+      gradesBadge: 'Classes 5 – 10',
+      facts: [
+        { label: 'Active Clubs', value: 'Science, Eco, Literary & Math', icon: 'book-open' },
+        { label: 'Meeting Cadence', value: 'Weekly Activity Periods', icon: 'clock' },
+        { label: 'Faculty Guidance', value: 'Dedicated Teacher Advisors', icon: 'graduation-cap' },
+        { label: 'Community Service', value: 'Outreach & Awareness Drives', icon: 'heart' },
+        { label: 'Competitions', value: 'Science Fairs & Olympiads', icon: 'flask' },
+        { label: 'Participation', value: 'Collaborative Student Projects', icon: 'check' },
+      ],
+    },
+    cta: SCHOOL_LIFE_CTA_COPY,
     sections: [
       {
         title: 'Science Club',
@@ -915,6 +1189,21 @@ export const CONTENT_PAGES: Record<string, ContentPageData> = {
       'Science and project exhibition certificates',
       'Perfect attendance recognition at term-end',
     ],
+    ...SCHOOL_LIFE_PAGE_COPY,
+    stage: {
+      ...SCHOOL_LIFE_STAGE_COPY,
+      title: 'Student Accolades',
+      gradesBadge: 'Excellence Record',
+      facts: [
+        { label: 'Academic Merit', value: '100% SSLC Board Pass Record', icon: 'graduation-cap' },
+        { label: 'Sports Laurels', value: 'District & Interschool Trophies', icon: 'trophy' },
+        { label: 'Cultural Honours', value: 'Debate, Art & Dance Medals', icon: 'heart' },
+        { label: 'Annual Ceremonies', value: 'Annual Day & Sports Awards', icon: 'calendar' },
+        { label: 'Honour Boards', value: 'Class Toppers Displayed', icon: 'book-open' },
+        { label: 'Special Honour', value: 'Student of the Year Award', icon: 'target' },
+      ],
+    },
+    cta: SCHOOL_LIFE_CTA_COPY,
     sections: [
       {
         title: 'Academic Recognitions',
@@ -1058,6 +1347,21 @@ export const CONTENT_PAGES: Record<string, ContentPageData> = {
       'Dedicated class libraries and reading corners in primary sections',
       'Regular safety inspections, sanitisation, and child-safe infrastructure',
     ],
+    ...FACILITIES_PAGE_COPY,
+    stage: {
+      ...FACILITIES_STAGE_COPY,
+      title: 'Classroom Infrastructure',
+      gradesBadge: 'K – 10 Sections',
+      facts: [
+        { label: 'Room Environment', value: 'Natural Light & Cross Ventilation', icon: 'eye' },
+        { label: 'Class Size', value: '25 – 30 Students per Section', icon: 'users' },
+        { label: 'Furniture', value: 'Ergonomic Desks & Benches', icon: 'check' },
+        { label: 'Display Space', value: 'Student Artwork & Charts', icon: 'image' },
+        { label: 'Teaching Aids', value: 'Visual & Multimedia Aids', icon: 'monitor' },
+        { label: 'Hygiene & Cleanliness', value: 'Daily Campus Sanitisation', icon: 'heart' },
+      ],
+    },
+    cta: FACILITIES_CTA_COPY,
     sections: [
       {
         title: 'Ergonomic & Child-Friendly Design',
@@ -1119,6 +1423,21 @@ export const CONTENT_PAGES: Record<string, ContentPageData> = {
       'Lending facility allowing students to borrow books for home reading',
       'Annual Book Week celebrations with storytelling and book review competitions',
     ],
+    ...FACILITIES_PAGE_COPY,
+    stage: {
+      ...FACILITIES_STAGE_COPY,
+      title: 'Learning Resource Center',
+      gradesBadge: '5,000+ Books',
+      facts: [
+        { label: 'Total Volumes', value: 'Over 5,000 Curated Titles', icon: 'book-open' },
+        { label: 'Languages', value: 'English, Kannada, and Hindi', icon: 'trophy' },
+        { label: 'Lending Policy', value: 'Weekly Home Borrowing', icon: 'calendar' },
+        { label: 'Timetable Status', value: 'Scheduled Weekly Periods', icon: 'clock' },
+        { label: 'Senior Section', value: 'SSLC Reference & Question Banks', icon: 'graduation-cap' },
+        { label: 'Junior Programs', value: 'Story Circles & Book Weeks', icon: 'heart' },
+      ],
+    },
+    cta: FACILITIES_CTA_COPY,
     sections: [
       {
         title: 'Diverse & Curated Reading Collection',
@@ -1179,6 +1498,21 @@ export const CONTENT_PAGES: Record<string, ContentPageData> = {
       'UPS power backup ensuring uninterrupted practical sessions',
       'Faculty supervision during all laboratory periods to guide and support each learner',
     ],
+    ...FACILITIES_PAGE_COPY,
+    stage: {
+      ...FACILITIES_STAGE_COPY,
+      title: 'Digital Learning Center',
+      gradesBadge: '1:1 Workstations',
+      facts: [
+        { label: 'Computer Ratio', value: '1:1 Workstation per Student', icon: 'monitor' },
+        { label: 'Curriculum', value: 'Typing, Office Suites & Coding', icon: 'book-open' },
+        { label: 'Internet Safety', value: 'Strictly Filtered Educational Web', icon: 'target' },
+        { label: 'Power Backup', value: 'Continuous Online UPS Backup', icon: 'check' },
+        { label: 'Faculty Guidance', value: 'Specialized IT Instructors', icon: 'users' },
+        { label: 'Class Coverage', value: 'Starting from Grade 1', icon: 'graduation-cap' },
+      ],
+    },
+    cta: FACILITIES_CTA_COPY,
     sections: [
       {
         title: 'Age-Calibrated Technology Curriculum',
@@ -1239,6 +1573,21 @@ export const CONTENT_PAGES: Record<string, ContentPageData> = {
       'Annual Sports Day arena hosting march-pasts and inter-house competitions',
       'First-aid trained staff and child-safe ground maintenance protocols',
     ],
+    ...FACILITIES_PAGE_COPY,
+    stage: {
+      ...FACILITIES_STAGE_COPY,
+      title: 'Outdoor Sports & Athletics',
+      gradesBadge: 'Open Campus',
+      facts: [
+        { label: 'Ground Features', value: 'Multi-Sport Outdoor Arena', icon: 'trophy' },
+        { label: 'Field Games', value: 'Football, Kho-Kho, Kabaddi', icon: 'target' },
+        { label: 'Track Facilities', value: 'Sprints, Relays & Jump Pit', icon: 'calendar' },
+        { label: 'Primary Play', value: 'Child-Safe Slides & Swings', icon: 'heart' },
+        { label: 'Morning Fitness', value: 'Structured Yoga & Drills', icon: 'clock' },
+        { label: 'First Aid Safety', value: 'Trained Staff on Campus', icon: 'check' },
+      ],
+    },
+    cta: FACILITIES_CTA_COPY,
     sections: [
       {
         title: 'Outdoor Team Sports Courts',
@@ -1299,6 +1648,21 @@ export const CONTENT_PAGES: Record<string, ContentPageData> = {
       'Backup power generator supporting uninterrupted classroom and laboratory operations',
       'Environmentally conscious campus with waste segregation and tree-lined walkways',
     ],
+    ...FACILITIES_PAGE_COPY,
+    stage: {
+      ...FACILITIES_STAGE_COPY,
+      title: 'Campus Amenities & Safety',
+      gradesBadge: 'Safety Certified',
+      facts: [
+        { label: 'Science Laboratory', value: 'Fully Equipped Composite Lab', icon: 'flask' },
+        { label: 'Drinking Water', value: 'Multi-Stage Commercial RO Units', icon: 'heart' },
+        { label: 'Campus Security', value: 'CCTV Surveillance & Guard Gates', icon: 'eye' },
+        { label: 'Medical Care', value: 'First-Aid Infirmary Room', icon: 'check' },
+        { label: 'Multipurpose Hall', value: 'Assemblies & Cultural Staging', icon: 'users' },
+        { label: 'Power Infrastructure', value: 'Dedicated Generator Backup', icon: 'monitor' },
+      ],
+    },
+    cta: FACILITIES_CTA_COPY,
     sections: [
       {
         title: 'Composite Science Laboratory',

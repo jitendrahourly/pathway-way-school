@@ -1,0 +1,263 @@
+:host {
+  display: block;
+  padding: 1.35rem 1.5rem;
+  border-bottom: 1px solid var(--bw-line);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(48, 32, 93, 0.05), transparent 42%),
+    linear-gradient(180deg, #f7f5fc 0%, #f4f5f9 100%);
+}
+
+.adp {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--bw-body);
+}
+
+.adp h3,
+.adp h4,
+.adp p {
+  margin: 0;
+}
+
+.adp h3 {
+  font-family: var(--bw-font-display);
+  color: var(--bw-purple);
+  font-size: 1.3rem;
+  line-height: 1.2;
+}
+
+.adp-eyebrow {
+  margin-bottom: 0.3rem !important;
+  color: var(--bw-orange-dark);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.adp-placeholder,
+.adp-empty {
+  color: var(--bw-muted);
+  text-align: center;
+}
+
+.adp-empty {
+  padding: 1.5rem 1rem;
+  border: 1.5px dashed var(--bw-line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* --- Banner --------------------------------------------------------------- */
+.adp-banner {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 190px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #30205d 0%, #5b3d8f 100%);
+  box-shadow: 0 14px 30px rgba(48, 32, 93, 0.2);
+}
+
+.adp-banner__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.adp-banner__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(32, 20, 62, 0.86) 0%, rgba(32, 20, 62, 0.35) 60%, rgba(32, 20, 62, 0.15) 100%);
+}
+
+.adp-banner__copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.25rem 1.4rem;
+  max-width: 75%;
+}
+
+.adp-banner__copy .adp-eyebrow {
+  color: #f4b47a;
+}
+
+.adp-banner__copy h3 {
+  color: var(--bw-white);
+  font-size: 1.45rem;
+}
+
+.adp-banner__copy p:last-child {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.76rem;
+}
+
+/* --- Intro ---------------------------------------------------------------- */
+.adp-intro {
+  padding: 1.5rem 1.6rem;
+  border: 1px solid rgba(48, 32, 93, 0.08);
+  border-radius: 16px;
+  background: var(--bw-white);
+  text-align: center;
+}
+
+.adp-intro h3 {
+  color: var(--bw-purple);
+}
+
+.adp-intro p {
+  max-width: 520px;
+  margin: 0.4rem auto 0 !important;
+}
+
+.adp-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.65rem !important;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: var(--bw-orange-soft);
+  color: var(--bw-orange-dark);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+/* --- Sections ------------------------------------------------------------- */
+.adp-pending-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.adp-pending-card {
+  padding: 0.95rem;
+  border: 1px solid rgba(232, 121, 39, 0.25);
+  border-radius: 12px;
+  background: #fffaf4;
+}
+
+.adp-pending-card__eyebrow {
+  margin-bottom: 0.35rem;
+  color: var(--bw-orange-dark);
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.adp-pending-card h4 {
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+}
+
+.adp-pending-card p {
+  font-size: 0.72rem;
+}
+
+/* --- Contact block -------------------------------------------------------- */
+.adp-contact {
+  padding: 1.35rem 1.5rem;
+  border: 1px solid rgba(48, 32, 93, 0.08);
+  border-radius: 16px;
+  background: linear-gradient(180deg, #faf9fe 0%, #ffffff 100%);
+}
+
+.adp-contact__head {
+  margin-bottom: 0.85rem;
+}
+
+.adp-contact__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-bottom: 0.8rem;
+}
+
+.adp-contact__card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  padding: 0.75rem;
+  border: 1px solid var(--bw-line);
+  border-radius: 11px;
+  background: var(--bw-white);
+}
+
+.adp-contact__icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--bw-purple-soft);
+  color: var(--bw-purple);
+}
+
+.adp-contact__card div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.adp-contact__label {
+  color: var(--bw-muted);
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.adp-contact__value {
+  color: var(--bw-purple);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.adp-contact__note {
+  margin: 0.5rem 0 0.75rem !important;
+  color: var(--bw-body);
+  font-size: 0.72rem;
+}
+
+.adp-contact__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.adp-contact__btn {
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-weight: 700;
+}
+
+.adp-contact__btn--primary {
+  background: var(--bw-orange);
+  color: var(--bw-white);
+}
+
+.adp-contact__btn--purple {
+  background: var(--bw-purple);
+  color: var(--bw-white);
+}
+
+@media (max-width: 760px) {
+  .adp-pending-grid,
+  .adp-contact__grid {
+    grid-template-columns: 1fr;
+  }
+}

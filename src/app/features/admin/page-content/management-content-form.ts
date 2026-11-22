@@ -4,11 +4,14 @@ import {
   OnInit,
   QueryList,
   ViewChildren,
+  computed,
   inject,
   signal,
 } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 import { MANAGEMENT_CONTENT } from '../../../core/data/management.seed';
 import { mergeWithSeed } from '../../../core/data/seed-merge';
 import type {
@@ -22,15 +25,27 @@ import type { PageContentRecord } from '../../../core/models/supabase.model';
 import { AdminAuthService } from '../../../core/services/admin-auth.service';
 import { ContentService } from '../../../core/services/content.service';
 import { ImageUploadFieldComponent } from '../../../shared/components/image-upload-field/image-upload-field';
+import { UiIcon } from '../../../shared/components/ui-icon/ui-icon';
 import type { IconName } from '../../../shared/components/ui-icon/ui-icon';
+import { EditorItemComponent } from './editor-item/editor-item';
+import { EditorSectionComponent } from './editor-section/editor-section';
+import { ManagementPreview, type ManagementPreviewData } from './management-preview';
 
 type FormValue = Record<string, any>;
 
 @Component({
   selector: 'app-management-content-form',
-  imports: [ReactiveFormsModule, RouterLink, ImageUploadFieldComponent],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    ImageUploadFieldComponent,
+    UiIcon,
+    ManagementPreview,
+    EditorSectionComponent,
+    EditorItemComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrl: '../announcements/announcement-form.scss',
+  styleUrl: './management-content-form.scss',
   templateUrl: './management-content-form.html',
 })
 export class ManagementContentForm implements OnInit {
@@ -52,6 +67,47 @@ export class ManagementContentForm implements OnInit {
   @ViewChildren(ImageUploadFieldComponent)
   protected imageFields!: QueryList<ImageUploadFieldComponent>;
 
+  protected readonly openSections = signal<ReadonlySet<string>>(new Set<string>(['mg-banner']));
+  protected readonly openItems = signal<ReadonlySet<string>>(new Set<string>());
+
+  protected isSectionOpen(id: string): boolean {
+    return this.openSections().has(id);
+  }
+
+  protected toggleSection(id: string): void {
+    this.openSections.update((current) => {
+      const next = new Set(current);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  }
+
+  protected isItemOpen(array: string, index: number | string): boolean {
+    return this.openItems().has(`${array}:${index}`);
+  }
+
+  protected toggleItem(array: string, index: number | string): void {
+    const key = `${array}:${index}`;
+    this.openItems.update((current) => {
+      const next = new Set(current);
+      if (next.has(key)) {
+        next.delete(key);
+      } else {
+        next.add(key);
+      }
+      return next;
+    });
+  }
+
+  private openNewItem(array: string, index: number): void {
+    const key = `${array}:${index}`;
+    this.openItems.update((current) => new Set(current).add(key));
+  }
+
   protected readonly form = this.fb.group({
     banner: this.fb.group({
       title: [''],
@@ -72,6 +128,70 @@ export class ManagementContentForm implements OnInit {
     faculty: this.faculty,
     facultyNote: [''],
   });
+
+  protected readonly formValue = toSignal(
+    this.form.valueChanges.pipe(map(() => this.form.getRawValue() as FormValue)),
+    { initialValue: this.form.getRawValue() as FormValue },
+  );
+
+  protected readonly managementPreview = computed<ManagementPreviewData>(() => {
+    const value = this.formValue();
+    const banner = (value['banner'] ?? {}) as FormValue;
+    const principal = (value['principal'] ?? {}) as FormValue;
+    return {
+      banner: {
+        title: this.text(banner['title']),
+        subtitle: this.text(banner['subtitle']),
+        imageUrl: this.text(banner['imageUrl']),
+        imageAlt: this.text(banner['imageAlt']),
+      },
+      paragraphs: this.lines(value['paragraphs']),
+      principal: {
+        name: this.text(principal['name']),
+        role: this.text(principal['role']),
+        message: this.text(principal['message']),
+        messageSecondary: this.text(principal['messageSecondary']),
+        imageUrl: this.text(principal['imageUrl']),
+      },
+      facts: ((value['facts'] ?? []) as FormValue[]).map((fact) => ({
+        icon: this.iconName(fact['icon'], 'check'),
+        label: this.text(fact['label']),
+        value: this.text(fact['value']),
+      })),
+      facultyIntro: this.text(value['facultyIntro']),
+      faculty: ((value['faculty'] ?? []) as FormValue[]).map((member) => ({
+        name: this.text(member['name']),
+        role: this.text(member['role']),
+        subject: this.text(member['subject']),
+        qualification: this.text(member['qualification']),
+        experience: this.text(member['experience']),
+        imageUrl: this.text(member['imageUrl']),
+      })),
+      facultyNote: this.text(value['facultyNote']),
+    };
+  });
+
+  private text(value: unknown): string {
+    return typeof value === 'string' ? value.trim() : '';
+  }
+
+  private lines(value: unknown): string[] {
+    return String(value ?? '')
+      .split('\n')
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0);
+  }
+
+  private iconName(value: unknown, fallback: IconName): IconName {
+    const val = typeof value === 'string' ? value.trim() : '';
+    const valid: readonly string[] = [
+      'phone', 'mail', 'map-pin', 'instagram', 'facebook', 'youtube', 'menu', 'close',
+      'arrow-right', 'arrow-up-right', 'graduation-cap', 'users', 'trophy', 'heart',
+      'eye', 'target', 'book-open', 'flask', 'monitor', 'calendar', 'megaphone',
+      'image', 'chevron-right', 'clock', 'external-link', 'check',
+    ];
+    return valid.includes(val) ? (val as IconName) : fallback;
+  }
 
   async ngOnInit(): Promise<void> {
     await this.load();
@@ -131,6 +251,7 @@ export class ManagementContentForm implements OnInit {
 
   protected addFact(): void {
     this.facts.push(this.fb.group({ icon: ['check'], label: [''], value: [''] }));
+    this.openNewItem('facts', this.facts.length - 1);
   }
 
   protected removeFact(index: number): void {
@@ -148,6 +269,7 @@ export class ManagementContentForm implements OnInit {
         imageUrl: [''],
       }),
     );
+    this.openNewItem('faculty', this.faculty.length - 1);
   }
 
   protected removeFaculty(index: number): void {
@@ -238,13 +360,6 @@ export class ManagementContentForm implements OnInit {
     } finally {
       this.saving.set(false);
     }
-  }
-
-  private lines(value: unknown): string[] {
-    return String(value ?? '')
-      .split('\n')
-      .map((line) => line.trim())
-      .filter((line) => line.length > 0);
   }
 
   protected cancel(): void {

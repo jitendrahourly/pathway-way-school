@@ -1,0 +1,76 @@
+@let d = data();
+
+<div class="anp" aria-hidden="true">
+  @switch (section()) {
+    @case ('banner') {
+      <div class="anp-banner">
+        @if (d.banner.imageUrl) {
+          <img class="anp-banner__image" [src]="d.banner.imageUrl" [alt]="d.banner.imageAlt || 'Announcements banner image'" />
+        }
+        <div class="anp-banner__scrim"></div>
+        <div class="anp-banner__copy">
+          <p class="anp-eyebrow">Announcements</p>
+          <h3>{{ d.banner.title || 'Announcements' }}</h3>
+          <p>{{ d.banner.subtitle || 'Latest news and updates.' }}</p>
+        </div>
+      </div>
+    }
+
+    @case ('intro') {
+      <div class="anp-intro">
+        <p class="anp-eyebrow">{{ d.intro.eyebrow || 'Announcements' }}</p>
+        <h3>{{ d.intro.title || 'Announcements' }}</h3>
+        @for (paragraph of d.intro.paragraphs; track $index) {
+          <p>{{ paragraph }}</p>
+        } @empty {
+          <p class="anp-placeholder">Introductory paragraphs appear here.</p>
+        }
+      </div>
+    }
+
+    @case ('list') {
+      <div class="anp-list">
+        <h3>{{ d.list.listHeading || 'Latest announcements' }}</h3>
+        <div class="anp-list__filters" [attr.aria-label]="d.list.filterLabel || 'Announcement filters'">
+          <span class="anp-chip anp-chip--active">All</span>
+          <span class="anp-chip">General</span>
+          <span class="anp-chip">Events</span>
+        </div>
+        <div class="anp-list__cards">
+          <article class="anp-card">
+            <span class="anp-card__date">Sample date</span>
+            <h4>Sample announcement title</h4>
+            <p>Sample announcement summary appears here.</p>
+          </article>
+          <article class="anp-card">
+            <span class="anp-card__date">Sample date</span>
+            <h4>Another announcement</h4>
+            <p>Another summary appears here.</p>
+          </article>
+        </div>
+      </div>
+    }
+
+    @case ('empty') {
+      <div class="anp-empty">
+        <h3>{{ d.empty.title || 'No announcements yet' }}</h3>
+        <p>{{ d.empty.message || 'Check back soon for updates.' }}</p>
+        <p class="anp-empty__note">{{ d.empty.contactNote || 'Contact note appears here.' }}</p>
+      </div>
+    }
+
+    @case ('detail') {
+      <div class="anp-detail">
+        <span class="anp-detail__back">{{ d.detail.backLabel || 'Back to announcements' }}</span>
+        <div class="anp-detail__unavailable">
+          <h3>{{ d.detail.unavailableTitle || 'Announcement unavailable' }}</h3>
+          <p>{{ d.detail.unavailableMessage || 'This announcement is no longer available.' }}</p>
+          <span class="anp-detail__link">{{ d.detail.unavailableLinkLabel || 'View all announcements' }}</span>
+        </div>
+        <p class="anp-detail__fallback">
+          {{ d.detail.fallbackBannerSubtitle || 'Fallback subtitle appears here.' }}
+        </p>
+      </div>
+    }
+  }
+</div>

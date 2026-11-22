@@ -1,0 +1,43 @@
+@let newsletter = content().newsletter;
+
+@if (newsletter) {
+  <section class="home-newsletter" aria-labelledby="home-newsletter-title">
+    <div class="container">
+      <div class="home-newsletter__card" appScrollReveal>
+        <span class="home-newsletter__orb" aria-hidden="true"></span>
+        <span class="home-newsletter__dots" aria-hidden="true"></span>
+
+        <div class="home-newsletter__intro">
+          <span class="home-newsletter__icon">
+            <app-icon name="mail" [size]="22" />
+          </span>
+          <div>
+            <p class="home-newsletter__eyebrow">{{ newsletter.eyebrow || 'Stay in touch' }}</p>
+            <h2 id="home-newsletter-title">{{ newsletter.title || 'Stay updated' }}</h2>
+            <p class="home-newsletter__text">
+              {{ newsletter.text || 'Receive school news and announcements in your inbox.' }}
+            </p>
+          </div>
+        </div>
+
+        <form class="home-newsletter__form" (submit)="$event.preventDefault()">
+          <label class="visually-hidden" for="home-newsletter-email">Email address</label>
+          <div class="home-newsletter__field">
+            <app-icon name="mail" [size]="17" />
+            <input
+              id="home-newsletter-email"
+              type="email"
+              name="email"
+              autocomplete="email"
+              [placeholder]="newsletter.placeholder || 'Enter your email address'"
+            />
+          </div>
+          <button type="submit" class="btn btn--primary">
+            {{ newsletter.buttonLabel || 'Subscribe' }}
+            <app-icon name="arrow-right" [size]="15" />
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+}

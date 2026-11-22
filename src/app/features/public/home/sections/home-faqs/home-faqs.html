@@ -1,0 +1,70 @@
+@let items = faqs();
+
+@if (items.length) {
+  <section class="home-faqs" aria-labelledby="home-faqs-title">
+    <div class="container home-faqs__layout">
+      <div class="home-faqs__intro" appScrollReveal>
+        <span class="home-faqs__shape" aria-hidden="true"></span>
+        <p class="eyebrow">{{ head().eyebrow }}</p>
+        <h2 id="home-faqs-title">{{ head().title }}</h2>
+        <p class="home-faqs__text">{{ head().text }}</p>
+
+        <div class="home-faqs__contact">
+          <span class="home-faqs__contact-icon">
+            <app-icon name="phone" [size]="20" />
+          </span>
+          <div class="home-faqs__contact-body">
+            <strong>{{ head().contactTitle }}</strong>
+            <a [href]="'tel:' + settings().phone">{{ settings().phone }}</a>
+          </div>
+        </div>
+
+        @if (head().linkLabel) {
+          <a class="home-faqs__link" [routerLink]="head().linkUrl || '/contact'">
+            {{ head().linkLabel }}
+            <app-icon name="arrow-right" [size]="15" />
+          </a>
+        }
+      </div>
+
+      <div class="home-faqs__list">
+        @for (faq of items; track faq.question; let i = $index) {
+          <article
+            class="faq"
+            [class.is-open]="openIndex() === i"
+            appScrollReveal
+            [revealDelay]="i * 70"
+          >
+            <h3 class="faq__heading">
+              <button
+                type="button"
+                class="faq__trigger"
+                [id]="'home-faq-trigger-' + i"
+                [attr.aria-expanded]="openIndex() === i"
+                [attr.aria-controls]="'home-faq-panel-' + i"
+                (click)="toggle(i)"
+              >
+                <span class="faq__question">{{ faq.question }}</span>
+                <span class="faq__icon" aria-hidden="true">
+                  <app-icon name="chevron-right" [size]="18" />
+                </span>
+              </button>
+            </h3>
+
+            <div
+              class="faq__panel"
+              [id]="'home-faq-panel-' + i"
+              role="region"
+              [attr.aria-labelledby]="'home-faq-trigger-' + i"
+              [attr.aria-hidden]="openIndex() === i ? null : 'true'"
+            >
+              <div class="faq__panel-inner">
+                <p>{{ faq.answer }}</p>
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+}

@@ -5,10 +5,26 @@
     [alt]="facility().imageAlt"
     ratio="4/3"
   />
+  @if (facility().caption) {
+    <figcaption class="facility__caption">{{ facility().caption }}</figcaption>
+  }
   <div class="facility__body">
     <h3>{{ facility().title }}</h3>
     @if (!compact()) {
       <p>{{ facility().description }}</p>
+      @if (facility().detailedDescription) {
+        <p class="facility__detail">{{ facility().detailedDescription }}</p>
+      }
+      @if (facility().highlights?.length) {
+        <ul class="facility__highlights">
+          @for (highlight of facility().highlights; track highlight) {
+            <li>{{ highlight }}</li>
+          }
+        </ul>
+      }
+      @if (facility().buttonLabel && facility().buttonLink) {
+        <a [routerLink]="facility().buttonLink" class="facility__cta">{{ facility().buttonLabel }}</a>
+      }
     }
   </div>
 </article>

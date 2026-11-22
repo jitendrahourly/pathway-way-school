@@ -76,38 +76,40 @@
           @if (isAcademics()) {
             <div class="content-page__media-badge">
               <app-icon name="graduation-cap" [size]="18" />
-              <span>Bright Way School · Estd. 1981</span>
+              <span>{{ content.mediaBadge || pageCopy().mediaBadge }}</span>
             </div>
           }
         </div>
 
         @if (stageDetails(); as stage) {
-          <div class="stage-facts-card">
+          <div class="stage-facts-card" [class.stage-facts-card--no-facts]="!stage.facts.length">
             <div class="stage-facts-card__header">
               <div class="facts-header__text">
-                <span class="facts-header__tag">Stage Summary</span>
-                <h3 class="facts-header__title">Quick Stage Facts</h3>
+                <span class="facts-header__tag">{{ stage.tag || stageCopy.tag }}</span>
+                <h3 class="facts-header__title">{{ stage.title || stageCopy.title }}</h3>
               </div>
               <span class="facts-header__badge">{{ stage.gradesBadge }}</span>
             </div>
 
-            <div class="stage-facts-card__list">
-              @for (fact of stage.facts; track fact.label) {
-                <div class="stage-fact-item">
-                  <div class="fact-icon-box">
-                    <app-icon [name]="fact.icon" [size]="16" />
+            @if (stage.facts.length) {
+              <div class="stage-facts-card__list">
+                @for (fact of stage.facts; track $index) {
+                  <div class="stage-fact-item">
+                    <div class="fact-icon-box">
+                      <app-icon [name]="fact.icon" [size]="16" />
+                    </div>
+                    <div class="fact-content">
+                      <span class="fact-label">{{ fact.label }}</span>
+                      <strong class="fact-value">{{ fact.value }}</strong>
+                    </div>
                   </div>
-                  <div class="fact-content">
-                    <span class="fact-label">{{ fact.label }}</span>
-                    <strong class="fact-value">{{ fact.value }}</strong>
-                  </div>
-                </div>
-              }
-            </div>
+                }
+              </div>
+            }
 
             <div class="stage-facts-card__action">
               <a routerLink="/admissions/enquiry" class="btn btn--primary facts-action-btn">
-                <span>Enquire for Admissions</span>
+                <span>{{ stage.ctaLabel || stageCopy.ctaLabel }}</span>
                 <app-icon name="arrow-right" [size]="15" />
               </a>
             </div>
@@ -115,32 +117,34 @@
         }
 
         @if (schoolLifeDetails(); as details) {
-          <div class="stage-facts-card stage-facts-card--school-life">
+          <div class="stage-facts-card stage-facts-card--school-life" [class.stage-facts-card--no-facts]="!details.facts.length">
             <div class="stage-facts-card__header">
               <div class="facts-header__text">
-                <span class="facts-header__tag">School Life At a Glance</span>
-                <h3 class="facts-header__title">{{ details.headline }}</h3>
+                <span class="facts-header__tag">{{ details.tag || schoolLifeStageCopy.tag }}</span>
+                <h3 class="facts-header__title">{{ details.title }}</h3>
               </div>
               <span class="facts-header__badge">{{ details.gradesBadge }}</span>
             </div>
 
-            <div class="stage-facts-card__list">
-              @for (fact of details.facts; track fact.label) {
-                <div class="stage-fact-item">
-                  <div class="fact-icon-box">
-                    <app-icon [name]="fact.icon" [size]="16" />
+            @if (details.facts.length) {
+              <div class="stage-facts-card__list">
+                @for (fact of details.facts; track $index) {
+                  <div class="stage-fact-item">
+                    <div class="fact-icon-box">
+                      <app-icon [name]="fact.icon" [size]="16" />
+                    </div>
+                    <div class="fact-content">
+                      <span class="fact-label">{{ fact.label }}</span>
+                      <strong class="fact-value">{{ fact.value }}</strong>
+                    </div>
                   </div>
-                  <div class="fact-content">
-                    <span class="fact-label">{{ fact.label }}</span>
-                    <strong class="fact-value">{{ fact.value }}</strong>
-                  </div>
-                </div>
-              }
-            </div>
+                }
+              </div>
+            }
 
             <div class="stage-facts-card__action">
               <a routerLink="/school-life" class="btn btn--primary facts-action-btn">
-                <span>Explore All School Life</span>
+                <span>{{ details.ctaLabel || schoolLifeStageCopy.ctaLabel }}</span>
                 <app-icon name="arrow-right" [size]="15" />
               </a>
             </div>
@@ -148,32 +152,34 @@
         }
 
         @if (facilitiesDetails(); as details) {
-          <div class="stage-facts-card stage-facts-card--facilities">
+          <div class="stage-facts-card stage-facts-card--facilities" [class.stage-facts-card--no-facts]="!details.facts.length">
             <div class="stage-facts-card__header">
               <div class="facts-header__text">
-                <span class="facts-header__tag">Campus Infrastructure</span>
-                <h3 class="facts-header__title">{{ details.headline }}</h3>
+                <span class="facts-header__tag">{{ details.tag || facilitiesStageCopy.tag }}</span>
+                <h3 class="facts-header__title">{{ details.title }}</h3>
               </div>
               <span class="facts-header__badge">{{ details.gradesBadge }}</span>
             </div>
 
-            <div class="stage-facts-card__list">
-              @for (fact of details.facts; track fact.label) {
-                <div class="stage-fact-item">
-                  <div class="fact-icon-box">
-                    <app-icon [name]="fact.icon" [size]="16" />
+            @if (details.facts.length) {
+              <div class="stage-facts-card__list">
+                @for (fact of details.facts; track $index) {
+                  <div class="stage-fact-item">
+                    <div class="fact-icon-box">
+                      <app-icon [name]="fact.icon" [size]="16" />
+                    </div>
+                    <div class="fact-content">
+                      <span class="fact-label">{{ fact.label }}</span>
+                      <strong class="fact-value">{{ fact.value }}</strong>
+                    </div>
                   </div>
-                  <div class="fact-content">
-                    <span class="fact-label">{{ fact.label }}</span>
-                    <strong class="fact-value">{{ fact.value }}</strong>
-                  </div>
-                </div>
-              }
-            </div>
+                }
+              </div>
+            }
 
             <div class="stage-facts-card__action">
               <a routerLink="/facilities" class="btn btn--primary facts-action-btn">
-                <span>Explore All Facilities</span>
+                <span>{{ details.ctaLabel || facilitiesStageCopy.ctaLabel }}</span>
                 <app-icon name="arrow-right" [size]="15" />
               </a>
             </div>
@@ -183,12 +189,8 @@
 
       <!-- Main Overview & Highlights Column -->
       <div class="content-page__body">
-        @if (isAcademics()) {
-          <span class="content-page__eyebrow">Academic Stage Overview</span>
-        } @else if (isSchoolLife()) {
-          <span class="content-page__eyebrow">School Life at Bright Way</span>
-        } @else if (isFacilities()) {
-          <span class="content-page__eyebrow">Campus Infrastructure &amp; Learning Spaces</span>
+        @if (isAcademics() || isSchoolLife() || isFacilities()) {
+          <span class="content-page__eyebrow">{{ content.overviewEyebrow || pageCopy().overviewEyebrow }}</span>
         }
 
         @for (paragraph of content.paragraphs; track $index) {
@@ -197,7 +199,9 @@
 
         @if (content.bullets?.length) {
           <div class="content-page__highlights">
-            <h3 class="highlights-title">{{ isAcademics() ? 'Key Programme Highlights' : 'Highlights' }}</h3>
+            <h3 class="highlights-title">
+              {{ content.highlightsTitle || pageCopy().highlightsTitle }}
+            </h3>
             <ul class="content-page__bullets">
               @for (bullet of content.bullets; track bullet) {
                 <li>
@@ -225,8 +229,12 @@
     @if (content.sections?.length) {
       <div class="container content-page__sections">
         <div class="sections-intro">
-          <span class="sections-eyebrow">{{ isAcademics() ? 'Curriculum & Methodology' : 'Programme Details' }}</span>
-          <h2>{{ isAcademics() ? 'In-Depth Programme Structure' : 'More About This Programme' }}</h2>
+          <span class="sections-eyebrow">
+            {{ content.sectionsEyebrow || pageCopy().sectionsEyebrow }}
+          </span>
+          <h2>
+            {{ content.sectionsTitle || pageCopy().sectionsTitle }}
+          </h2>
         </div>
 
         <div class="sections-grid">
@@ -261,9 +269,13 @@
       <section class="content-page__faqs" aria-labelledby="faq-heading">
         <div class="container">
           <div class="faqs-header">
-            <span class="faqs-eyebrow">Common Questions</span>
-            <h2 id="faq-heading" class="content-page__faq-heading">Frequently Asked Questions</h2>
-            <p class="faqs-sub">Answers to common queries about curriculum, routines, and admissions.</p>
+            <span class="faqs-eyebrow">{{ content.faqsEyebrow || pageCopy().faqsEyebrow }}</span>
+            <h2 id="faq-heading" class="content-page__faq-heading">
+              {{ content.faqsTitle || pageCopy().faqsTitle }}
+            </h2>
+            <p class="faqs-sub">
+              {{ content.faqsSubtitle || pageCopy().faqsSubtitle }}
+            </p>
           </div>
 
           <div class="content-page__faq-list">
@@ -300,75 +312,80 @@
     }
 
     @if (isAcademics()) {
-      <div class="container">
-        <div class="academics-subpage-cta">
-          <div class="subpage-cta__content">
-            <span class="subpage-cta__tag">Admissions Enquiries</span>
-            <h2>Interested in Enrolling for {{ content.title }}?</h2>
-            <p>
-              Admissions are open for the academic year. Contact our admissions office to schedule a campus visit,
-              meet our faculty, or receive an admission application.
-            </p>
-            <div class="subpage-cta__actions">
-              <a routerLink="/admissions/enquiry" class="btn btn--primary">
-                <span>Submit Admission Enquiry</span>
-                <app-icon name="arrow-right" [size]="16" />
-              </a>
-              <a routerLink="/academics" class="btn btn--outline">
-                <span>View All Academic Levels</span>
-              </a>
+      @if (content.cta; as cta) {
+        <div class="container">
+          <div class="academics-subpage-cta">
+            <div class="subpage-cta__content">
+              <span class="subpage-cta__tag">{{ cta.tag || ctaCopy.tag }}</span>
+              <h2>
+                {{ cta.title || 'Interested in Enrolling for ' + content.title + '?' }}
+              </h2>
+              <p>
+                {{ cta.text || ctaCopy.text }}
+              </p>
+              <div class="subpage-cta__actions">
+                <a routerLink="/admissions/enquiry" class="btn btn--primary">
+                  <span>{{ cta.primaryLabel || ctaCopy.primaryLabel }}</span>
+                  <app-icon name="arrow-right" [size]="16" />
+                </a>
+                <a routerLink="/academics" class="btn btn--outline">
+                  <span>{{ cta.secondaryLabel || ctaCopy.secondaryLabel }}</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      }
     }
 
     @if (isSchoolLife()) {
-      <div class="container">
-        <div class="school-life-subpage-cta">
-          <div class="subpage-cta__content">
-            <span class="subpage-cta__tag">Explore School Life</span>
-            <h2>There's More to Discover at Bright Way School</h2>
-            <p>
-              From sporting competitions to cultural performances and student clubs, school life at Bright Way is rich
-              and rewarding. Browse all areas of school life below.
-            </p>
-            <div class="subpage-cta__actions">
-              <a routerLink="/school-life" class="btn btn--primary">
-                <span>All School Life Areas</span>
-                <app-icon name="arrow-right" [size]="16" />
-              </a>
-              <a routerLink="/contact" class="btn btn--outline">
-                <span>Contact the School</span>
-              </a>
+      @if (content.cta; as cta) {
+        <div class="container">
+          <div class="school-life-subpage-cta">
+            <div class="subpage-cta__content">
+              <span class="subpage-cta__tag">{{ cta.tag || schoolLifeCtaCopy.tag }}</span>
+              <h2>{{ cta.title || schoolLifeCtaCopy.title }}</h2>
+              <p>
+                {{ cta.text || schoolLifeCtaCopy.text }}
+              </p>
+              <div class="subpage-cta__actions">
+                <a routerLink="/school-life" class="btn btn--primary">
+                  <span>{{ cta.primaryLabel || schoolLifeCtaCopy.primaryLabel }}</span>
+                  <app-icon name="arrow-right" [size]="16" />
+                </a>
+                <a routerLink="/contact" class="btn btn--outline">
+                  <span>{{ cta.secondaryLabel || schoolLifeCtaCopy.secondaryLabel }}</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      }
     }
 
     @if (isFacilities()) {
-      <div class="container">
-        <div class="facilities-subpage-cta">
-          <div class="subpage-cta__content">
-            <span class="subpage-cta__tag">Campus Visit &amp; Tour</span>
-            <h2>Experience Our Campus Firsthand</h2>
-            <p>
-              We invite parents and prospective students to tour our classrooms, laboratories, library, and sports grounds.
-              Schedule a visit with our admissions office today.
-            </p>
-            <div class="subpage-cta__actions">
-              <a routerLink="/contact" class="btn btn--primary">
-                <span>Schedule a Campus Visit</span>
-                <app-icon name="arrow-right" [size]="16" />
-              </a>
-              <a routerLink="/facilities" class="btn btn--outline">
-                <span>View All Facilities</span>
-              </a>
+      @if (content.cta; as cta) {
+        <div class="container">
+          <div class="facilities-subpage-cta">
+            <div class="subpage-cta__content">
+              <span class="subpage-cta__tag">{{ cta.tag || facilitiesCtaCopy.tag }}</span>
+              <h2>{{ cta.title || facilitiesCtaCopy.title }}</h2>
+              <p>
+                {{ cta.text || facilitiesCtaCopy.text }}
+              </p>
+              <div class="subpage-cta__actions">
+                <a routerLink="/contact" class="btn btn--primary">
+                  <span>{{ cta.primaryLabel || facilitiesCtaCopy.primaryLabel }}</span>
+                  <app-icon name="arrow-right" [size]="16" />
+                </a>
+                <a routerLink="/facilities" class="btn btn--outline">
+                  <span>{{ cta.secondaryLabel || facilitiesCtaCopy.secondaryLabel }}</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      }
     }
   </section>
 } @else {

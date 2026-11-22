@@ -1,0 +1,87 @@
+@use '../announcements/announcements-list';
+
+.contact-messages__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contact-messages__card {
+  padding: 1.1rem 1.25rem;
+  border-radius: 14px;
+  background: var(--bw-white);
+  border: 1px solid var(--bw-line);
+  box-shadow: var(--bw-shadow-sm);
+}
+
+.contact-messages__card--unread {
+  border-left: 4px solid var(--bw-orange);
+}
+
+.contact-messages__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.contact-messages__head strong {
+  color: var(--bw-purple);
+  font-size: 0.95rem;
+}
+
+.contact-messages__email {
+  display: block;
+  color: var(--bw-muted);
+  font-size: 0.78rem;
+}
+
+.contact-messages__date {
+  color: var(--bw-muted);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.contact-messages__subject {
+  margin: 0.35rem 0 0.25rem;
+  color: var(--bw-ink);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.contact-messages__phone {
+  margin: 0 0 0.35rem;
+  color: var(--bw-body);
+  font-size: 0.8rem;
+}
+
+.contact-messages__message {
+  margin: 0.35rem 0 0.75rem;
+  color: var(--bw-body);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.contact-messages__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.contact-messages__modal-meta {
+  color: var(--bw-muted);
+  font-size: 0.82rem;
+  margin-bottom: 0.75rem;
+}
+
+.contact-messages__modal-message {
+  margin-top: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  background: var(--bw-bg);
+  color: var(--bw-body);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}

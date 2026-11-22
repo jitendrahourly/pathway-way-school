@@ -1,0 +1,50 @@
+@let items = achievements();
+
+@if (items.length) {
+  <section class="home-achievements" aria-labelledby="home-achievements-title">
+    <div class="container home-achievements__layout">
+      <div class="home-achievements__intro" appScrollReveal>
+        <p class="eyebrow">{{ head().eyebrow }}</p>
+        <h2 id="home-achievements-title">{{ head().title }}</h2>
+        <p class="home-achievements__text">{{ head().text }}</p>
+
+        <div class="home-achievements__photo">
+          <img
+            [src]="image()"
+            [alt]="photo().imageAlt || 'Students celebrating a school achievement at Bright Way School'"
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="home-achievements__photo-badge">
+            <app-icon name="trophy" [size]="18" />
+            {{ photo().badge || 'Student success' }}
+          </span>
+        </div>
+
+        @if (head().linkLabel) {
+          <a class="home-achievements__link" [routerLink]="head().linkUrl || '/school-life'">
+            {{ head().linkLabel }}
+            <app-icon name="arrow-right" [size]="15" />
+          </a>
+        }
+      </div>
+
+      <ol class="home-achievements__list">
+        @for (item of items; track item.title; let i = $index) {
+          <li class="achievement" appScrollReveal [revealDelay]="i * 90">
+            <span class="achievement__icon">
+              <app-icon [name]="item.icon" [size]="20" />
+            </span>
+            <div class="achievement__body">
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.description }}</p>
+            </div>
+            <span class="achievement__arrow" aria-hidden="true">
+              <app-icon name="arrow-up-right" [size]="16" />
+            </span>
+          </li>
+        }
+      </ol>
+    </div>
+  </section>
+}

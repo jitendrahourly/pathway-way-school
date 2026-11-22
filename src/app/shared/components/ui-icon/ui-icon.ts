@@ -11,6 +11,7 @@ export type IconName =
   | 'close'
   | 'arrow-right'
   | 'arrow-up-right'
+  | 'play'
   | 'graduation-cap'
   | 'users'
   | 'trophy'
@@ -24,6 +25,7 @@ export type IconName =
   | 'megaphone'
   | 'image'
   | 'chevron-right'
+  | 'chevron-left'
   | 'clock'
   | 'external-link'
   | 'check';

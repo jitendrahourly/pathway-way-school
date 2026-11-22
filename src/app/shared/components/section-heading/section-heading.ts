@@ -12,6 +12,7 @@ import { IconName, UiIcon } from '../ui-icon/ui-icon';
 export class SectionHeading {
   readonly title = input.required<string>();
   readonly eyebrow = input<string>();
+  readonly subtitle = input<string>();
   readonly icon = input<IconName>();
   readonly link = input<string>();
   readonly linkLabel = input('View All');

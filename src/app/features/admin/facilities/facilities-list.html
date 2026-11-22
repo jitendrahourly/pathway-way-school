@@ -1,0 +1,146 @@
+<section class="ann-list ann-list--facilities">
+  <header class="ann-list__header">
+    <div>
+      <p class="ann-list__eyebrow">Content</p>
+      <h1>Facilities</h1>
+      <p class="ann-list__sub">
+        Manage the facility cards shown on the home page and the Facilities page.
+      </p>
+    </div>
+    <a class="btn btn--primary" routerLink="/admin/facilities/new">+ Add Facility</a>
+  </header>
+
+  @if (loading()) {
+    <div class="ann-list__state">Loading facilities…</div>
+  } @else if (error()) {
+    <div class="ann-list__state ann-list__state--error">{{ error() }}</div>
+  } @else if (items().length === 0) {
+    <div class="ann-list__state">
+      No facilities saved yet. The public site currently shows the built-in facility cards.
+    </div>
+  } @else {
+    <div class="ann-list__table-wrap">
+      <table class="ann-list__table">
+        <colgroup>
+          <col style="width: 7%" />
+          <col style="width: 15%" />
+          <col style="width: 38%" />
+          <col style="width: 7%" />
+          <col style="width: 10%" />
+          <col style="width: 23%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Order</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of items(); track item.id) {
+            <tr>
+              <td>
+                @if (item.image_url) {
+                  <img class="ann-list__thumb" [src]="item.image_url" [alt]="item.title" />
+                } @else {
+                  <span class="ann-list__noimg">—</span>
+                }
+              </td>
+              <td class="ann-list__title">{{ item.title }}</td>
+              <td class="ann-list__description" [attr.title]="item.description || ''">
+                @if (item.description) {
+                  <span class="ann-list__description-text">{{ item.description }}</span>
+                } @else {
+                  <span class="ann-list__muted">—</span>
+                }
+              </td>
+              <td>{{ item.display_order }}</td>
+              <td>
+                <span class="status-badge" [class.status-badge--published]="item.is_published">
+                  {{ item.is_published ? 'Published' : 'Draft' }}
+                </span>
+              </td>
+              <td>
+                <div class="ann-list__actions">
+                  <a class="ann-list__action" [routerLink]="['/admin/facilities', item.id, 'edit']">Edit</a>
+                  <button type="button" class="ann-list__action" (click)="togglePublish(item)">
+                    {{ item.is_published ? 'Unpublish' : 'Publish' }}
+                  </button>
+                  <button
+                    type="button"
+                    class="ann-list__action ann-list__action--danger"
+                    (click)="askDelete(item)"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="facilities-cards">
+      @for (item of items(); track item.id) {
+        <article class="facility-card">
+          @if (item.image_url) {
+            <img class="facility-card__thumb" [src]="item.image_url" [alt]="item.title" />
+          } @else {
+            <span class="facility-card__noimg">—</span>
+          }
+          <div class="facility-card__body">
+            <h3 class="facility-card__title">{{ item.title }}</h3>
+            @if (item.description) {
+              <p class="facility-card__desc">{{ item.description }}</p>
+            }
+            <div class="facility-card__meta">
+              <span>Order: {{ item.display_order }}</span>
+              <span class="status-badge" [class.status-badge--published]="item.is_published">
+                {{ item.is_published ? 'Published' : 'Draft' }}
+              </span>
+            </div>
+            <div class="facility-card__actions">
+              <a class="ann-list__action" [routerLink]="['/admin/facilities', item.id, 'edit']">Edit</a>
+              <button type="button" class="ann-list__action" (click)="togglePublish(item)">
+                {{ item.is_published ? 'Unpublish' : 'Publish' }}
+              </button>
+              <button
+                type="button"
+                class="ann-list__action ann-list__action--danger"
+                (click)="askDelete(item)"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  }
+
+  @if (deleteTarget()) {
+    <div class="ann-list__modal-backdrop" (click)="cancelDelete()"></div>
+    <div class="ann-list__modal" role="dialog" aria-modal="true">
+      <h2>Delete facility?</h2>
+      <p>
+        This will permanently delete <strong>{{ deleteTarget()?.title }}</strong> from the public
+        site.
+      </p>
+      <div class="ann-list__modal-actions">
+        <button type="button" class="btn" (click)="cancelDelete()">Cancel</button>
+        <button
+          type="button"
+          class="btn btn--primary"
+          (click)="confirmDelete()"
+          [disabled]="deleting()"
+        >
+          {{ deleting() ? 'Deleting…' : 'Delete' }}
+        </button>
+      </div>
+    </div>
+  }
+</section>

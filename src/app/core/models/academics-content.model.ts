@@ -9,12 +9,44 @@ export interface AcademicsBanner {
   readonly imageAlt: string;
 }
 
+export interface AcademicsStatPill {
+  readonly num: string;
+  readonly label: string;
+}
+
 export interface AcademicsIntro {
   readonly eyebrow: string;
   readonly title: string;
   readonly paragraphs: readonly string[];
+  readonly quickStats?: readonly AcademicsStatPill[];
   readonly imageUrl: string;
   readonly imageAlt: string;
+  readonly badge?: string;
+}
+
+export interface AcademicStage {
+  readonly title: string;
+  readonly stage?: string;
+  readonly grades: string;
+  readonly ages: string;
+  readonly path: string;
+  readonly icon: IconName;
+  readonly tag: string;
+  readonly description: string;
+  readonly highlights: readonly string[];
+  readonly accent: string;
+}
+
+export interface AcademicsStagesHeading {
+  readonly eyebrow: string;
+  readonly title: string;
+  readonly subtitle: string;
+}
+
+export interface AcademicsGlanceHeading {
+  readonly eyebrow: string;
+  readonly title: string;
+  readonly subtitle: string;
 }
 
 export interface AcademicsCard {
@@ -37,9 +69,23 @@ export interface AcademicsSection {
   readonly note?: string;
 }
 
+export interface AcademicsCta {
+  readonly badge: string;
+  readonly title: string;
+  readonly description: string;
+  readonly primaryButtonText: string;
+  readonly primaryButtonLink: string;
+  readonly secondaryButtonText: string;
+  readonly secondaryButtonLink: string;
+}
+
 export interface AcademicsContent {
   readonly banner: AcademicsBanner;
   readonly intro: AcademicsIntro;
+  readonly stagesHeading?: AcademicsStagesHeading;
+  readonly stages?: readonly AcademicStage[];
+  readonly glanceHeading?: AcademicsGlanceHeading;
   readonly cards: readonly AcademicsCard[];
   readonly sections: readonly AcademicsSection[];
+  readonly cta?: AcademicsCta;
 }

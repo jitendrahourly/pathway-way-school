@@ -1,26 +1,62 @@
-@let about = content().about;
+@let data = about();
 
-<section class="about">
+<section class="about" aria-labelledby="home-about-title">
+  <span class="about__shape" aria-hidden="true"></span>
+
   <div class="container about__grid">
     <div class="about__media" appScrollReveal>
-      <app-media-frame
-        class="about__photo"
-        [src]="about.imageUrl"
-        [alt]="about.imageAlt"
-        ratio="4/3"
-      />
-      <span class="about__badge">{{ about.badge }}</span>
+      <span class="about__dots" aria-hidden="true"></span>
+
+      <div class="about__main">
+        <app-media-frame [src]="data.imageUrl" [alt]="data.imageAlt" ratio="4/3" />
+      </div>
+
+      <div class="about__accent">
+        <app-media-frame
+          [src]="accentImage()"
+          alt="Students taking part in an activity at Bright Way School"
+          ratio="3/4"
+        />
+      </div>
+
+      <div class="about__badge">
+        <strong>{{ data.badge || 'Estd. ' + settings().establishedYear }}</strong>
+        <span>{{ settings().recognition }}</span>
+      </div>
     </div>
 
     <div class="about__body" appScrollReveal [revealDelay]="120">
-      <p class="eyebrow">{{ about.eyebrow }}</p>
-      <h2>{{ about.title }}</h2>
-      <p class="about__text">{{ about.body }}</p>
+      <p class="eyebrow">{{ data.eyebrow }}</p>
+      <h2 id="home-about-title">{{ data.title }}</h2>
+      <p class="about__text">{{ data.body }}</p>
 
-      <a class="btn btn--primary" routerLink="/about">
-        Read More
-        <app-icon name="arrow-right" [size]="16" />
-      </a>
+      <ul class="about__facts">
+        <li>
+          <span class="about__fact-icon"><app-icon name="calendar" [size]="18" /></span>
+          <div>
+            <strong>{{ data.factOneTitle }}</strong>
+            <span>{{ data.factOneText }}</span>
+          </div>
+        </li>
+        <li>
+          <span class="about__fact-icon"><app-icon name="users" [size]="18" /></span>
+          <div>
+            <strong>{{ data.factTwoTitle }}</strong>
+            <span>{{ data.factTwoText }}</span>
+          </div>
+        </li>
+      </ul>
+
+      <div class="about__actions">
+        <a class="btn btn--primary" [routerLink]="data.primaryLink || '/about'">
+          {{ data.primaryLabel || 'Read More' }}
+          <app-icon name="arrow-right" [size]="16" />
+        </a>
+        <a class="about__link" [routerLink]="data.secondaryLink || '/facilities'">
+          {{ data.secondaryLabel || 'Explore the campus' }}
+          <app-icon name="arrow-up-right" [size]="15" />
+        </a>
+      </div>
     </div>
   </div>
 </section>

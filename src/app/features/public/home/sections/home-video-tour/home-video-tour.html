@@ -1,0 +1,75 @@
+@let tour = video();
+
+@if (tour) {
+  <section class="home-video" aria-labelledby="home-video-title">
+    <span class="home-video__orb" aria-hidden="true"></span>
+
+    <div class="container">
+      <header class="home-video__head" appScrollReveal>
+        <div>
+          <p class="home-video__eyebrow">{{ tour.eyebrow || head().eyebrow }}</p>
+          <h2 id="home-video-title">{{ tour.title || head().title }}</h2>
+        </div>
+        <p class="home-video__note">{{ tour.note || head().text }}</p>
+      </header>
+
+      <div class="home-video__frame" appScrollReveal [revealDelay]="100">
+        <img
+          [src]="thumbnail()"
+          [alt]="tour.thumbnailAlt || 'Campus tour preview at Bright Way School'"
+          loading="lazy"
+          decoding="async"
+        />
+        <span class="home-video__scrim" aria-hidden="true"></span>
+
+        @if (hasVideo()) {
+          <button type="button" class="home-video__play" (click)="open()" aria-label="Play campus tour video">
+            <span class="home-video__pulse" aria-hidden="true"></span>
+            <app-icon name="play" [size]="26" />
+          </button>
+          <span class="home-video__label">
+            <app-icon name="play" [size]="13" />
+            {{ tour.watchLabel || 'Watch the tour' }}
+          </span>
+        } @else {
+          <span class="home-video__play home-video__play--idle" aria-hidden="true">
+            <app-icon name="play" [size]="26" />
+          </span>
+          <span class="home-video__label home-video__label--muted">
+            {{ tour.emptyLabel || 'Tour video coming soon' }}
+          </span>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+@if (playing()) {
+  <div
+    #videoDialog
+    class="video-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Campus tour video"
+    tabindex="-1"
+    (click)="close()"
+  >
+    <button type="button" class="video-modal__close" aria-label="Close video" (click)="close()">
+      <app-icon name="close" [size]="22" />
+    </button>
+
+    <div class="video-modal__frame" (click)="$event.stopPropagation()">
+      @if (isFile()) {
+        <video [src]="videoSrc()" controls autoplay playsinline></video>
+      } @else if (embedUrl(); as src) {
+        <iframe
+          [src]="src"
+          title="Bright Way School campus tour"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin"
+        ></iframe>
+      }
+    </div>
+  </div>
+}

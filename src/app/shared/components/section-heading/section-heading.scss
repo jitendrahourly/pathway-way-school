@@ -34,6 +34,13 @@ h2 {
   font-size: clamp(1.35rem, 2.2vw, 1.7rem);
 }
 
+.heading__subtitle {
+  margin: 0.35rem 0 0;
+  font-size: 0.95rem;
+  color: var(--bw-body);
+  line-height: 1.6;
+}
+
 .heading--center {
   flex-direction: column;
   align-items: center;

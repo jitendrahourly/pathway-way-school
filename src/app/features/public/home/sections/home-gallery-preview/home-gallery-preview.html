@@ -1,0 +1,84 @@
+@let photos = images();
+@let image = current();
+
+@if (photos.length) {
+  <section class="home-gallery" aria-labelledby="home-gallery-title">
+    <div class="container">
+      <header class="home-gallery__head" appScrollReveal>
+        <div>
+          <p class="eyebrow">{{ head().eyebrow }}</p>
+          <h2 id="home-gallery-title">{{ head().title }}</h2>
+          <p class="home-gallery__intro">{{ head().text }}</p>
+        </div>
+        @if (head().linkLabel) {
+          <a class="home-gallery__all" [routerLink]="head().linkUrl || '/gallery'">
+            {{ head().linkLabel }}
+            <app-icon name="arrow-right" [size]="15" />
+          </a>
+        }
+      </header>
+
+      <div class="home-gallery__grid">
+        @for (photo of photos; track photo.url; let i = $index) {
+          <button
+            type="button"
+            class="gallery-tile"
+            appScrollReveal
+            [revealDelay]="i * 80"
+            (click)="open(i)"
+            [attr.aria-label]="'Open ' + photo.caption + ' in the gallery viewer'"
+          >
+            <img [src]="photo.url" [alt]="photo.alt" loading="lazy" decoding="async" />
+            <span class="gallery-tile__scrim" aria-hidden="true"></span>
+            <span class="gallery-tile__caption">
+              <span class="gallery-tile__label">{{ photo.caption }}</span>
+              <span class="gallery-tile__zoom"><app-icon name="eye" [size]="16" /></span>
+            </span>
+          </button>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+@if (image) {
+  <div
+    #lightbox
+    class="lightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Gallery image viewer"
+    tabindex="-1"
+    (click)="close()"
+  >
+    <button type="button" class="lightbox__close" aria-label="Close gallery viewer" (click)="close()">
+      <app-icon name="close" [size]="22" />
+    </button>
+
+    <button
+      type="button"
+      class="lightbox__arrow lightbox__arrow--prev"
+      aria-label="Previous image"
+      (click)="$event.stopPropagation(); previous()"
+    >
+      <app-icon name="chevron-left" [size]="24" />
+    </button>
+
+    <figure class="lightbox__figure" (click)="$event.stopPropagation()">
+      <img [src]="image.src" [alt]="image.alt" />
+      <figcaption>
+        <span>{{ image.caption }}</span>
+        <span class="lightbox__count">{{ image.index + 1 }} / {{ image.total }}</span>
+      </figcaption>
+    </figure>
+
+    <button
+      type="button"
+      class="lightbox__arrow lightbox__arrow--next"
+      aria-label="Next image"
+      (click)="$event.stopPropagation(); next()"
+    >
+      <app-icon name="chevron-right" [size]="24" />
+    </button>
+  </div>
+}

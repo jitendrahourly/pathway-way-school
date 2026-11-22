@@ -1,0 +1,63 @@
+@let d = data();
+
+<div class="gap" aria-hidden="true">
+  @switch (section()) {
+    @case ('banner') {
+      <div class="gap-banner">
+        @if (d.banner.imageUrl) {
+          <img class="gap-banner__image" [src]="d.banner.imageUrl" [alt]="d.banner.imageAlt || 'Gallery banner image'" />
+        }
+        <div class="gap-banner__scrim"></div>
+        <div class="gap-banner__copy">
+          <p class="gap-eyebrow">Gallery</p>
+          <h3>{{ d.banner.title || 'Gallery' }}</h3>
+          <p>{{ d.banner.subtitle || 'Moments from Bright Way School.' }}</p>
+        </div>
+      </div>
+    }
+
+    @case ('intro') {
+      <div class="gap-intro">
+        <p class="gap-eyebrow">{{ d.intro.eyebrow || 'Gallery' }}</p>
+        <h3>{{ d.intro.title || 'Our gallery' }}</h3>
+        @for (paragraph of d.intro.paragraphs; track $index) {
+          <p>{{ paragraph }}</p>
+        } @empty {
+          <p class="gap-placeholder">Introductory paragraphs appear here.</p>
+        }
+        @if (d.intro.note) {
+          <p class="gap-note">
+            <app-icon name="image" [size]="14" />
+            {{ d.intro.note }}
+          </p>
+        }
+      </div>
+    }
+
+    @case ('controls') {
+      <div class="gap-controls">
+        <div class="gap-controls__filters" [attr.aria-label]="d.controls.filterLabel || 'Gallery filters'">
+          <span class="gap-chip gap-chip--active">All</span>
+          <span class="gap-chip">Events</span>
+          <span class="gap-chip">Sports</span>
+          <span class="gap-chip">Campus</span>
+        </div>
+
+        <div class="gap-controls__grid">
+          @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+            <div class="gap-tile">
+              <app-icon name="image" [size]="18" />
+              <span>{{ d.controls.placeholderLabel || 'Photo' }}</span>
+            </div>
+          }
+        </div>
+
+        <div class="gap-controls__empty">
+          <h4>{{ d.controls.emptyTitle || 'No photos found' }}</h4>
+          <p>{{ d.controls.emptyMessage || 'Try a different filter.' }}</p>
+          <span class="gap-controls__reset">{{ d.controls.resetLabel || 'Reset filters' }}</span>
+        </div>
+      </div>
+    }
+  }
+</div>

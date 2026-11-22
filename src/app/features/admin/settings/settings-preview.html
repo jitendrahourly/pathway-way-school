@@ -1,0 +1,74 @@
+@let d = data();
+
+<div class="stp" aria-hidden="true">
+  @switch (section()) {
+    @case ('identity') {
+      <div class="stp-identity">
+        <span class="stp-identity__crest">{{ d.schoolName ? d.schoolName.charAt(0) : 'B' }}</span>
+        <div>
+          <strong>{{ d.schoolName || 'School name' }}</strong>
+          <span>Header & footer brand</span>
+        </div>
+      </div>
+    }
+
+    @case ('contact') {
+      <div class="stp-contact">
+        <article class="stp-contact__card">
+          <span class="stp-contact__icon"><app-icon name="phone" [size]="16" /></span>
+          <div>
+            <span class="stp-contact__label">Phone</span>
+            <span class="stp-contact__value">{{ d.phone || 'Phone number' }}</span>
+          </div>
+        </article>
+        <article class="stp-contact__card">
+          <span class="stp-contact__icon"><app-icon name="mail" [size]="16" /></span>
+          <div>
+            <span class="stp-contact__label">Email</span>
+            <span class="stp-contact__value">{{ d.email || 'Email address' }}</span>
+          </div>
+        </article>
+        <article class="stp-contact__card">
+          <span class="stp-contact__icon"><app-icon name="map-pin" [size]="16" /></span>
+          <div>
+            <span class="stp-contact__label">Address</span>
+            <span class="stp-contact__value">{{ d.address || 'School address' }}</span>
+          </div>
+        </article>
+      </div>
+    }
+
+    @case ('social') {
+      <div class="stp-social">
+        <div class="stp-social__handle">
+          <app-icon name="instagram" [size]="18" />
+          <span>{{ d.instagramHandle || '@school_handle' }}</span>
+        </div>
+        <div class="stp-social__icons">
+          @if (d.instagramUrl) {
+            <span class="stp-social__icon stp-social__icon--instagram"><app-icon name="instagram" [size]="16" /></span>
+          }
+          @if (d.facebookUrl) {
+            <span class="stp-social__icon stp-social__icon--facebook"><app-icon name="facebook" [size]="16" /></span>
+          }
+          @if (d.youtubeUrl) {
+            <span class="stp-social__icon stp-social__icon--youtube"><app-icon name="youtube" [size]="16" /></span>
+          }
+          @if (!d.instagramUrl && !d.facebookUrl && !d.youtubeUrl) {
+            <span class="stp-social__empty">Social icons appear here once URLs are added.</span>
+          }
+        </div>
+      </div>
+    }
+
+    @case ('location') {
+      <div class="stp-location">
+        <div class="stp-location__frame">
+          <app-icon name="map-pin" [size]="22" />
+          <span>Map preview</span>
+        </div>
+        <p class="stp-location__link">{{ d.mapsUrl || 'Map link appears here.' }}</p>
+      </div>
+    }
+  }
+</div>

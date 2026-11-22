@@ -119,8 +119,24 @@ export const routes: Routes = [
             path: 'facilities',
             title: 'Facilities | Bright Way School',
             loadComponent: () =>
-              import('./features/admin/placeholder/admin-placeholder').then(
-                (m) => m.AdminPlaceholder,
+              import('./features/admin/facilities/facilities-list').then(
+                (m) => m.FacilitiesList,
+              ),
+          },
+          {
+            path: 'facilities/new',
+            title: 'Add Facility | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/facilities/facility-form').then(
+                (m) => m.FacilityForm,
+              ),
+          },
+          {
+            path: 'facilities/:id/edit',
+            title: 'Edit Facility | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/facilities/facility-form').then(
+                (m) => m.FacilityForm,
               ),
           },
           {
@@ -129,6 +145,14 @@ export const routes: Routes = [
             loadComponent: () =>
               import('./features/admin/settings/site-settings-form').then(
                 (m) => m.SiteSettingsForm,
+              ),
+          },
+          {
+            path: 'contact-messages',
+            title: 'Contact Requests | Bright Way School',
+            loadComponent: () =>
+              import('./features/admin/contact-messages/contact-messages-list').then(
+                (m) => m.ContactMessagesList,
               ),
           },
         ],

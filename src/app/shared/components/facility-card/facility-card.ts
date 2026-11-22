@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import type { Facility } from '../../../core/models/facility.model';
 import { MediaFrame } from '../media-frame/media-frame';
 import { TiltCardDirective } from '../../directives/tilt-card.directive';
 
 @Component({
   selector: 'app-facility-card',
-  imports: [MediaFrame, TiltCardDirective],
+  imports: [RouterLink, MediaFrame, TiltCardDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './facility-card.scss',
   templateUrl: './facility-card.html',
