@@ -6,7 +6,7 @@
 
 .admin-layout {
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
+  grid-template-columns: 220px minmax(0, 1fr);
   min-height: 100vh;
   /* Keep the grid from becoming a scroll container so the sticky sidebar
      stays pinned to the viewport while the main column scrolls. */
@@ -21,8 +21,8 @@
   position: sticky;
   top: 0;
   height: 100vh;
-  width: 260px;
-  max-width: 260px;
+  width: 220px;
+  max-width: 220px;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -307,5 +307,170 @@
   }
   .admin-layout__content {
     padding: 1rem;
+  }
+}
+
+/* ==========================================================================
+   Compact admin UI density (scoped to .admin-layout only).
+   ========================================================================== */
+.admin-layout__header {
+  padding: 0.7rem 1.25rem;
+}
+
+.admin-layout__header-title h1 {
+  font-size: 1.5rem;
+}
+
+.admin-layout__breadcrumb {
+  font-size: 0.72rem;
+}
+
+.admin-layout__user-name {
+  font-size: 0.85rem;
+}
+
+.admin-layout__user-role {
+  font-size: 0.72rem;
+}
+
+.admin-layout__logout-btn {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+}
+
+.admin-layout__content {
+  padding: 1.125rem 1.25rem;
+}
+
+.admin-layout__nav-item {
+  padding: 0.5rem 0.7rem;
+  font-size: 0.85rem;
+  gap: 0.6rem;
+}
+
+.admin-layout__nav-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.admin-layout__logout {
+  padding: 0.5rem 0.7rem;
+  font-size: 0.85rem;
+}
+
+.admin-layout__sidebar {
+  padding: 0.85rem 0.75rem;
+  gap: 0.5rem;
+}
+
+/* Compact form controls, buttons, tables, cards inside admin pages. */
+.admin-layout .field label {
+  font-size: 0.8rem;
+}
+
+.admin-layout .field input,
+.admin-layout .field select,
+.admin-layout .field textarea {
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.admin-layout .field input,
+.admin-layout .field select {
+  height: 38px;
+  padding: 0 0.85rem;
+}
+
+.admin-layout .field textarea {
+  padding: 0.5rem 0.85rem;
+}
+
+.admin-layout .field input::placeholder,
+.admin-layout .field textarea::placeholder,
+.admin-layout .field select::placeholder {
+  font-size: 0.875rem;
+  color: var(--bw-muted);
+  opacity: 0.85;
+}
+
+.admin-layout .btn {
+  font-size: 0.8125rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+}
+
+.admin-layout h1 {
+  font-size: 1.5rem;
+}
+
+.admin-layout h2 {
+  font-size: 1.125rem;
+}
+
+.admin-layout h3 {
+  font-size: 1rem;
+}
+
+.admin-layout p,
+.admin-layout .body-text {
+  font-size: 0.875rem;
+}
+
+.admin-layout table {
+  font-size: 0.875rem;
+}
+
+.admin-layout table th,
+.admin-layout table td {
+  padding: 0.5rem 0.6rem;
+  font-size: 0.8125rem;
+}
+
+.admin-layout table th {
+  font-size: 0.7rem;
+}
+
+.admin-layout .status-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+}
+
+.admin-layout img.ann-list__thumb,
+.admin-layout img.facility-card__thumb {
+  width: 44px;
+  height: 44px;
+}
+
+.admin-layout .card,
+.admin-layout .section-card,
+.admin-layout .ann-form__card {
+  padding: 1rem 1.125rem;
+}
+
+.admin-layout .ann-form__header h1,
+.admin-layout .page-header h1 {
+  font-size: 1.5rem;
+}
+
+.admin-layout .ann-form__sub,
+.admin-layout .page-sub {
+  font-size: 0.85rem;
+}
+
+.admin-layout section,
+.admin-layout .section-card {
+  margin-bottom: 1rem;
+}
+
+.admin-layout .field__hint,
+.admin-layout .field__error {
+  font-size: 0.72rem;
+}
+
+/* Responsive: keep sidebar compact on tablets. */
+@media (max-width: 900px) {
+  .admin-layout__sidebar {
+    width: 220px;
+    max-width: 220px;
   }
 }
