@@ -91,7 +91,7 @@
           [href]="'#' + link.id"
           [class.is-active]="activeId() === link.id"
           [attr.aria-current]="activeId() === link.id ? 'location' : null"
-          (click)="setActive(link.id)"
+          (click)="scrollTo(link.id); $event.preventDefault()"
         >
           {{ link.label }}
         </a>
@@ -144,7 +144,6 @@
           [style.animation-delay.ms]="i * 70"
         >
           <div class="ab-chapter__rail" aria-hidden="true">
-            <span>{{ section.number.toString().padStart(2, '0') }}</span>
             <span class="ab-chapter__icon">
               <app-icon [name]="section.icon" [size]="20" />
             </span>
@@ -165,11 +164,7 @@
                       [class.content-point--bullet]="block.style === 'bullet'"
                     >
                       <span class="content-point__mark" aria-hidden="true">
-                        @if (point.number) {
-                          {{ point.number }}
-                        } @else {
-                          <app-icon name="check" [size]="14" />
-                        }
+                        <app-icon name="check" [size]="14" />
                       </span>
                       <div class="content-point__copy">
                         @if (point.label) {

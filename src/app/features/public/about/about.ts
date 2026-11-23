@@ -113,6 +113,14 @@ export class About implements OnInit {
               current = section;
             }
           }
+          // When scrolled to the bottom of the page, keep the last section
+          // highlighted (e.g. "Explore Bright Way School").
+          const nearBottom =
+            window.innerHeight + window.scrollY >=
+            document.documentElement.scrollHeight - 80;
+          if (nearBottom) {
+            current = sections[sections.length - 1];
+          }
           this.activeId.set(current.id);
         };
 
