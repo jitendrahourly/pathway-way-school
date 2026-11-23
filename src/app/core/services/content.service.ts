@@ -3,6 +3,14 @@ import { SupabaseService } from './supabase.service';
 import type { ContentRow } from '../models/supabase.model';
 
 /**
+ * Optional server-side ordering for {@link ContentService.select}.
+ */
+export interface SelectOrder {
+  column: string;
+  ascending?: boolean;
+}
+
+/**
  * Generic content access over Supabase tables. Table names and row shapes are
  * provided by callers; this service performs no schema assumptions.
  */
@@ -13,11 +21,14 @@ export class ContentService {
   readonly loading = signal(false);
   readonly error = signal<Error | null>(null);
 
-  async select<T = ContentRow>(table: string, columns = '*'): Promise<T[]> {
+  async select<T = ContentRow>(table: string, columns = '*', order?: SelectOrder): Promise<T[]> {
     this.loading.set(true);
     this.error.set(null);
     try {
-      const { data, error } = await this.client.from(table).select(columns);
+      const query = this.client.from(table).select(columns);
+      const { data, error } = order
+        ? await query.order(order.column, { ascending: order.ascending ?? true })
+        : await query;
       if (error) {
         this.error.set(error);
         return [];
@@ -65,7 +76,10 @@ export class ContentService {
     this.loading.set(true);
     this.error.set(null);
     try {
-      const { data, error } = await this.client.from(table).insert(payload as any).select();
+      const { data, error } = await this.client
+        .from(table)
+        .insert(payload as any)
+        .select();
       if (error) {
         this.error.set(error);
         return null;

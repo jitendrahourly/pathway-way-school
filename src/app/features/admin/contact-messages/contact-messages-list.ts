@@ -39,15 +39,14 @@ export class ContactMessagesList implements OnInit {
     this.loading.set(true);
     this.error.set(null);
     try {
-      const rows = await this.content.select<ContactMessageRecord>('contact_messages', '*');
+      const rows = await this.content.select<ContactMessageRecord>('contact_messages', '*', {
+        column: 'created_at',
+        ascending: false,
+      });
       if (this.content.error()) {
         this.error.set(this.content.error()?.message ?? 'Failed to load contact messages.');
       }
-      this.items.set(
-        [...rows].sort((a, b) =>
-          (b.created_at ?? '').localeCompare(a.created_at ?? ''),
-        ),
-      );
+      this.items.set(rows);
     } catch (err) {
       this.error.set(err instanceof Error ? err.message : 'Failed to load contact messages.');
     } finally {
@@ -79,7 +78,9 @@ export class ContactMessagesList implements OnInit {
       this.error.set(this.content.error()?.message ?? 'Failed to update message.');
       return;
     }
-    this.items.set(this.items().map((row) => (row.id === item.id ? { ...row, is_read: true } : row)));
+    this.items.set(
+      this.items().map((row) => (row.id === item.id ? { ...row, is_read: true } : row)),
+    );
     const selected = this.selected();
     if (selected?.id === item.id) {
       this.selected.set({ ...selected, is_read: true });
@@ -111,10 +112,16 @@ export class ContactMessagesList implements OnInit {
     this.deleteTarget.set(null);
   }
 
-  protected formatDate(value?: string): string {
+  protected formatDate(value?: string | null): string {
     if (!value) return '—';
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return value;
-    return date.toLocaleString();
+    return date.toLocaleString(undefined, {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+    });
   }
 }

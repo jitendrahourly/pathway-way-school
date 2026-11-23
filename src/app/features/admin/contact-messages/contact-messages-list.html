@@ -3,7 +3,9 @@
     <div>
       <p class="ann-list__eyebrow">Messages</p>
       <h1>Contact Requests</h1>
-      <p class="ann-list__sub">Messages submitted through the public Contact Us form ({{ unreadCount() }} unread).</p>
+      <p class="ann-list__sub">
+        Messages submitted through the public Contact Us form ({{ unreadCount() }} unread).
+      </p>
     </div>
   </header>
 
@@ -26,13 +28,24 @@
   } @else {
     <div class="contact-messages__list">
       @for (item of filtered(); track item.id) {
-        <article class="contact-messages__card" [class.contact-messages__card--unread]="!item.is_read">
+        <article
+          class="contact-messages__card"
+          [class.contact-messages__card--unread]="!item.is_read"
+          [class.contact-messages__card--read]="item.is_read"
+        >
           <div class="contact-messages__head">
-            <div>
-              <strong>{{ item.name }}</strong>
+            <div class="contact-messages__who">
+              <span class="contact-messages__name-row">
+                @if (!item.is_read) {
+                  <span class="contact-messages__unread-dot" aria-hidden="true"></span>
+                }
+                <strong>{{ item.name }}</strong>
+              </span>
               <span class="contact-messages__email">{{ item.email }}</span>
             </div>
-            <span class="contact-messages__date">{{ formatDate(item.created_at) }}</span>
+            <time class="contact-messages__date" [attr.datetime]="item.created_at || null">
+              {{ formatDate(item.created_at) }}
+            </time>
           </div>
 
           @if (item.subject) {
@@ -47,7 +60,11 @@
             <button type="button" class="btn btn--ghost" (click)="view(item)">
               {{ item.is_read ? 'View' : 'View & mark read' }}
             </button>
-            <button type="button" class="btn btn--ghost ann-list__action--danger" (click)="askDelete(item)">
+            <button
+              type="button"
+              class="btn btn--ghost ann-list__action--danger"
+              (click)="askDelete(item)"
+            >
               Delete
             </button>
           </div>
@@ -60,7 +77,12 @@
     <div class="ann-list__modal-backdrop" (click)="closeView()"></div>
     <div class="ann-list__modal" role="dialog" aria-modal="true">
       <h2>{{ selected()?.name }}</h2>
-      <p class="contact-messages__modal-meta">{{ selected()?.email }} @if (selected()?.phone) { · {{ selected()?.phone }} }</p>
+      <p class="contact-messages__modal-meta">
+        {{ selected()?.email }}
+        @if (selected()?.phone) {
+          · {{ selected()?.phone }}
+        }
+      </p>
       @if (selected()?.subject) {
         <p><strong>Subject:</strong> {{ selected()?.subject }}</p>
       }
@@ -76,10 +98,17 @@
     <div class="ann-list__modal-backdrop" (click)="cancelDelete()"></div>
     <div class="ann-list__modal" role="dialog" aria-modal="true">
       <h2>Delete contact request?</h2>
-      <p>This will permanently delete the message from <strong>{{ deleteTarget()?.name }}</strong>.</p>
+      <p>
+        This will permanently delete the message from <strong>{{ deleteTarget()?.name }}</strong>.
+      </p>
       <div class="ann-list__modal-actions">
         <button type="button" class="btn" (click)="cancelDelete()">Cancel</button>
-        <button type="button" class="btn btn--primary" (click)="confirmDelete()" [disabled]="deleting()">
+        <button
+          type="button"
+          class="btn btn--primary"
+          (click)="confirmDelete()"
+          [disabled]="deleting()"
+        >
           {{ deleting() ? 'Deleting…' : 'Delete' }}
         </button>
       </div>
