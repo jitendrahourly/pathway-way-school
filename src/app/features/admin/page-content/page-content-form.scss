@@ -1,5 +1,21 @@
 @use '../announcements/announcement-form.scss';
 
+.ann-form__actions--sticky {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 0.85rem 1.25rem;
+  margin-top: 1rem;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid var(--bw-line);
+  border-radius: 0 0 16px 16px;
+}
+
 .btn-top-action {
   display: inline-flex;
   align-items: center;

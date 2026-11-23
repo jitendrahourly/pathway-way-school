@@ -579,6 +579,14 @@
           </div>
         </div>
       </app-editor-section>
+
+      <!-- Always-visible save bar -->
+      <div class="ann-form__actions ann-form__actions--sticky">
+        <button type="button" class="btn btn--ghost" (click)="cancel()" [disabled]="saving()">Cancel</button>
+        <button type="submit" class="btn btn--primary" [disabled]="form.invalid || saving()">
+          {{ saving() ? 'Saving…' : (isEdit() ? 'Save changes' : 'Create') }}
+        </button>
+      </div>
     </form>
   }
 </section>
