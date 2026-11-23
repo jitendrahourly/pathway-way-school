@@ -19,7 +19,7 @@ interface HeroSlide {
   readonly position: string;
 }
 
-const AUTOPLAY_MS = 5000;
+const AUTOPLAY_MS = 3500;
 
 @Component({
   selector: 'app-home-hero',

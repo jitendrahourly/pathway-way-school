@@ -101,9 +101,6 @@
     </div>
 
     <div class="hero__controls">
-      <span class="hero__counter" aria-hidden="true">
-        {{ pad(current + 1) }}<em>/{{ pad(items.length) }}</em>
-      </span>
       <button type="button" class="hero__arrow" aria-label="Previous slide" (click)="previous()">
         <app-icon name="chevron-left" [size]="20" />
       </button>

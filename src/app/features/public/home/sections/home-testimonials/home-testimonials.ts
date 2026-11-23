@@ -11,7 +11,7 @@ import { HomeContentService } from '../../../../../core/services/home-content.se
 import { UiIcon } from '../../../../../shared/components/ui-icon/ui-icon';
 import { ScrollRevealDirective } from '../../../../../shared/directives/scroll-reveal.directive';
 
-const AUTOPLAY_MS = 6500;
+const AUTOPLAY_MS = 4500;
 
 @Component({
   selector: 'app-home-testimonials',
