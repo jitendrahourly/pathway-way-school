@@ -27,65 +27,79 @@
   } @else {
     @for (group of grouped(); track group.name) {
       <section class="ann-list__group">
-        <h2 class="ann-list__group-title">{{ group.name }}</h2>
+        <button
+          type="button"
+          class="ann-list__group-header"
+          (click)="toggleGroup(group.name)"
+          [attr.aria-expanded]="isGroupOpen(group.name)"
+        >
+          <span class="ann-list__group-chevron" [class.ann-list__group-chevron--open]="isGroupOpen(group.name)">
+            <app-icon name="chevron-right" [size]="16" />
+          </span>
+          <span class="ann-list__group-title">{{ group.name }}</span>
+          <span class="ann-list__group-count">{{ group.rows.length }} pages</span>
+          <span class="ann-list__group-summary">{{ groupSummary(group.rows) }}</span>
+        </button>
 
-        <div class="ann-list__table-wrap">
-          <table class="ann-list__table">
-            <colgroup>
-              <col style="width: 25%" />
-              <col style="width: 23%" />
-              <col style="width: 12%" />
-              <col style="width: 13%" />
-              <col style="width: 27%" />
-            </colgroup>
-            <thead>
-              <tr>
-                <th>Page Slug</th>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Last Updated</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (row of group.rows; track row.slug) {
+        @if (isGroupOpen(group.name)) {
+          <div class="ann-list__table-wrap">
+            <table class="ann-list__table">
+              <colgroup>
+                <col style="width: 25%" />
+                <col style="width: 23%" />
+                <col style="width: 12%" />
+                <col style="width: 13%" />
+                <col style="width: 27%" />
+              </colgroup>
+              <thead>
                 <tr>
-                  <td class="ann-list__title">{{ formatSlug(row.slug) }}</td>
-                  <td>{{ row.title }}</td>
-                  <td>
-                    @if (!row.configured) {
-                      <span class="status-badge">Default</span>
-                    } @else {
-                      <span class="status-badge" [class.status-badge--published]="row.isPublished">
-                        {{ row.isPublished ? 'Published' : 'Draft' }}
-                      </span>
-                    }
-                  </td>
-                  <td>{{ formatDate(row.updatedAt) }}</td>
-                  <td>
-                    <div class="ann-list__actions">
-                      @if (previewLink(row); as link) {
-                        <a
-                          class="ann-list__action"
-                          [href]="link.href"
-                          target="_blank"
-                          rel="noopener"
-                        >{{ link.label }}</a>
-                      }
-                      <button type="button" class="ann-list__action" (click)="edit(row)">Edit</button>
-                      @if (row.configured) {
-                        <button type="button" class="ann-list__action" (click)="togglePublish(row)">
-                          {{ row.isPublished ? 'Unpublish' : 'Publish' }}
-                        </button>
-                        <button type="button" class="ann-list__action ann-list__action--danger" (click)="askDelete(row)">Delete</button>
-                      }
-                    </div>
-                  </td>
+                  <th>Page Slug</th>
+                  <th>Title</th>
+                  <th>Status</th>
+                  <th>Last Updated</th>
+                  <th>Actions</th>
                 </tr>
-              }
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                @for (row of group.rows; track row.slug) {
+                  <tr>
+                    <td class="ann-list__title">{{ formatSlug(row.slug) }}</td>
+                    <td>{{ row.title }}</td>
+                    <td>
+                      @if (!row.configured) {
+                        <span class="status-badge">Default</span>
+                      } @else {
+                        <span class="status-badge" [class.status-badge--published]="row.isPublished">
+                          {{ row.isPublished ? 'Published' : 'Draft' }}
+                        </span>
+                      }
+                    </td>
+                    <td>{{ formatDate(row.updatedAt) }}</td>
+                    <td>
+                      <div class="ann-list__actions">
+                        @if (previewLink(row); as link) {
+                          <a
+                            class="ann-list__action"
+                            [href]="link.href"
+                            target="_blank"
+                            rel="noopener"
+                          >{{ link.label }}</a>
+                        }
+                        <button type="button" class="ann-list__action" (click)="edit(row)">Edit</button>
+                        @if (row.configured) {
+                          <button type="button" class="ann-list__action" (click)="togglePublish(row)">
+                            {{ row.isPublished ? 'Unpublish' : 'Publish' }}
+                          </button>
+                          <button type="button" class="ann-list__action ann-list__action--danger" (click)="askDelete(row)">Delete</button>
+                        }
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
       </section>
     }
   }

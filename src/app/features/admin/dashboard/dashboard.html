@@ -1,8 +1,57 @@
 <section class="admin-dashboard">
-  <div class="admin-dashboard__welcome">
-    <h2>Welcome, {{ profile()?.full_name ?? 'Administrator' }}</h2>
-    <p class="admin-dashboard__role">Role: <strong>{{ profile()?.role }}</strong></p>
-  </div>
+  <svg class="admin-dashboard__sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="dash-user" viewBox="0 0 24 24">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </symbol>
+      <symbol id="dash-file" viewBox="0 0 24 24">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <path d="M14 2v6h6" />
+        <path d="M16 13H8M16 17H8M10 9H8" />
+      </symbol>
+      <symbol id="dash-home" viewBox="0 0 24 24">
+        <path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <path d="M9 22V12h6v10" />
+      </symbol>
+      <symbol id="dash-settings" viewBox="0 0 24 24">
+        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+        <circle cx="12" cy="12" r="3" />
+      </symbol>
+      <symbol id="dash-chart" viewBox="0 0 24 24">
+        <path d="M3 3v18h18" />
+        <path d="M7 16v-4M12 16V8M17 16v-7" />
+      </symbol>
+      <symbol id="dash-pencil" viewBox="0 0 24 24">
+        <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z" />
+      </symbol>
+      <symbol id="dash-layers" viewBox="0 0 24 24">
+        <path d="m12 2 9 5-9 5-9-5z" />
+        <path d="m3 12 9 5 9-5" />
+        <path d="m3 17 9 5 9-5" />
+      </symbol>
+      <symbol id="dash-bolt" viewBox="0 0 24 24">
+        <path d="M13 2 4 14h7l-1 8 9-12h-7z" fill="currentColor" stroke="none" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="admin-dashboard__welcome">
+    <div class="admin-dashboard__welcome-main">
+      <span class="admin-dashboard__welcome-icon">
+        <svg class="admin-dashboard__icon" aria-hidden="true" focusable="false">
+          <use href="#dash-user"></use>
+        </svg>
+      </span>
+      <div class="admin-dashboard__welcome-copy">
+        <h2>Welcome, {{ profile()?.full_name ?? 'Administrator' }}</h2>
+        <p>Role: <strong>{{ profile()?.role ?? 'admin' }}</strong></p>
+      </div>
+    </div>
+    <div class="admin-dashboard__welcome-media" aria-hidden="true">
+      <img src="/images/home/hero-campus.jpg" alt="" />
+    </div>
+  </header>
 
   @if (error()) {
     <div class="admin-dashboard__state admin-dashboard__state--error">{{ error() }}</div>
@@ -12,73 +61,172 @@
     <div class="admin-dashboard__state">Loading dashboard data…</div>
   } @else {
     <div class="admin-dashboard__stats">
-      <article class="admin-dashboard__stat">
-        <span class="admin-dashboard__stat-label">Total Announcements</span>
-        <span class="admin-dashboard__stat-value">{{ totalAnnouncements() }}</span>
+      <article class="admin-dashboard__stat admin-dashboard__stat--purple">
+        <span class="admin-dashboard__stat-icon">
+          <app-icon name="megaphone" [size]="20" />
+        </span>
+        <div class="admin-dashboard__stat-copy">
+          <span class="admin-dashboard__stat-label">Total Announcements</span>
+          <span class="admin-dashboard__stat-value">{{ totalAnnouncements() }}</span>
+        </div>
       </article>
-      <article class="admin-dashboard__stat">
-        <span class="admin-dashboard__stat-label">Published Announcements</span>
-        <span class="admin-dashboard__stat-value">{{ publishedAnnouncements() }}</span>
+
+      <article class="admin-dashboard__stat admin-dashboard__stat--green">
+        <span class="admin-dashboard__stat-icon">
+          <app-icon name="check" [size]="20" />
+        </span>
+        <div class="admin-dashboard__stat-copy">
+          <span class="admin-dashboard__stat-label">Published Announcements</span>
+          <span class="admin-dashboard__stat-value">{{ publishedAnnouncements() }}</span>
+        </div>
       </article>
-      <article class="admin-dashboard__stat">
-        <span class="admin-dashboard__stat-label">Gallery Images</span>
-        <span class="admin-dashboard__stat-value">{{ totalGalleryImages() }}</span>
+
+      <article class="admin-dashboard__stat admin-dashboard__stat--blue">
+        <span class="admin-dashboard__stat-icon">
+          <app-icon name="image" [size]="20" />
+        </span>
+        <div class="admin-dashboard__stat-copy">
+          <span class="admin-dashboard__stat-label">Gallery Images</span>
+          <span class="admin-dashboard__stat-value">{{ totalGalleryImages() }}</span>
+        </div>
+      </article>
+
+      <article class="admin-dashboard__stat admin-dashboard__stat--orange">
+        <span class="admin-dashboard__stat-icon">
+          <svg class="admin-dashboard__icon" aria-hidden="true" focusable="false">
+            <use href="#dash-file"></use>
+          </svg>
+        </span>
+        <div class="admin-dashboard__stat-copy">
+          <span class="admin-dashboard__stat-label">Page Content Rows</span>
+          <span class="admin-dashboard__stat-value">{{ totalPageContents() }}</span>
+        </div>
       </article>
     </div>
 
-    <section class="admin-dashboard__panel admin-dashboard__panel--wide">
-      <h3>Quick Actions</h3>
-      <div class="admin-dashboard__quick-actions">
-        <a class="admin-dashboard__quick-action" routerLink="/admin/page-content/home/main">
-          <span>Edit Home</span>
-        </a>
-        <a class="admin-dashboard__quick-action" routerLink="/admin/page-content">
-          <span>Page Content</span>
-        </a>
-        <a class="admin-dashboard__quick-action" routerLink="/admin/announcements">
-          <span>Announcements</span>
-        </a>
-        <a class="admin-dashboard__quick-action" routerLink="/admin/gallery">
-          <span>Gallery</span>
-        </a>
-        <a class="admin-dashboard__quick-action" routerLink="/admin/page-content/about-management/edit">
-          <span>Management</span>
-        </a>
-        <a class="admin-dashboard__quick-action" routerLink="/admin/settings">
-          <span>Site Settings</span>
-        </a>
-      </div>
-    </section>
+    <div class="admin-dashboard__middle">
+      <section class="admin-dashboard__panel admin-dashboard__panel--quick">
+        <header class="admin-dashboard__panel-head">
+          <div class="admin-dashboard__panel-title">
+            <span class="admin-dashboard__panel-icon admin-dashboard__panel-icon--orange">
+              <svg class="admin-dashboard__icon" aria-hidden="true" focusable="false">
+                <use href="#dash-bolt"></use>
+              </svg>
+            </span>
+            <h3>Quick Actions</h3>
+          </div>
+        </header>
 
-    <div class="admin-dashboard__stats admin-dashboard__stats--content">
-      <article class="admin-dashboard__stat">
-        <span class="admin-dashboard__stat-label">Page Content Rows</span>
-        <span class="admin-dashboard__stat-value">{{ totalPageContents() }}</span>
-      </article>
-      <article class="admin-dashboard__stat">
-        <span class="admin-dashboard__stat-label">Published Pages</span>
-        <span class="admin-dashboard__stat-value">{{ publishedPageContents() }}</span>
-      </article>
-      <article class="admin-dashboard__stat">
-        <span class="admin-dashboard__stat-label">Draft Pages</span>
-        <span class="admin-dashboard__stat-value">{{ draftPageContents() }}</span>
-      </article>
-      <article class="admin-dashboard__stat">
-        <span class="admin-dashboard__stat-label">Using Defaults</span>
-        <span class="admin-dashboard__stat-value">{{ defaultPageCount() }}</span>
-      </article>
+        <div class="admin-dashboard__quick-actions">
+          <a class="admin-dashboard__quick-action" routerLink="/admin/page-content/home/main">
+            <svg class="admin-dashboard__icon" aria-hidden="true" focusable="false">
+              <use href="#dash-home"></use>
+            </svg>
+            <span>Edit Home</span>
+          </a>
+          <a class="admin-dashboard__quick-action" routerLink="/admin/page-content">
+            <svg class="admin-dashboard__icon" aria-hidden="true" focusable="false">
+              <use href="#dash-file"></use>
+            </svg>
+            <span>Page Content</span>
+          </a>
+          <a class="admin-dashboard__quick-action" routerLink="/admin/announcements">
+            <app-icon name="megaphone" [size]="17" />
+            <span>Announcements</span>
+          </a>
+          <a class="admin-dashboard__quick-action" routerLink="/admin/gallery">
+            <app-icon name="image" [size]="17" />
+            <span>Gallery</span>
+          </a>
+          <a class="admin-dashboard__quick-action" routerLink="/admin/page-content/about-management/edit">
+            <app-icon name="users" [size]="17" />
+            <span>Management</span>
+          </a>
+          <a class="admin-dashboard__quick-action" routerLink="/admin/settings">
+            <svg class="admin-dashboard__icon" aria-hidden="true" focusable="false">
+              <use href="#dash-settings"></use>
+            </svg>
+            <span>Site Settings</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="admin-dashboard__panel admin-dashboard__panel--page-stats">
+        <header class="admin-dashboard__panel-head">
+          <div class="admin-dashboard__panel-title">
+            <span class="admin-dashboard__panel-icon">
+              <svg class="admin-dashboard__icon" aria-hidden="true" focusable="false">
+                <use href="#dash-chart"></use>
+              </svg>
+            </span>
+            <h3>Page Statistics</h3>
+          </div>
+        </header>
+
+        <div class="admin-dashboard__page-stats">
+          <div class="admin-dashboard__page-stat">
+            <span class="admin-dashboard__page-stat-icon admin-dashboard__page-stat-icon--green">
+              <svg class="admin-dashboard__icon" aria-hidden="true" focusable="false">
+                <use href="#dash-file"></use>
+              </svg>
+            </span>
+            <span class="admin-dashboard__page-stat-label">Published Pages</span>
+            <span class="admin-dashboard__page-stat-value">{{ publishedPageContents() }}</span>
+          </div>
+          <div class="admin-dashboard__page-stat">
+            <span class="admin-dashboard__page-stat-icon admin-dashboard__page-stat-icon--purple">
+              <svg class="admin-dashboard__icon" aria-hidden="true" focusable="false">
+                <use href="#dash-pencil"></use>
+              </svg>
+            </span>
+            <span class="admin-dashboard__page-stat-label">Draft Pages</span>
+            <span class="admin-dashboard__page-stat-value">{{ draftPageContents() }}</span>
+          </div>
+          <div class="admin-dashboard__page-stat">
+            <span class="admin-dashboard__page-stat-icon admin-dashboard__page-stat-icon--orange">
+              <svg class="admin-dashboard__icon" aria-hidden="true" focusable="false">
+                <use href="#dash-layers"></use>
+              </svg>
+            </span>
+            <span class="admin-dashboard__page-stat-label">Using Defaults</span>
+            <span class="admin-dashboard__page-stat-value">{{ defaultPageCount() }}</span>
+          </div>
+        </div>
+      </section>
     </div>
 
-    <section class="admin-dashboard__panel admin-dashboard__panel--wide">
-      <h3>Recently Updated Pages</h3>
+    <section class="admin-dashboard__panel">
+      <header class="admin-dashboard__panel-head">
+        <div class="admin-dashboard__panel-title">
+          <span class="admin-dashboard__panel-icon admin-dashboard__panel-icon--orange">
+            <app-icon name="clock" [size]="18" />
+          </span>
+          <h3>Recently Updated Pages</h3>
+        </div>
+        <a class="admin-dashboard__view-all" routerLink="/admin/page-content">
+          View All
+          <app-icon name="arrow-right" [size]="14" />
+        </a>
+      </header>
+
       @if (recentlyUpdatedPages().length === 0) {
         <p class="admin-dashboard__empty">No page content saved yet.</p>
       } @else {
-        <ul class="admin-dashboard__list">
+        <ul class="admin-dashboard__page-list">
           @for (item of recentlyUpdatedPages(); track item.page_slug) {
-            <li class="admin-dashboard__list-item">
-              <span>{{ item.page_slug }}</span>
-              <a class="admin-dashboard__badge" [routerLink]="editLink(item.page_slug)">Edit</a>
+            <li class="admin-dashboard__page-row">
+              <span class="admin-dashboard__page-name">
+                <svg class="admin-dashboard__icon" aria-hidden="true" focusable="false">
+                  <use href="#dash-file"></use>
+                </svg>
+                <span>{{ item.page_slug }}</span>
+              </span>
+              <a class="admin-dashboard__edit" [routerLink]="editLink(item.page_slug)">
+                <svg class="admin-dashboard__icon" aria-hidden="true" focusable="false">
+                  <use href="#dash-pencil"></use>
+                </svg>
+                Edit
+              </a>
             </li>
           }
         </ul>
@@ -87,15 +235,37 @@
 
     <div class="admin-dashboard__recent">
       <section class="admin-dashboard__panel">
-        <h3>Recent Announcements</h3>
+        <header class="admin-dashboard__panel-head">
+          <div class="admin-dashboard__panel-title">
+            <span class="admin-dashboard__panel-icon admin-dashboard__panel-icon--orange">
+              <app-icon name="megaphone" [size]="18" />
+            </span>
+            <h3>Recent Announcements</h3>
+          </div>
+          <a class="admin-dashboard__view-all" routerLink="/admin/announcements">
+            View All
+            <app-icon name="arrow-right" [size]="14" />
+          </a>
+        </header>
+
         @if (recentAnnouncements().length === 0) {
           <p class="admin-dashboard__empty">No announcements yet.</p>
         } @else {
-          <ul class="admin-dashboard__list">
+          <ul class="admin-dashboard__feed">
             @for (item of recentAnnouncements(); track item.id) {
-              <li class="admin-dashboard__list-item">
-                <span>{{ item.title }}</span>
-                <span class="admin-dashboard__badge" [class.admin-dashboard__badge--published]="item.is_published">
+              <li class="admin-dashboard__feed-row">
+                <div class="admin-dashboard__feed-copy">
+                  <span class="admin-dashboard__feed-title">{{ item.title }}</span>
+                  <span class="admin-dashboard__feed-meta">
+                    <app-icon name="calendar" [size]="13" />
+                    {{ formatDate(item.published_at ?? item.created_at) }}
+                  </span>
+                </div>
+                <span
+                  class="admin-dashboard__status"
+                  [class.admin-dashboard__status--published]="item.is_published"
+                  [class.admin-dashboard__status--draft]="!item.is_published"
+                >
                   {{ item.is_published ? 'Published' : 'Draft' }}
                 </span>
               </li>
@@ -105,15 +275,45 @@
       </section>
 
       <section class="admin-dashboard__panel">
-        <h3>Recent Gallery Images</h3>
+        <header class="admin-dashboard__panel-head">
+          <div class="admin-dashboard__panel-title">
+            <span class="admin-dashboard__panel-icon admin-dashboard__panel-icon--orange">
+              <app-icon name="image" [size]="18" />
+            </span>
+            <h3>Recent Gallery Images</h3>
+          </div>
+          <a class="admin-dashboard__view-all" routerLink="/admin/gallery">
+            View All
+            <app-icon name="arrow-right" [size]="14" />
+          </a>
+        </header>
+
         @if (recentGalleryImages().length === 0) {
           <p class="admin-dashboard__empty">No gallery images yet.</p>
         } @else {
-          <ul class="admin-dashboard__list">
+          <ul class="admin-dashboard__feed">
             @for (item of recentGalleryImages(); track item.id) {
-              <li class="admin-dashboard__list-item">
-                <span>{{ item.title ?? 'Untitled image' }}</span>
-                <span class="admin-dashboard__badge" [class.admin-dashboard__badge--published]="item.is_published">
+              <li class="admin-dashboard__feed-row">
+                <div class="admin-dashboard__gallery-copy">
+                  @if (item.image_url) {
+                    <img
+                      class="admin-dashboard__thumb"
+                      [src]="item.image_url"
+                      [alt]="item.title ?? 'Gallery image'"
+                      loading="lazy"
+                    />
+                  } @else {
+                    <span class="admin-dashboard__thumb admin-dashboard__thumb--empty">
+                      <app-icon name="image" [size]="16" />
+                    </span>
+                  }
+                  <span class="admin-dashboard__feed-title">{{ item.title ?? 'Untitled image' }}</span>
+                </div>
+                <span
+                  class="admin-dashboard__status"
+                  [class.admin-dashboard__status--published]="item.is_published"
+                  [class.admin-dashboard__status--draft]="!item.is_published"
+                >
                   {{ item.is_published ? 'Published' : 'Draft' }}
                 </span>
               </li>
@@ -121,7 +321,6 @@
           </ul>
         }
       </section>
-
     </div>
   }
 </section>

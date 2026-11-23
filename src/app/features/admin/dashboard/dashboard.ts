@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { UiIcon } from '../../../shared/components/ui-icon/ui-icon';
 import { AdminAuthService } from '../../../core/services/admin-auth.service';
 import { ContentService } from '../../../core/services/content.service';
 import { MAIN_PAGES } from '../../../core/data/main-pages.seed';
@@ -12,7 +13,7 @@ import type {
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink],
+  imports: [RouterLink, UiIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './dashboard.scss',
   templateUrl: './dashboard.html',
@@ -75,7 +76,7 @@ export class Dashboard implements OnInit {
   protected readonly recentGalleryImages = computed(() =>
     [...this.galleryImages()]
       .sort((a, b) => (b.created_at ?? '').localeCompare(a.created_at ?? ''))
-      .slice(0, 5),
+      .slice(0, 3),
   );
 
   async ngOnInit(): Promise<void> {
@@ -86,6 +87,18 @@ export class Dashboard implements OnInit {
     return MAIN_PAGES.some((page) => page.slug === slug)
       ? `/admin/page-content/${slug}/main`
       : `/admin/page-content/${slug}/edit`;
+  }
+
+  protected formatDate(value?: string | null): string {
+    if (!value) return '—';
+    // Date-only values would otherwise shift by a day in western time zones.
+    const date = new Date(value.length === 10 ? `${value}T00:00:00` : value);
+    if (Number.isNaN(date.getTime())) return '—';
+    return new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      day: '2-digit',
+      year: 'numeric',
+    }).format(date);
   }
 
   async load(): Promise<void> {

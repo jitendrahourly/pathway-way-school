@@ -8,6 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { UiIcon } from '../../../shared/components/ui-icon/ui-icon';
 import { CONTENT_PAGES } from '../../../core/data/content-pages.seed';
 import { MAIN_PAGES } from '../../../core/data/main-pages.seed';
 import {
@@ -43,7 +44,7 @@ interface PageContentRow {
 
 @Component({
   selector: 'app-page-content-list',
-  imports: [RouterLink],
+  imports: [RouterLink, UiIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './page-content-list.scss',
   templateUrl: './page-content-list.html',
@@ -58,6 +59,7 @@ export class PageContentList implements OnInit {
   protected readonly rows = signal<PageContentRow[]>([]);
   protected readonly search = signal('');
 
+  protected readonly openGroups = signal<Set<string>>(new Set());
   protected readonly deleteTarget = signal<PageContentRow | null>(null);
   protected readonly deleting = signal(false);
 
@@ -87,6 +89,29 @@ export class PageContentList implements OnInit {
       rows: (groups.get(group) ?? []).sort((a, b) => a.slug.localeCompare(b.slug)),
     }));
   };
+
+  protected isGroupOpen(name: string): boolean {
+    if (this.search().trim()) return true;
+    return this.openGroups().has(name);
+  }
+
+  protected toggleGroup(name: string): void {
+    const next = new Set(this.openGroups());
+    if (next.has(name)) next.delete(name);
+    else next.add(name);
+    this.openGroups.set(next);
+  }
+
+  protected groupSummary(rows: PageContentRow[]): string {
+    const published = rows.filter((r) => r.configured && r.isPublished).length;
+    const drafts = rows.filter((r) => r.configured && !r.isPublished).length;
+    const defaults = rows.filter((r) => !r.configured).length;
+    const parts: string[] = [];
+    if (published) parts.push(published + ' published');
+    if (drafts) parts.push(drafts + ' draft');
+    if (defaults) parts.push(defaults + ' default');
+    return parts.join(' · ');
+  }
 
   async ngOnInit(): Promise<void> {
     await this.load();
