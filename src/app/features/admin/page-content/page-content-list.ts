@@ -21,7 +21,14 @@ import { ContentService } from '../../../core/services/content.service';
 const SCROLL_STORAGE_KEY = 'admin-page-content:scroll';
 
 /** Superseded slugs whose old records must not resurface as custom rows. */
-const RETIRED_SLUGS: ReadonlySet<string> = new Set(['events']);
+const RETIRED_SLUGS: ReadonlySet<string> = new Set([
+  'events',
+  'admissions',
+  'admissions-process',
+  'admissions-required-documents',
+  'admissions-enquiry',
+  'admissions-faqs',
+]);
 
 interface PageContentRow {
   readonly slug: string;

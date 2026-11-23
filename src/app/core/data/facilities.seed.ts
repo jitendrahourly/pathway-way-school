@@ -47,7 +47,7 @@ export const FACILITIES_CONTENT: FacilitiesContent = {
     primaryLabel: 'Schedule a Campus Visit',
     primaryHref: '/contact',
     secondaryLabel: 'Admissions Enquiry',
-    secondaryHref: '/admissions/enquiry',
+    secondaryHref: '/contact',
   },
   additional: [],
 };

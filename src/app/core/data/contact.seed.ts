@@ -18,7 +18,7 @@ export const CONTACT_CONTENT: ContactContent = {
     title: 'We would love to hear from you',
     paragraphs: [
       'Whether you have a question about admissions, academics, facilities or daily school life, the school office is happy to help.',
-      'Use the details below to reach us by phone, email or in person. For admission enquiries, please see the Admissions page.',
+      'Use the details below to reach us by phone, email or in person.',
     ],
   },
   form: {
@@ -42,7 +42,7 @@ export const CONTACT_CONTENT: ContactContent = {
     lines: [
       'The school office is available during school working days.',
       'Please call ahead before visiting the campus.',
-      'For admission enquiries, please see the Admissions page.',
+      'For admission enquiries, please contact the school office directly.',
     ],
   },
   cards: {

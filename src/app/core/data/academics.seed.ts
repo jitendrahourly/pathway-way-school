@@ -32,7 +32,7 @@ export const DEFAULT_ACADEMIC_CTA: AcademicsCta = {
   description:
     'Give your child a nurturing, value-based education supported by experienced faculty, modern laboratories, and a rich co-curricular calendar.',
   primaryButtonText: 'Apply for Admission',
-  primaryButtonLink: '/admissions/enquiry',
+  primaryButtonLink: '/contact',
   secondaryButtonText: 'Contact Admissions Office',
   secondaryButtonLink: '/contact',
 };

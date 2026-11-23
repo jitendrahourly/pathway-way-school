@@ -34,7 +34,6 @@ const EXPLORE_LINKS = [
   { slug: 'about-vision-mission', label: 'Vision & Mission', path: '/about/vision-mission' },
   { slug: 'about-management', label: 'Management', path: '/about/management' },
   { slug: 'about-history', label: 'History & Legacy', path: '/about/history' },
-  { slug: 'admissions', label: 'Admissions', path: '/admissions' },
 ] as const;
 
 const ABOUT_SUBNAV = [

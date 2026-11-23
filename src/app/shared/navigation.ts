@@ -56,17 +56,6 @@ export const PUBLIC_NAV: readonly NavItem[] = [
   },
   { label: 'Gallery', path: '/gallery' },
   { label: 'Announcements', path: '/announcements' },
-  {
-    label: 'Admissions',
-    path: '/admissions',
-    children: [
-      { label: 'Admission Overview', path: '/admissions' },
-      { label: 'Admission Process', path: '/admissions/process' },
-      { label: 'Required Documents', path: '/admissions/required-documents' },
-      { label: 'Admission Enquiry', path: '/admissions/enquiry' },
-      { label: 'FAQs', path: '/admissions/faqs' },
-    ],
-  },
   { label: 'Contact Us', path: '/contact' },
 ];
 
@@ -78,6 +67,5 @@ export const FOOTER_LINKS: readonly NavItem[] = [
   { label: 'Facilities', path: '/facilities' },
   { label: 'Gallery', path: '/gallery' },
   { label: 'Announcements', path: '/announcements' },
-  { label: 'Admissions', path: '/admissions' },
   { label: 'Contact Us', path: '/contact' },
 ];

@@ -396,41 +396,6 @@ export const routes: Routes = [
           ),
       },
 
-      // Admissions
-      {
-        path: 'admissions',
-        title: 'Admissions | Bright Way School',
-        loadComponent: () =>
-          import('./features/public/admissions/admissions').then((m) => m.Admissions),
-      },
-      {
-        path: 'admissions/process',
-        title: 'Admission Process | Bright Way School',
-        data: { slug: 'admissions-process' },
-        loadComponent: () =>
-          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
-      },
-      {
-        path: 'admissions/required-documents',
-        title: 'Required Documents | Bright Way School',
-        data: { slug: 'admissions-required-documents' },
-        loadComponent: () =>
-          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
-      },
-      {
-        path: 'admissions/enquiry',
-        title: 'Admission Enquiry | Bright Way School',
-        data: { slug: 'admissions-enquiry' },
-        loadComponent: () =>
-          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
-      },
-      {
-        path: 'admissions/faqs',
-        title: 'Admission FAQs | Bright Way School',
-        data: { slug: 'admissions-faqs' },
-        loadComponent: () =>
-          import('./features/public/content-page/content-page').then((m) => m.ContentPage),
-      },
 
       {
         path: 'contact',

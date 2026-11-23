@@ -1,7 +1,7 @@
 import { ANNOUNCEMENTS_CONTENT } from './announcements.seed';
 import { ABOUT_CONTENT } from './about.seed';
 import { ACADEMICS_CONTENT } from './academics.seed';
-import { ADMISSIONS_CONTENT } from './admissions.seed';
+
 import { CONTACT_CONTENT } from './contact.seed';
 import { FACILITIES_CONTENT } from './facilities.seed';
 import { GALLERY_CONTENT } from './gallery.seed';
@@ -23,7 +23,7 @@ export const MAIN_PAGES: readonly MainPageSeed[] = [
   { slug: 'home', title: 'Home', content: HOME_CONTENT },
   { slug: 'about', title: 'About Us', content: ABOUT_CONTENT },
   { slug: 'academics', title: 'Academics', content: ACADEMICS_CONTENT },
-  { slug: 'admissions', title: 'Admissions', content: ADMISSIONS_CONTENT },
+
   { slug: 'contact', title: 'Contact Us', content: CONTACT_CONTENT },
   { slug: 'facilities', title: 'Facilities', content: FACILITIES_CONTENT },
   { slug: 'school-life', title: 'School Life', content: SCHOOL_LIFE_CONTENT },
