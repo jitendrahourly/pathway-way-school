@@ -2,6 +2,7 @@ import { Service, inject, signal } from '@angular/core';
 import { HOME_CONTENT } from '../data/site.seed';
 import { mergeWithSeed } from '../data/seed-merge';
 import type { HomeContent } from '../models/home-content.model';
+import { resolveRetiredAdmissionsLink } from '../utils/links';
 import { PageContentsService } from './page-contents.service';
 
 @Service()
@@ -28,14 +29,21 @@ export class HomeContentService {
    */
   private migrate(content: HomeContent, saved: Partial<HomeContent>): HomeContent {
     const savedHeadings = (saved as Record<string, unknown>)['headings'] as
-      | Record<string, { text?: string }>
-      | undefined;
+      Record<string, { text?: string }> | undefined;
 
     const text = (key: keyof HomeContent['headings'], legacy: string): string =>
       savedHeadings?.[key]?.text ?? legacy;
 
     return {
       ...content,
+      hero: {
+        ...content.hero,
+        primaryLink: resolveRetiredAdmissionsLink(content.hero.primaryLink),
+      },
+      admissionsCta: {
+        ...content.admissionsCta,
+        primaryLink: resolveRetiredAdmissionsLink(content.admissionsCta.primaryLink),
+      },
       headings: {
         ...content.headings,
         facilities: {

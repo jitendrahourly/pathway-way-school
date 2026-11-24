@@ -39,6 +39,7 @@ import { mainPageSeed } from '../../../core/data/main-pages.seed';
 import { mergeWithSeed } from '../../../core/data/seed-merge';
 import { resolveContactContent } from '../../../core/data/contact.seed';
 import { pageContentPreview } from '../../../core/data/page-content-previews';
+import { resolveRetiredAdmissionsLink } from '../../../core/utils/links';
 import type { PageContentRecord } from '../../../core/models/supabase.model';
 import { AdminAuthService } from '../../../core/services/admin-auth.service';
 import { ContentService } from '../../../core/services/content.service';
@@ -1360,6 +1361,10 @@ export class MainPageContentForm implements OnInit {
     // strings; seed those slots from them so no saved copy is lost.
     const legacyIntro = (key: string, legacy: unknown): unknown =>
       (headings[key] as FormValue | undefined)?.['text'] ?? legacy;
+    // Admission routes were retired; saved Apply for Admission links should
+    // point at the Contact Us page instead of the not-found page.
+    const contactLink = (value: unknown): string =>
+      typeof value === 'string' ? resolveRetiredAdmissionsLink(value) : '';
 
     this.form.controls.home.patchValue({
       headings: {
@@ -1411,7 +1416,7 @@ export class MainPageContentForm implements OnInit {
         imageAlt: hero['imageAlt'] ?? '',
         imagePosition: hero['imagePosition'] ?? '',
         primaryLabel: hero['primaryLabel'] ?? '',
-        primaryLink: hero['primaryLink'] ?? '',
+        primaryLink: contactLink(hero['primaryLink']),
         secondaryLabel: hero['secondaryLabel'] ?? '',
         secondaryLink: hero['secondaryLink'] ?? '',
         trustPrimary: hero['trustPrimary'] ?? '',
@@ -1447,7 +1452,7 @@ export class MainPageContentForm implements OnInit {
         title: cta['title'] ?? '',
         text: cta['text'] ?? '',
         primaryLabel: cta['primaryLabel'] ?? '',
-        primaryLink: cta['primaryLink'] ?? '',
+        primaryLink: contactLink(cta['primaryLink']),
         secondaryLabel: cta['secondaryLabel'] ?? '',
         secondaryLink: cta['secondaryLink'] ?? '',
         phoneLabel: cta['phoneLabel'] ?? '',

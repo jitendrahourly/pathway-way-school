@@ -80,21 +80,14 @@
               @if (block.kind === 'text') {
                 <p [class.os-intro__lead]="$first">{{ block.text }}</p>
               } @else {
-                <div
-                  class="content-points"
-                  [class.content-points--numbered]="block.style === 'numbered'"
-                >
+                <div class="content-points">
                   @for (point of block.points; track $index) {
                     <article
                       class="content-point"
                       [class.content-point--bullet]="block.style === 'bullet'"
                     >
                       <span class="content-point__mark" aria-hidden="true">
-                        @if (point.number) {
-                          {{ point.number }}
-                        } @else {
-                          <app-icon name="check" [size]="14" />
-                        }
+                        <app-icon name="check" [size]="14" />
                       </span>
                       <div class="content-point__copy">
                         @if (point.label) {
@@ -120,7 +113,6 @@
             [style.animation-delay.ms]="i * 70"
           >
             <div class="os-chapter__rail" aria-hidden="true">
-              <span class="os-chapter__number">{{ section.number.toString().padStart(2, '0') }}</span>
               <span class="os-chapter__icon">
                 <app-icon [name]="section.icon" [size]="20" />
               </span>
@@ -132,21 +124,14 @@
                 @if (block.kind === 'text') {
                   <p>{{ block.text }}</p>
                 } @else {
-                  <div
-                    class="content-points"
-                    [class.content-points--numbered]="block.style === 'numbered'"
-                  >
+                  <div class="content-points">
                     @for (point of block.points; track $index) {
                       <article
                         class="content-point"
                         [class.content-point--bullet]="block.style === 'bullet'"
                       >
                         <span class="content-point__mark" aria-hidden="true">
-                          @if (point.number) {
-                            {{ point.number }}
-                          } @else {
-                            <app-icon name="check" [size]="14" />
-                          }
+                          <app-icon name="check" [size]="14" />
                         </span>
                         <div class="content-point__copy">
                           @if (point.label) {

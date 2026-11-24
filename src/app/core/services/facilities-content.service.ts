@@ -2,6 +2,7 @@ import { Service, computed, inject, signal } from '@angular/core';
 import { FACILITIES_CONTENT } from '../data/facilities.seed';
 import { mergeWithSeed } from '../data/seed-merge';
 import type { FacilitiesContent } from '../models/facilities-content.model';
+import { resolveRetiredAdmissionsLink } from '../utils/links';
 import { FacilitiesService } from './facilities.service';
 import { PageContentsService } from './page-contents.service';
 
@@ -39,7 +40,14 @@ export class FacilitiesContentService {
             },
           }
         : merged;
-      this.state.set(finalContent);
+      this.state.set({
+        ...finalContent,
+        cta: {
+          ...finalContent.cta,
+          primaryHref: resolveRetiredAdmissionsLink(finalContent.cta.primaryHref),
+          secondaryHref: resolveRetiredAdmissionsLink(finalContent.cta.secondaryHref),
+        },
+      });
     }
   }
 

@@ -50,10 +50,7 @@
       <p class="hero__sub">{{ copy.subtitle }}</p>
 
       <div class="hero__actions">
-        <a
-          class="btn btn--primary hero__btn"
-          [routerLink]="copy.primaryLink || '/admissions/enquiry'"
-        >
+        <a class="btn btn--primary hero__btn" [routerLink]="copy.primaryLink || '/contact'">
           {{ copy.primaryLabel || 'Apply for Admission' }}
           <app-icon name="arrow-right" [size]="16" />
         </a>

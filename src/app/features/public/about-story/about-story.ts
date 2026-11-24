@@ -74,7 +74,6 @@ export class AboutStory implements OnInit {
     this.sections().map((section, index) => ({
       ...section,
       id: this.sectionId(section, index),
-      number: index + 1,
       icon: this.iconFor(index),
       blocks: buildContentBlocks(section.paragraphs, section.bullets ?? []),
     })),
